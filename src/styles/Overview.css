@@ -1,0 +1,45 @@
+.add_user {
+    width: 100%;
+    height: 100%;
+    background-image: url('../../public/overview/add_user.png');
+    background-size: cover;
+    background-repeat: round;
+    box-shadow: 0px 2px 4px #00000029;
+}
+
+.datails {
+    box-shadow: 0px 2px 4px #00000029;
+}
+
+.datails span {
+    width: 10px;
+    height: 10px;
+    background-color: #D9ED4A;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #D9ED4A;
+    border-radius: 6px;
+    border: 3px solid #ffffff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #cbdd45;
+}
+
+:where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-title {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 15px;
+}

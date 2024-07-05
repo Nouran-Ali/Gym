@@ -1,0 +1,52 @@
+:where(.css-dev-only-do-not-override-17sses9)[class^="ant-table"] [class^="ant-table"],
+:where(.css-dev-only-do-not-override-17sses9)[class*=" ant-table"] [class^="ant-table"],
+:where(.css-dev-only-do-not-override-17sses9)[class*=" ant-table"] [class*=" ant-table"] {
+    background-color: #F9F9F9;
+}
+
+.ant-table-cell{
+    text-align: center;
+}
+
+:where(.css-dev-only-do-not-override-17sses9).ant-pagination .ant-pagination-item-active{
+    border: 0px !important;
+    border-left: 1px solid #C4C4C4 !important;
+    border-right: 1px solid #C4C4C4 !important;
+    border-radius: 0px !important;
+}
+
+:where(.css-dev-only-do-not-override-17sses9).ant-pagination .ant-pagination-item-active a{
+    color: black !important;
+    font-weight: 700;
+}
+
+.ant-pagination-next .anticon , .ant-pagination-prev .anticon{
+    transform: rotate(180deg);
+}
+
+.members :where(.css-dev-only-do-not-override-m4timi).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+    background-color: #F3F3F3 !important;
+    border: 0px !important;
+}
+
+.members :where(.css-dev-only-do-not-override-m4timi).ant-input-outlined {
+    background-color: #F3F3F3 !important;
+    border: 0px !important;
+}
+
+.table_members:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table ,
+.table_members:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-thead >tr>th{
+    background-color: #F3F3F3 !important;
+}
+
+.table_members:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-thead >tr>th{
+    border-bottom: 1px solid #bebebe !important;
+}
+
+.table_members:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table {
+    color: #949494 !important;
+}
+
+.table_members:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-tbody >tr >td{
+    border-bottom: 0px solid #949494 !important;
+}

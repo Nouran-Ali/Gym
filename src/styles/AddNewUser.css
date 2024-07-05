@@ -1,0 +1,27 @@
+.AddNewUser{
+    overflow: scroll;
+    position: relative;
+    height: 95vh;
+}
+
+.AddNewUser :where(.css-dev-only-do-not-override-m4timi).ant-select-single {
+    display: block;
+    width: 100% !important;
+}
+
+.AddNewUser :where(.css-dev-only-do-not-override-m4timi).ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+    border-color: #D9ED4D;
+    background-color: #D9ED4D;
+}
+
+.AddNewUser :where(.css-dev-only-do-not-override-m4timi).ant-radio-wrapper span.ant-radio+* {
+    color: #4E4E4E;
+}
+
+.AddNewUser :where(.css-dev-only-do-not-override-m4timi).ant-checkbox+span {
+    color: #4E4E4E;
+}
+
+.AddNewUser :where(.css-dev-only-do-not-override-m4timi).ant-select-single.ant-select-show-arrow .ant-select-selection-item{
+    color: #4E4E4E;
+}
