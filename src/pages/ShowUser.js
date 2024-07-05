@@ -34,7 +34,11 @@ const items = [
 const ShowUser = () => {
   return (
     <div>
-      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+      <Tabs
+        defaultActiveKey="1"
+        items={items}
+        onChange={onChange}
+      />
     </div>
   );
 };
