@@ -179,7 +179,7 @@ const Audience = () => {
                 columns={columns}
                 dataSource={data}
                 pagination={{ pageSize: 6 }}
-                className='mt-6 text-center table_audience_today'
+                className='mt-6 text-center table_members'
             />
             <div>
                 <h3 className='text-2xl'>أمس</h3>
@@ -188,7 +188,7 @@ const Audience = () => {
                     columns={columns}
                     dataSource={data}
                     pagination={{ pageSize: 6 }}
-                    className='mt-6 text-center table_audience'
+                    className='mt-6 text-center table_members'
                 />
             </div>
         </div>
