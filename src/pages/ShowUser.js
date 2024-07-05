@@ -33,13 +33,12 @@ const items = [
 
 const ShowUser = () => {
   return (
-    <div>
-      <Tabs
-        defaultActiveKey="1"
-        items={items}
-        onChange={onChange}
-      />
-    </div>
+    <Tabs
+      className="user-details overflow-scroll relative h-95"
+      defaultActiveKey="1"
+      items={items}
+      onChange={onChange}
+    />
   );
 };
 
