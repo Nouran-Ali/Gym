@@ -1,38 +1,42 @@
-import React from 'react'
+import React from 'react';
 import { Tabs } from 'antd';
+import ShowInfo from '../Components/showUser/ShowInfo';
+import Measurements from '../Components/showUser/Measurements';
+import Attendance from '../Components/showUser/Attendance';
+import Notes from '../Components/showUser/Notes';
 
 const onChange = (key) => {
-    console.log(key);
+  console.log(key);
 };
 const items = [
-    {
-        key: '1',
-        label: 'البيانات',
-        children: 'Content of Tab Pane 1',
-    },
-    {
-        key: '2',
-        label: 'المقاسات',
-        children: 'Content of Tab Pane 2',
-    },
-    {
-        key: '3',
-        label: 'الحضور',
-        children: 'Content of Tab Pane 3',
-    },
-    {
-        key: '4',
-        label: 'ملاحظات',
-        children: 'Content of Tab Pane 4',
-    },
+  {
+    key: '1',
+    label: 'البيانات',
+    children: <ShowInfo />,
+  },
+  {
+    key: '2',
+    label: 'المقاسات',
+    children: <Measurements/>,
+  },
+  {
+    key: '3',
+    label: "الحضور",
+    children: <Attendance/>,
+  },
+  {
+    key: '4',
+    label: 'ملاحظات',
+    children: <Notes/>,
+  },
 ];
 
 const ShowUser = () => {
-    return (
-        <div>
-            <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
-        </div>
-    )
-}
+  return (
+    <div>
+      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+    </div>
+  );
+};
 
-export default ShowUser
+export default ShowUser;

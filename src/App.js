@@ -1,6 +1,6 @@
 import './App.css';
 import Layout from './Components/Layout';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Overview from './pages/Overview';
 import Members from './Components/Members';
@@ -13,48 +13,49 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" exact activeClassName="active" element={
-            <Login />
-          } />
-          <Route path="/overview" element={
-            <>
+          <Route path="/" exact activeClassName="active" element={<Login />} />
+          <Route
+            path="/overview"
+            element={
               <Layout>
                 <Overview />
               </Layout>
-            </>
-          } />
-          <Route path="/members" element={
-            <>
+            }
+          />
+          <Route
+            path="/members"
+            element={
               <Layout>
                 <Members />
               </Layout>
-            </>
-          } />
-          <Route path="/addNewUser" element={
-            <>
+            }
+          />
+          <Route
+            path="/addNewUser"
+            element={
               <Layout>
                 <AddNewUser />
               </Layout>
-            </>
-          } />
+            }
+          />
 
-          <Route path="/showUser" element={
-            <>
+          <Route
+            path="/showUser"
+            element={
               <Layout>
                 <ShowUser />
               </Layout>
-            </>
-          } />
+            }
+          />
 
-          <Route path="/audience" element={
-            <>
+          <Route
+            path="/audience"
+            element={
               <Layout>
                 <Audience />
               </Layout>
-            </>
-          } />
-          
-
+            }
+          />
         </Routes>
       </Router>
     </>
