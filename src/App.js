@@ -6,6 +6,7 @@ import Overview from './pages/Overview';
 import Members from './Components/Members';
 import AddNewUser from './Components/AddNewUser';
 import ShowUser from './pages/ShowUser';
+import Audience from './pages/Audience';
 
 function App() {
   return (
@@ -45,6 +46,14 @@ function App() {
             </>
           } />
 
+          <Route path="/audience" element={
+            <>
+              <Layout>
+                <Audience />
+              </Layout>
+            </>
+          } />
+          
 
         </Routes>
       </Router>

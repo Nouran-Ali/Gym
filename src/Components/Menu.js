@@ -17,7 +17,7 @@ const Menu = () => {
                     <p className='mr-3'>الأعضاء المشتركون</p>
                 </NavLink>
 
-                <NavLink end to='/' className={({ isActive }) => isActive ? "text-white p-3 rounded-lg flex items-center mt-3" : "p-3 rounded-lg flex items-center mt-3"}>
+                <NavLink end to='/audience' className={({ isActive }) => isActive ? "text-white p-3 rounded-lg flex items-center mt-3" : "p-3 rounded-lg flex items-center mt-3"}>
                     <UserOutlined />
                     <p className='mr-3'>الحضور</p>
                 </NavLink>

@@ -1,0 +1,72 @@
+.Audience{
+    overflow: scroll;
+    position: relative;
+    height: 95vh;
+}
+
+.Audience :where(.css-dev-only-do-not-override-m4timi).ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+    border-color: #D9ED4D;
+    background-color: #D9ED4D;
+}
+
+.Audience :where(.css-dev-only-do-not-override-m4timi).ant-radio-wrapper span.ant-radio+* {
+    color: #4E4E4E;
+}
+
+.Audience :where(.css-dev-only-do-not-override-m4timi).ant-checkbox+span {
+    color: #4E4E4E;
+}
+
+.Audience :where(.css-dev-only-do-not-override-m4timi).ant-select-single.ant-select-show-arrow .ant-select-selection-item{
+    color: #4E4E4E;
+}
+
+.Audience :where(.css-dev-only-do-not-override-m4timi).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+    background-color: #F3F3F3 !important;
+    border: 0px !important;
+}
+
+.Audience :where(.css-dev-only-do-not-override-m4timi).ant-input-outlined {
+    background-color: #F3F3F3 !important;
+    border: 0px !important;
+}
+
+.table_audience:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table ,
+.table_audience:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-thead >tr>th{
+    background-color: #F3F3F3 !important;
+}
+
+.table_audience:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-thead >tr>th{
+    border-bottom: 1px solid #bebebe !important;
+    text-align: center;
+}
+
+.table_audience:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table {
+    color: #949494 !important;
+}
+
+.table_audience:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-tbody >tr >td{
+    border-bottom: 0px solid #949494 !important;
+    text-align: center;
+}
+
+
+
+.table_audience_today:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table ,
+.table_audience_today:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-thead >tr>th{
+    background-color: #ffffff !important;
+}
+
+.table_audience_today:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-thead >tr>th{
+    border-bottom: 1px solid #bebebe !important;
+    text-align: center;
+}
+
+.table_audience_today:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table {
+    color: #949494 !important;
+}
+
+.table_audience_today:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-tbody >tr >td{
+    border-bottom: 0px solid #949494 !important;
+    text-align: center;
+}
