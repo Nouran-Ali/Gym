@@ -1,6 +1,6 @@
+// src/App.js
 import './App.css';
 import './tabs.css';
-import Layout from './Components/Layout';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Overview from './pages/Overview';
@@ -8,58 +8,22 @@ import Members from './Components/Members';
 import AddNewUser from './Components/AddNewUser';
 import ShowUser from './pages/ShowUser';
 import Audience from './pages/Audience';
+import DashboardLayout from './Components/DashboardLayout';
 
 function App() {
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/" exact activeClassName="active" element={<Login />} />
-          <Route
-            path="/overview"
-            element={
-              <Layout>
-                <Overview />
-              </Layout>
-            }
-          />
-          <Route
-            path="/members"
-            element={
-              <Layout>
-                <Members />
-              </Layout>
-            }
-          />
-          <Route
-            path="/addNewUser"
-            element={
-              <Layout>
-                <AddNewUser />
-              </Layout>
-            }
-          />
-
-          <Route
-            path="/showUser"
-            element={
-              <Layout>
-                <ShowUser />
-              </Layout>
-            }
-          />
-
-          <Route
-            path="/audience"
-            element={
-              <Layout>
-                <Audience />
-              </Layout>
-            }
-          />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Overview />} />
+          <Route path="members" element={<Members />} />
+          <Route path="addNewUser" element={<AddNewUser />} />
+          <Route path="showUser" element={<ShowUser />} />
+          <Route path="audience" element={<Audience />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
