@@ -12,6 +12,7 @@ import '../styles/members.css';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTrainees } from '../store/traineeSlice';
+import { SubscriptionStatusMap, SubscriptionTypeMap } from '../types';
 
 const { Search } = Input;
 
@@ -22,49 +23,66 @@ const handleChange = (value) => {
 const columns = [
   {
     title: 'رقم ID',
-    dataIndex: 'id',
-    key: 'id',
-    render: (text) => <a>{text}</a>,
+    dataIndex: 'parcode',
+    key: 'parcode',
   },
   {
     title: 'نوع الاشتراك',
-    dataIndex: 'type',
-    key: 'type',
+    dataIndex: 'subscriptionType',
+    key: 'subscriptionType',
+    render: (item) => SubscriptionTypeMap[item],
   },
   {
     title: 'اسم المشترك',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'fullName',
+    key: 'fullName',
   },
   {
     title: 'رقم الواتس',
-    dataIndex: 'number',
-    key: 'number',
+    dataIndex: 'phoneNumber',
+    key: 'phoneNumber',
   },
   {
     title: 'اسم الاشتراك',
-    dataIndex: 'supscriptName',
-    key: 'supscriptName',
+    dataIndex: 'trainingName',
+    key: 'trainingName',
   },
   {
     title: 'تاريخ الانتهاء',
-    dataIndex: 'date',
-    key: 'date',
+    dataIndex: 'subscriptionEndDate',
+    key: 'subscriptionEndDate',
   },
   {
     title: 'المدفوع',
-    dataIndex: 'buy',
-    key: 'buy',
+    dataIndex: 'paid',
+    key: 'paid',
   },
   {
     title: 'حالة المشترك',
-    key: 'status',
-    dataIndex: 'status',
+    key: 'subscriptionStatus',
+    dataIndex: 'subscriptionStatus',
+    render: (item) => SubscriptionStatusMap[item],
   },
   {
-    title: '',
+    title: 'اجراءات',
     key: 'action',
     dataIndex: 'action',
+    render: (_, item) => (
+      <div className="flex items-center">
+        <Link
+          to={`/showUser/${item.id}`}
+          className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
+        >
+          <EyeFilled />
+        </Link>
+        <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
+          <EditFilled />
+        </div>
+        <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
+          <DeleteFilled />
+        </div>
+      </div>
+    ),
   },
 ];
 
