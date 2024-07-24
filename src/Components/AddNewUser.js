@@ -485,8 +485,8 @@ const AddNewUser = () => {
                       onChange={field.onChange}
                       placeholder="اختر"
                     >
-                      <Select.Option value="training1">تدريب 1</Select.Option>
-                      <Select.Option value="training2">تدريب 2</Select.Option>
+                      <Select.Option value="تدريب 1">تدريب 1</Select.Option>
+                      <Select.Option value="تدريب 2">تدريب 2</Select.Option>
                     </Select>
                   )}
                 />

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Select, Table } from 'antd';
 import { Link } from 'react-router-dom';
 import { PlusOutlined, SearchOutlined, EyeFilled, EditFilled, DeleteFilled } from '@ant-design/icons';
 import '../styles/Audience.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAttendances } from '../store/attendanceSlice';
 
 const Audience = () => {
 
@@ -152,6 +154,14 @@ const Audience = () => {
         },
     ];
 
+    const { attendance } = useSelector((state) => state.attendance);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchAttendances());
+    }, [dispatch]);
+
+
     return (
         <div className='Audience'>
             <div className='flex justify-between'>
@@ -177,10 +187,11 @@ const Audience = () => {
 
             <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={attendance}
                 pagination={{ pageSize: 6 }}
                 className='mt-6 text-center table_members'
             />
+
             <div>
                 <h3 className='text-2xl'>أمس</h3>
 
