@@ -7,6 +7,7 @@ import { Button, Input, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAttendances } from '../store/attendanceSlice';
+import { fetchTrainees } from '../store/traineeSlice';
 
 const Overview = () => {
 
@@ -25,6 +26,11 @@ const Overview = () => {
     const { attendance } = useSelector((state) => state.attendance);
     const dispatch = useDispatch();
     console.log(attendance)
+
+    const { trainees } = useSelector((state) => state.trainee);
+    useEffect(() => {
+        dispatch(fetchTrainees());
+    }, [dispatch]);
 
     useEffect(() => {
         dispatch(fetchAttendances());
@@ -48,7 +54,7 @@ const Overview = () => {
                                 <span></span>
                                 <p className='mr-4'>الحضور اليوم</p>
                             </div>
-                            <p className='mt-4 font-semibold'>16</p>
+                            <p className='mt-4 font-semibold'>{attendance.length}</p>
                         </div>
 
                         <div className='datails rounded-xl p-5 text-center'>
@@ -56,7 +62,7 @@ const Overview = () => {
                                 <span></span>
                                 <p className='mr-4'>عدد المشتركين</p>
                             </div>
-                            <p className='mt-4 font-semibold'>58</p>
+                            <p className='mt-4 font-semibold'>{trainees.length}</p>
                         </div>
                     </div>
                     <div className='my-5' style={{ minHeight: '70vh', width: '100%' }}>
@@ -95,11 +101,6 @@ const Overview = () => {
                         </Modal>
 
                     </div>
-                    {/* <div className='mt-5 h-lvh overflow-auto'>
-                        {attendance.map((atend) => {
-                            <Attende name="هاجر علي" status="نشط" color={true} time_attend={atend.date} days="2" />
-                        })}
-                    </div> */}
 
                     <div className='mt-5 h-lvh overflow-auto'>
                         {attendance.map((atend, index) => {

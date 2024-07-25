@@ -60,19 +60,13 @@ const Menu = () => {
           <p className="mr-3">الحضور</p>
         </NavLink>
 
-        <NavLink
-          end
-          to="#"
+        <button
           onClick={() => dispatch(logout())}
-          className={({ isActive }) =>
-            isActive
-              ? 'text-white p-3 rounded-lg flex items-center mt-3'
-              : 'p-3 rounded-lg flex items-center mt-3'
-          }
+          className="flex p-3 rounded-lg flex items-center mt-3"
         >
           <LogoutOutlined />
           <p className="mr-3">تسجيل الخروج</p>
-        </NavLink>
+        </button>
       </div>
     </>
   );

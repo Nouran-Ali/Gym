@@ -17,9 +17,13 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Overview />} />
+
           <Route path="members" element={<Members />} />
+
+          <Route path="members/:id" element={<ShowUser />} />
+
           <Route path="addNewUser" element={<AddNewUser />} />
-          <Route path="showUser" element={<ShowUser />} />
+          
           <Route path="audience" element={<Audience />} />
         </Route>
       </Routes>

@@ -17,17 +17,17 @@ const items = [
   {
     key: '2',
     label: 'المقاسات',
-    children: <Measurements/>,
+    children: <Measurements />,
   },
   {
     key: '3',
     label: "الحضور",
-    children: <Attendance/>,
+    children: <Attendance />,
   },
   {
     key: '4',
     label: 'ملاحظات',
-    children: <Notes/>,
+    children: <Notes />,
   },
 ];
 

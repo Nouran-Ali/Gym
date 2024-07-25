@@ -6,19 +6,19 @@ class AttendanceServices {
     return response.data;
   }
 
-  // async create(data) {
-  //   const formData = new FormData();
-
-  //   // Append each key-value pair to FormData
-  //   Object.keys(data).forEach((key) => {
-  //     formData.append(key, data[key]);
-  //   });
-  //   formData.append('idFace', data['idFace'].file);
-  //   formData.append('idBack', data['idBack'].file);
-
-  //   const response = await PrivateAxios.post('/api/v1/attendance', formData);
-  //   return response.data;
-  // }
+  static async create(attendanceData) {
+    const response = await fetch('/api/v1/attendance', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(attendanceData),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to create attendance');
+    }
+    return response.json();
+  }
 }
 
 const attendanceService = new AttendanceServices();

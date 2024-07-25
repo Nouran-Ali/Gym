@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Space, Table, Tag, Select, Input } from 'antd';
 import {
   PlusOutlined,
@@ -7,7 +7,6 @@ import {
   EditFilled,
   DeleteFilled,
 } from '@ant-design/icons';
-// import { isAction } from 'redux';
 import '../styles/members.css';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,8 +15,12 @@ import { SubscriptionStatusMap, SubscriptionTypeMap } from '../types';
 
 const { Search } = Input;
 
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
 };
 
 const columns = [
@@ -51,6 +54,7 @@ const columns = [
     title: 'تاريخ الانتهاء',
     dataIndex: 'subscriptionEndDate',
     key: 'subscriptionEndDate',
+    render: (date) => formatDate(date),
   },
   {
     title: 'المدفوع',
@@ -61,7 +65,11 @@ const columns = [
     title: 'حالة المشترك',
     key: 'subscriptionStatus',
     dataIndex: 'subscriptionStatus',
-    render: (item) => SubscriptionStatusMap[item],
+    render: (item) => (
+      <span className={item === 'ACTIVE' ? 'text-[#58D241]' : 'text-[#E47E7B]'}>
+        {SubscriptionStatusMap[item]}
+      </span>
+    ),
   },
   {
     title: 'اجراءات',
@@ -70,204 +78,12 @@ const columns = [
     render: (_, item) => (
       <div className="flex items-center">
         <Link
-          to={`/showUser/${item.id}`}
+          to={`/dashboard/members/${item.id}`}
           className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
         >
           <EyeFilled />
         </Link>
-        <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
-          <EditFilled />
-        </div>
-        <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
-          <DeleteFilled />
-        </div>
-      </div>
-    ),
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    id: '#0011',
-    type: 'عادي',
-    name: 'هاجر علي',
-    number: '01067799939',
-    supscriptName: 'فيتنس',
-    date: '08/06/2024',
-    buy: '350',
-    status: <span className="text-[#58D241]">نشط</span>,
-    action: (
-      <div className="flex items-center">
-        <Link
-          to="/showUser"
-          className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
-        >
-          <EyeFilled />
-        </Link>
-        <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
-          <EditFilled />
-        </div>
-        <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
-          <DeleteFilled />
-        </div>
-      </div>
-    ),
-  },
-  {
-    key: '2',
-    id: '#0012',
-    type: 'عادي',
-    name: 'نوران علي',
-    number: '01045836678',
-    supscriptName: 'فيتنس',
-    date: '08/06/2024',
-    buy: '350',
-    status: <span className="text-[#58D241]">نشط</span>,
-    action: (
-      <div className="flex items-center">
-        <Link
-          to="/showUser"
-          className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
-        >
-          <EyeFilled />
-        </Link>
-        <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
-          <EditFilled />
-        </div>
-        <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
-          <DeleteFilled />
-        </div>
-      </div>
-    ),
-  },
-  {
-    key: '3',
-    id: '#0013',
-    type: 'عادي',
-    name: 'هاجر علي',
-    number: '01067799939',
-    supscriptName: 'فيتنس',
-    date: '08/06/2024',
-    buy: '350',
-    status: <span className="text-[#58D241]">نشط</span>,
-    action: (
-      <div className="flex items-center">
-        <Link
-          to="/showUser"
-          className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
-        >
-          <EyeFilled />
-        </Link>
-        <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
-          <EditFilled />
-        </div>
-        <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
-          <DeleteFilled />
-        </div>
-      </div>
-    ),
-  },
-  {
-    key: '4',
-    id: '#0014',
-    type: 'عادي',
-    name: 'نوران علي',
-    number: '01045836678',
-    supscriptName: 'فيتنس',
-    date: '08/06/2024',
-    buy: '350',
-    status: <span className="text-[#E47E7B]">غير نشط</span>,
-    action: (
-      <div className="flex items-center">
-        <Link
-          to="/showUser"
-          className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
-        >
-          <EyeFilled />
-        </Link>
-        <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
-          <EditFilled />
-        </div>
-        <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
-          <DeleteFilled />
-        </div>
-      </div>
-    ),
-  },
-  {
-    key: '5',
-    id: '#0015',
-    type: 'عادي',
-    name: 'هاجر علي',
-    number: '01067799939',
-    supscriptName: 'فيتنس',
-    date: '08/06/2024',
-    buy: '350',
-    status: <span className="text-[#58D241]">نشط</span>,
-    action: (
-      <div className="flex items-center">
-        <Link
-          to="/showUser"
-          className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
-        >
-          <EyeFilled />
-        </Link>
-        <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
-          <EditFilled />
-        </div>
-        <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
-          <DeleteFilled />
-        </div>
-      </div>
-    ),
-  },
-  {
-    key: '6',
-    id: '#0016',
-    type: 'عادي',
-    name: 'هاجر علي',
-    number: '01067799939',
-    supscriptName: 'فيتنس',
-    date: '08/06/2024',
-    buy: '350',
-    status: <span className="text-[#E47E7B]">غير نشط</span>,
-    action: (
-      <div className="flex items-center">
-        <Link
-          to="/showUser"
-          className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
-        >
-          <EyeFilled />
-        </Link>
-        <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
-          <EditFilled />
-        </div>
-        <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
-          <DeleteFilled />
-        </div>
-      </div>
-    ),
-  },
-  {
-    key: '7',
-    id: '#0016',
-    type: 'عادي',
-    name: 'هاجر علي',
-    number: '01067799939',
-    supscriptName: 'فيتنس',
-    date: '08/06/2024',
-    buy: '350',
-    status: <span className="text-[#58D241]">نشط</span>,
-    action: (
-      <div className="flex items-center">
-        <Link
-          to="/showUser"
-          className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
-        >
-          <EyeFilled />
-        </Link>
-        <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
+        <div to={`/dashboard/addNewUser/${item.id}`} className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
           <EditFilled />
         </div>
         <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
@@ -281,6 +97,30 @@ const data = [
 const Members = () => {
   const { trainees } = useSelector((state) => state.trainee);
   const dispatch = useDispatch();
+  console.log(trainees);
+
+  const [selectedGender, setSelectedGender] = useState('الكل');
+  const [selectedStatus, setSelectedStatus] = useState('الكل');
+  const [searchText, setSearchText] = useState('');
+
+  const handleGenderChange = (value) => {
+    setSelectedGender(value);
+  };
+
+  const handleStatusChange = (value) => {
+    setSelectedStatus(value);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const filteredTrainees = trainees.filter(item =>
+    (selectedGender === 'الكل' || item.gender === selectedGender) &&
+    (selectedStatus === 'الكل' || item.subscriptionStatus === selectedStatus) &&
+    (item.fullName.includes(searchText) || item.phoneNumber.includes(searchText))
+  );
+
   useEffect(() => {
     dispatch(fetchTrainees());
   }, [dispatch]);
@@ -293,52 +133,33 @@ const Members = () => {
           placeholder="البحث عن عضو"
           prefix={<SearchOutlined />}
           allowClear
-          style={{
-            width: 480,
-          }}
+          style={{ width: 480 }}
+          value={searchText}
+          onChange={handleSearchChange}
         />
-        <Select
-          size="large"
-          defaultValue="انثي"
-          style={{
-            width: 120,
-          }}
-          onChange={handleChange}
-          options={[
-            {
-              value: 'انثي',
-              label: 'انثي',
-            },
-            {
-              value: 'ذكر',
-              label: 'ذكر',
-            },
-          ]}
-        />
-
         <Select
           size="large"
           defaultValue="الكل"
-          style={{
-            width: 120,
-          }}
-          onChange={handleChange}
+          style={{ width: 120 }}
+          onChange={handleGenderChange}
           options={[
-            {
-              value: 'نشط',
-              label: 'نشط',
-            },
-            {
-              value: 'غير نشط',
-              label: 'غير نشط',
-            },
-            {
-              value: 'معلق',
-              label: 'معلق',
-            },
+            { value: 'الكل', label: 'الكل' },
+            { value: 'FEMALE', label: 'انثي' },
+            { value: 'MALE', label: 'ذكر' },
           ]}
         />
-
+        <Select
+          size="large"
+          defaultValue="الكل"
+          style={{ width: 120 }}
+          onChange={handleStatusChange}
+          options={[
+            { value: 'الكل', label: 'الكل' },
+            { value: 'ACTIVE', label: 'نشط' },
+            { value: 'INACTIVE', label: 'غير نشط' },
+            { value: 'PENDING', label: 'معلق' },
+          ]}
+        />
         <a href="/dashboard/addNewUser">
           <button className="bg-[#D9ED4D] rounded-lg py-2 px-10 font-semibold flex items-center fs-lg">
             <PlusOutlined className="ml-3 text-sm" /> اضافه عضو جديد
@@ -347,11 +168,14 @@ const Members = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={trainees}
+        dataSource={filteredTrainees}
         pagination={{ pageSize: 6 }}
         className="mt-6 text-center table_members"
       />
     </>
   );
 };
+
 export default Members;
+
+

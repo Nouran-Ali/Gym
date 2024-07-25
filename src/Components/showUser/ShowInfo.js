@@ -1,44 +1,60 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import ShowTitleWithData from '../shared/ShowTitleWithData';
 import SubscriptionRenewal from '../SubscriptionRenewal';
 import ShowFile from '../shared/ShowFile';
-
-// dummy data
-const personalInfo = [
-  { name: 'رقم ID', value: '0025' },
-  { name: 'اسم المشترك', value: 'هاجر علي' },
-  { name: 'رقم الواتس', value: '01058944438' },
-  { name: 'العمر', value: '30' },
-  { name: 'النوع', value: 'انثى' },
-  { name: 'تاريخ الميلاد', value: '21/3/1998' },
-];
-
-const subscriptionInfo = [
-  { name: 'نوع الاشتراك', value: 'عادي' },
-  { name: 'تاريخ الاشتراك', value: '08/05/2024' },
-  { name: 'اسم التدريب', value: 'فيتنس' },
-  { name: 'مدة الاشتراك', value: '1 شهر' },
-  { name: 'تاريخ البدء', value: '08/05/2024' },
-  {
-    name: 'تاريخ الانتهاء',
-    value: '08/06/2024',
-    valueClass: 'text-red-300',
-    name2: <SubscriptionRenewal />,
-  },
-  { name: 'حالة المشترك', value: 'نشط', valueClass: 'text-green-400' },
-  { name: 'المدفوع', value: '350' },
-  { name: 'المتبقي', value: '0' },
-  { name: 'اسم العرض', value: 'لا يوجد عرض' },
-];
-
-const otherInfo = [
-  { name: 'الهدف من التدريب', value: 'نقص الوزن' },
-  { name: 'هل اجريت عمليات جراحية خلال سنة', value: 'لا' },
-  { name: 'هل يوجد مشاكل صحية', value: 'لا يوجد' },
-  { name: 'النظام الغذائي', value: <ShowFile src="/cv.pdf" /> },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { fetchTrainees } from '../../store/traineeSlice';
 
 const ShowInfo = () => {
+  const { trainees } = useSelector((state) => state.trainee);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(fetchTrainees());
+  }, [dispatch]);
+
+  const traine = useMemo(() => trainees.find((p) => p.id === parseInt(id)), [trainees, id]);
+
+  if (!traine) {
+    return <p>Loading...</p>;
+  }
+
+  const personalInfo = [
+    { name: 'رقم ID', value: traine.id },
+    { name: 'اسم المشترك', value: traine.fullName },
+    { name: 'رقم الواتس', value: traine.phoneNumber },
+    { name: 'العمر', value: traine.age },
+    { name: 'النوع', value: traine.gender == "FEMALE" ? "أنثي" : "ذكر" },
+    { name: 'تاريخ الميلاد', value: traine.dob },
+  ];
+
+  const subscriptionInfo = [
+    { name: 'نوع الاشتراك', value: traine.subscriptionType == "NOT_PRIVATE" ? "عام" : "خاص" },
+    { name: 'تاريخ الاشتراك', value: traine.subscriptionDate },
+    { name: 'اسم التدريب', value: traine.trainingName },
+    { name: 'مدة الاشتراك', value: `${traine.subscriptionMonths} شهر` },
+    { name: 'تاريخ البدء', value: traine.subscriptionStartDate },
+    {
+      name: 'تاريخ الانتهاء',
+      value: traine.subscriptionEndDate,
+      valueClass: 'text-red-300',
+      name2: <SubscriptionRenewal />,
+    },
+    { name: 'حالة المشترك', value: traine.subscriptionStatus == "ACTIVE" ? "نشط" : "غير نشط" , valueClass: 'text-green-400' },
+    { name: 'المدفوع', value: traine.paid },
+    { name: 'المتبقي', value: traine.reminder },
+    { name: 'اسم العرض', value: traine.offerName || 'لا يوجد عرض' },
+  ];
+
+  const otherInfo = [
+    { name: 'الهدف من التدريب', value: traine.goal },
+    { name: 'هل اجريت عمليات جراحية خلال سنة', value: traine.surgeries == "false" ? "لا" : "نعم" },
+    { name: 'هل يوجد مشاكل صحية', value: traine.healthIssues || 'لا يوجد' },
+    { name: 'النظام الغذائي', value: <ShowFile src={traine.dietPlan} /> },
+  ];
+
   return (
     <>
       <ShowTitleWithData title="البيانات الشخصية" data={personalInfo} />
@@ -49,3 +65,4 @@ const ShowInfo = () => {
 };
 
 export default ShowInfo;
+

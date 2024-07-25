@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Select, Table } from 'antd';
 import { Link } from 'react-router-dom';
 import { PlusOutlined, SearchOutlined, EyeFilled, EditFilled, DeleteFilled } from '@ant-design/icons';
@@ -7,9 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAttendances } from '../store/attendanceSlice';
 
 const Audience = () => {
+    const [selectedGender, setSelectedGender] = useState('FEMALE');
 
     const handleChange = (value) => {
-        console.log(`selected ${value}`);
+        setSelectedGender(value);
     };
 
     const columns = [
@@ -46,114 +47,6 @@ const Audience = () => {
         },
     ];
 
-    const data = [
-        {
-            key: '1',
-            id: '#0011',
-            name: 'هاجر علي',
-            time: '9:30 AM',
-            date: '08/06/2024',
-            status: <span className='text-[#58D241]'>نشط</span>,
-            action: (
-                <div className='flex items-center'>
-                    <Link to="/showUser" className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
-                    <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2"><EditFilled /></div>
-                    <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full"><DeleteFilled /></div>
-                </div>
-            ),
-        },
-        {
-            key: '2',
-            id: '#0012',
-            name: 'نوران علي',
-            time: '9:30 AM',
-            date: '08/06/2024',
-            status: <span className='text-[#58D241]'>نشط</span>,
-            action: (
-                <div className='flex items-center'>
-                    <Link to="/showUser" className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
-                    <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2"><EditFilled /></div>
-                    <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full"><DeleteFilled /></div>
-                </div>
-            ),
-        },
-        {
-            key: '3',
-            id: '#0013',
-            name: 'هاجر علي',
-            time: '9:30 AM',
-            date: '08/06/2024',
-            status: <span className='text-[#58D241]'>نشط</span>,
-            action: (
-                <div className='flex items-center'>
-                    <Link to="/showUser" className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
-                    <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2"><EditFilled /></div>
-                    <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full"><DeleteFilled /></div>
-                </div>
-            ),
-        },
-        {
-            key: '4',
-            id: '#0014',
-            name: 'نوران علي',
-            time: '9:30 AM',
-            date: '08/06/2024',
-            status: <span className='text-[#E47E7B]'>غير نشط</span>,
-            action: (
-                <div className='flex items-center'>
-                    <Link to="/showUser" className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
-                    <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2"><EditFilled /></div>
-                    <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full"><DeleteFilled /></div>
-                </div>
-            ),
-        },
-        {
-            key: '5',
-            id: '#0015',
-            name: 'هاجر علي',
-            time: '9:30 AM',
-            date: '08/06/2024',
-            status: <span className='text-[#58D241]'>نشط</span>,
-            action: (
-                <div className='flex items-center'>
-                    <Link to="/showUser" className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
-                    <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2"><EditFilled /></div>
-                    <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full"><DeleteFilled /></div>
-                </div>
-            ),
-        },
-        {
-            key: '6',
-            id: '#0016',
-            name: 'هاجر علي',
-            time: '9:30 AM',
-            date: '08/06/2024',
-            status: <span className='text-[#E47E7B]'>غير نشط</span>,
-            action: (
-                <div className='flex items-center'>
-                    <Link to="/showUser" className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
-                    <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2"><EditFilled /></div>
-                    <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full"><DeleteFilled /></div>
-                </div>
-            ),
-        },
-        {
-            key: '7',
-            id: '#0016',
-            name: 'هاجر علي',
-            time: '9:30 AM',
-            date: '08/06/2024',
-            status: <span className='text-[#58D241]'>نشط</span>,
-            action: (
-                <div className='flex items-center'>
-                    <Link to="/showUser" className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
-                    <div className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2"><EditFilled /></div>
-                    <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full"><DeleteFilled /></div>
-                </div>
-            ),
-        },
-    ];
-
     const { attendance } = useSelector((state) => state.attendance);
     const dispatch = useDispatch();
 
@@ -161,6 +54,45 @@ const Audience = () => {
         dispatch(fetchAttendances());
     }, [dispatch]);
 
+    const renderStatus = (subscriptionStatus) => {
+        return subscriptionStatus === 'ACTIVE' ? (
+            <span className='text-[#58D241]'>نشط</span>
+        ) : (
+            <span className='text-[#E47E7B]'>غير نشط</span>
+        );
+    };
+
+    const filteredAttendance = attendance.filter(item => item.trainee.gender === selectedGender);
+
+    const attendanceData = filteredAttendance.map((item) => {
+        const subscriptionEndDate = new Date(item.trainee.subscriptionEndDate).toLocaleDateString('en-GB', {
+            timeZone: 'Africa/Cairo',
+        });
+
+        const timeOnly = new Date(item.date).toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: true,
+            timeZone: 'Africa/Cairo'
+        });
+
+        return {
+            key: item.id,
+            id: item.trainee.parcode,
+            name: item.trainee.fullName,
+            time: timeOnly,
+            date: subscriptionEndDate,
+            status: renderStatus(item.trainee.subscriptionStatus),
+            action: (
+                <div className='flex items-center'>
+                    <Link to={`/dashboard/members/${item.id}`} className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
+                    <Link to={`/dashboard/addNewUser/${item.id}`} className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2"><EditFilled /></Link>
+                    <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full"><DeleteFilled /></div>
+                </div>
+            ),
+        };
+    });
 
     return (
         <div className='Audience'>
@@ -168,42 +100,34 @@ const Audience = () => {
                 <h3 className='text-2xl'>اليوم</h3>
                 <Select size="large"
                     defaultValue="انثي"
-                    style={{
-                        width: 120,
-                    }}
+                    style={{ width: 120 }}
                     onChange={handleChange}
                     options={[
-                        {
-                            value: 'انثي',
-                            label: 'انثي',
-                        },
-                        {
-                            value: 'ذكر',
-                            label: 'ذكر',
-                        },
+                        { value: 'FEMALE', label: 'انثي' },
+                        { value: 'MALE', label: 'ذكر' },
                     ]}
                 />
             </div>
 
             <Table
                 columns={columns}
-                dataSource={attendance}
-                pagination={{ pageSize: 6 }}
+                dataSource={attendanceData}
+                pagination={false}
                 className='mt-6 text-center table_members'
             />
 
             <div>
-                <h3 className='text-2xl'>أمس</h3>
+                <h3 className='text-2xl mt-5'>أمس</h3>
 
                 <Table
                     columns={columns}
-                    dataSource={data}
-                    pagination={{ pageSize: 6 }}
+                    dataSource={attendanceData}
+                    pagination={false}
                     className='mt-6 text-center table_members'
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Audience
+export default Audience;

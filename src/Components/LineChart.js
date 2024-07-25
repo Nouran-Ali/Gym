@@ -12,7 +12,7 @@ const LineChart = () => {
         datasets: [
             {
                 label: 'تقييم شهري (عدد المشتركين)',
-                data: [40, 60, 50, 72, 60, 73, 60, 40 , 60, 50 , 72, 60], // change percentages
+                data: [40, 60, 50, 72, 60, 73, 60, 40 , 60, 50 , 72, 60],
                 fill: true,
                 backgroundColor: context => {
                     const chart = context.chart;

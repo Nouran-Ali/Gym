@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import AttendanceServices from "../services/AttendanceServices";
+import AttendanceServices from '../services/AttendanceServices';
 
 const initialState = {
     attendance: [],
@@ -20,19 +20,19 @@ export const fetchAttendances = createAsyncThunk(
     }
 );
 
-// export const createNewTrainee = createAsyncThunk(
-//     'attendance/createNewAttendance',
-//     async (traineeData, thunkAPI) => {
-//         try {
-//             const response = await TraineeService.create(traineeData);
-//             return response;
-//         } catch (error) {
-//             return thunkAPI.rejectWithValue(error.response.data);
-//         }
-//     }
-// );
+export const createNewAttendance = createAsyncThunk(
+    'attendance/createNewAttendance',
+    async (attendanceData, thunkAPI) => {
+        try {
+            const response = await AttendanceServices.create(attendanceData);
+            return response;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
 
-const traineeSlice = createSlice({
+const attendanceSlice = createSlice({
     name: 'attendance',
     initialState,
     reducers: {
@@ -52,23 +52,22 @@ const traineeSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload.message;
             })
-            // .addCase(createNewTrainee.pending, (state) => {
-            //     state.loading = true;
-            //     state.error = null;
-            //     state.inputErrors = {};
-            // })
-            // .addCase(createNewTrainee.fulfilled, (state, action) => {
-            //     state.loading = false;
-            //     console.log('🚀 ~ .addCase ~ action.payload:', action.payload);
-            //     state.attendance.push(action.payload); // Add the new trainee to the list
-            //     state.inputErrors = {};
-            // })
-            // .addCase(createNewTrainee.rejected, (state, action) => {
-            //     state.loading = false;
-            //     state.error = action.payload.message;
-            //     state.inputErrors = action.payload.errors || {};
-            // });
+            .addCase(createNewAttendance.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+                state.inputErrors = {};
+            })
+            .addCase(createNewAttendance.fulfilled, (state, action) => {
+                state.loading = false;
+                state.attendance.push(action.payload); // Add the new attendance record to the list
+                state.inputErrors = {};
+            })
+            .addCase(createNewAttendance.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload.message;
+                state.inputErrors = action.payload.errors || {};
+            });
     },
 });
 
-export default traineeSlice.reducer;
+export default attendanceSlice.reducer;

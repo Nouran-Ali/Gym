@@ -41,6 +41,7 @@
 
 .table_members:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-thead >tr>th{
     border-bottom: 1px solid #bebebe !important;
+    text-align: center !important;
 }
 
 .table_members:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table {
@@ -49,4 +50,14 @@
 
 .table_members:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-tbody >tr >td{
     border-bottom: 0px solid #949494 !important;
+}
+
+:where(.css-dev-only-do-not-override-m4timi).ant-pagination .ant-pagination-item-active a{
+    color: black !important;
+}
+:where(.css-dev-only-do-not-override-m4timi).ant-pagination .ant-pagination-item-active{
+    border-color: white !important;
+    border-left: 1px solid rgb(211, 211, 211) !important;
+    border-right: 1px solid rgb(211, 211, 211) !important;
+    border-radius: 0px !important;
 }
