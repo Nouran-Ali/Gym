@@ -95,6 +95,7 @@ const columns = [
 ];
 
 const Members = () => {
+  
   const { trainees } = useSelector((state) => state.trainee);
   const dispatch = useDispatch();
   console.log(trainees);

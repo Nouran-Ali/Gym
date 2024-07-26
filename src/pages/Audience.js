@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Table } from 'antd';
+import { Select, Table, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { PlusOutlined, SearchOutlined, EyeFilled, EditFilled, DeleteFilled } from '@ant-design/icons';
 import '../styles/Audience.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAttendances } from '../store/attendanceSlice';
+import { fetchAttendances, deleteAttendance } from '../store/attendanceSlice';
 
 const Audience = () => {
     const [selectedGender, setSelectedGender] = useState('FEMALE');
@@ -62,6 +62,15 @@ const Audience = () => {
         );
     };
 
+    const handleDelete = async (id) => {
+        try {
+            await dispatch(deleteAttendance(id)).unwrap();
+            message.success('Attendance deleted successfully');
+        } catch (error) {
+            message.error('Failed to delete attendance');
+        }
+    };
+
     const filteredAttendance = attendance.filter(item => item.trainee.gender === selectedGender);
 
     const attendanceData = filteredAttendance.map((item) => {
@@ -86,9 +95,13 @@ const Audience = () => {
             status: renderStatus(item.trainee.subscriptionStatus),
             action: (
                 <div className='flex items-center'>
-                    <Link to={`/dashboard/members/${item.id}`} className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
-                    <Link to={`/dashboard/addNewUser/${item.id}`} className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2"><EditFilled /></Link>
-                    <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full"><DeleteFilled /></div>
+                    <Link to={`/dashboard/members/${item.traineeId}`} className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"><EyeFilled /></Link>
+                    <div
+                        className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full cursor-pointer"
+                        onClick={() => handleDelete(item.traineeId)}
+                    >
+                        <DeleteFilled />
+                    </div>
                 </div>
             ),
         };

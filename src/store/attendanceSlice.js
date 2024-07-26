@@ -20,12 +20,24 @@ export const fetchAttendances = createAsyncThunk(
     }
 );
 
-export const createNewAttendance = createAsyncThunk(
-    'attendance/createNewAttendance',
-    async (attendanceData, thunkAPI) => {
+export const createAttendance = createAsyncThunk(
+    'attendance/createAttendance',
+    async (traineeData, thunkAPI) => {
         try {
-            const response = await AttendanceServices.create(attendanceData);
+            const response = await AttendanceServices.create(traineeData);
             return response;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const deleteAttendance = createAsyncThunk(
+    'attendance/deleteAttendance',
+    async (id, thunkAPI) => {
+        try {
+            await AttendanceServices.delete(id);
+            return id;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);
         }
@@ -35,9 +47,7 @@ export const createNewAttendance = createAsyncThunk(
 const attendanceSlice = createSlice({
     name: 'attendance',
     initialState,
-    reducers: {
-        // Define any additional reducers here if needed
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(fetchAttendances.pending, (state) => {
@@ -52,20 +62,33 @@ const attendanceSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload.message;
             })
-            .addCase(createNewAttendance.pending, (state) => {
+            .addCase(createAttendance.pending, (state) => {
                 state.loading = true;
                 state.error = null;
                 state.inputErrors = {};
             })
-            .addCase(createNewAttendance.fulfilled, (state, action) => {
+            .addCase(createAttendance.fulfilled, (state, action) => {
                 state.loading = false;
-                state.attendance.push(action.payload); // Add the new attendance record to the list
+                console.log('🚀 ~ .addCase ~ action.payload:', action.payload);
+                state.attendance.push(action.payload);
                 state.inputErrors = {};
             })
-            .addCase(createNewAttendance.rejected, (state, action) => {
+            .addCase(createAttendance.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload.message;
                 state.inputErrors = action.payload.errors || {};
+            })
+            .addCase(deleteAttendance.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteAttendance.fulfilled, (state, action) => {
+                state.loading = false;
+                state.attendance = state.attendance.filter(item => item.id !== action.payload);
+            })
+            .addCase(deleteAttendance.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload.message;
             });
     },
 });
