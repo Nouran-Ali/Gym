@@ -75,7 +75,7 @@ const Measurements = () => {
           <button className='bg-[#D9ED4D1C] rounded-lg text-[#D9ED4D] border border-[#D9ED4D] px-3 py-1 ml-3' onClick={showModal}> <PlusOutlined /> </button>
 
           <Modal title="اضافه مقاسات جديده" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-          <hr className="bg-black border border-[#f5f5f5] mt-3 mb-5" />
+            <hr className="bg-black border border-[#f5f5f5] mt-3 mb-5" />
             <form className='w-full mx-auto mb-10'>
               <div className='grid grid-cols-3 max-md:grid-cols-1 gap-4'>
                 <div className='mb-4'>
