@@ -31,18 +31,14 @@ import { PrivateAxios } from '../api';
 //   }
 // }
 
-class TraineeService {
+class AttendanceService {
   async getAll() {
     const response = await PrivateAxios.get('/api/v1/attendance');
     return response.data;
   }
 
-  async create(data) {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    const response = await PrivateAxios.post('/api/v1/attendance', formData);
+  async create(parcode) {
+    const response = await PrivateAxios.post(`/api/v1/attendance/${parcode}`);
     return response.data;
   }
 
@@ -58,5 +54,5 @@ class TraineeService {
 
 }
 
-const traineeService = new TraineeService();
-export default traineeService;
+const attendanceService = new AttendanceService();
+export default attendanceService;
