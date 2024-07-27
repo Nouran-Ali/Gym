@@ -15,7 +15,11 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import '../styles/AddNewUser.css';
-import { SubscriptionStatus, SubscriptionType } from '../types';
+import {
+  SubscriptionStatus,
+  SubscriptionStatusMap,
+  SubscriptionType,
+} from '../types';
 import { CreateTraineeSchema } from '../validations/traineeSchema';
 import { createNewTrainee } from '../store/traineeSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -608,13 +612,13 @@ const AddNewUser = () => {
                       placeholder="نشط"
                     >
                       <Select.Option value={SubscriptionStatus.ACTIVE}>
-                        نشط
+                        {SubscriptionStatusMap.ACTIVE}
                       </Select.Option>
                       <Select.Option value={SubscriptionStatus.INACTIVE}>
-                        غير نشط
+                        {SubscriptionStatusMap.INACTIVE}
                       </Select.Option>
                       <Select.Option value={SubscriptionStatus.PENDING}>
-                        قيد الانتظار
+                        {SubscriptionStatusMap.PENDING}
                       </Select.Option>
                     </Select>
                   )}
