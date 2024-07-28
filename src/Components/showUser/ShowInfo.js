@@ -5,7 +5,7 @@ import ShowFile from '../shared/ShowFile';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchTrainees } from '../../store/traineeSlice';
-import { getFormattedDate } from '../../utils/date';
+import { calcAgeFromDate, getFormattedDate } from '../../utils/date';
 
 const ShowInfo = () => {
   const { trainees } = useSelector((state) => state.trainee);
@@ -29,15 +29,15 @@ const ShowInfo = () => {
     { name: 'رقم ID', value: traine.id },
     { name: 'اسم المشترك', value: traine.fullName },
     { name: 'رقم الواتس', value: traine.phoneNumber },
-    { name: 'العمر', value: traine.age },
-    { name: 'النوع', value: traine.gender == 'FEMALE' ? 'أنثي' : 'ذكر' },
+    { name: 'العمر', value: calcAgeFromDate(traine.dob) },
+    { name: 'النوع', value: traine.gender === 'FEMALE' ? 'أنثي' : 'ذكر' },
     { name: 'تاريخ الميلاد', value: getFormattedDate(new Date(traine.dob)) },
   ];
 
   const subscriptionInfo = [
     {
       name: 'نوع الاشتراك',
-      value: traine.subscriptionType == 'NOT_PRIVATE' ? 'عام' : 'خاص',
+      value: traine.subscriptionType === 'NOT_PRIVATE' ? 'عام' : 'خاص',
     },
     {
       name: 'تاريخ الاشتراك',
@@ -57,8 +57,11 @@ const ShowInfo = () => {
     },
     {
       name: 'حالة المشترك',
-      value: traine.subscriptionStatus == 'ACTIVE' ? 'نشط' : 'غير نشط',
-      valueClass: 'text-green-400',
+      value: traine.subscriptionStatus === 'ACTIVE' ? 'نشط' : 'غير نشط',
+      valueClass:
+        traine.subscriptionStatus === 'ACTIVE'
+          ? 'text-green-400'
+          : 'text-red-400',
     },
     { name: 'المدفوع', value: traine.paid },
     { name: 'المتبقي', value: traine.reminder },
@@ -69,9 +72,9 @@ const ShowInfo = () => {
     { name: 'الهدف من التدريب', value: traine.goal },
     {
       name: 'هل اجريت عمليات جراحية خلال سنة',
-      value: traine.surgeries == 'false' ? 'لا' : 'نعم',
+      value: traine.surgeries === 'false' ? 'لا' : 'نعم',
     },
-    { name: 'هل يوجد مشاكل صحية', value: traine.healthIssues || 'لا يوجد' },
+    { name: 'هل يوجد مشاكل صحية', value: traine.medicalProblem || 'لا يوجد' },
     { name: 'النظام الغذائي', value: <ShowFile src={traine.dietPlan} /> },
   ];
 

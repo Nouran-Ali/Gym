@@ -5,3 +5,21 @@ export function getFormattedDate(date = new Date()) {
 
   return `${year}-${month}-${day}`;
 }
+
+export function calcAgeFromDate(birthDate) {
+  const today = new Date();
+  const birth = new Date(birthDate);
+
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDifference = today.getMonth() - birth.getMonth();
+
+  // Adjust age if the current month is before the birth month, or it's the birth month but the day hasn't occurred yet
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birth.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+}

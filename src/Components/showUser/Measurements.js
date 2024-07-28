@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Collapse } from 'antd';
 import { transformMeasurementsToCollapseItems } from '../../utils/transformations';
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Input, Modal } from 'antd';
+import { Input, Modal } from 'antd';
 import '../../styles/Measurements.css';
 
 const MEASUREMENTS = [

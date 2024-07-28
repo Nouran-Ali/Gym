@@ -8,7 +8,7 @@ import { fetchAttendances, deleteAttendance } from '../store/attendanceSlice';
 
 const Audience = () => {
   const [selectedGender, setSelectedGender] = useState('FEMALE');
-  const { attendance, filteredAttendance } = useSelector(
+  const { attendance } = useSelector(
     (state) => state.attendance
   );
   const dispatch = useDispatch();

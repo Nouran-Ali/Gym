@@ -84,7 +84,7 @@ const Overview = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <div className="bg-[#D9ED4A] p-2 rounded-full ">
-                <img src="./../../1.png" width={17} alt='attendance' />
+                <img src="./../../1.png" width={17} alt="attendance" />
               </div>
               <span className="font-semibold mr-2 text-lg">
                 الحاضريين في النادي
@@ -168,7 +168,7 @@ const Overview = () => {
                       atend?.trainee?.subscriptionStatus ? 'نشط' : 'غير نشط'
                     }
                     color={
-                      atend?.trainee?.subscriptionStatus == 'ACTIVE'
+                      atend?.trainee?.subscriptionStatus === 'ACTIVE'
                         ? true
                         : false
                     }
