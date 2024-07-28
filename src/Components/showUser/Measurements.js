@@ -130,7 +130,7 @@ const Measurements = () => {
       </div>
 
       {sortedMeasurements.length > 1 && (
-        <Collapse defaultActiveKey={['1']} onChange={onChange}>
+        <Collapse defaultActiveKey={['0']} onChange={onChange}>
           {sortedMeasurements.slice(1).map((measurement, index) => (
             <Collapse.Panel header={getFormattedDate(new Date(measurement.date))} key={index + 1}>
               <div className="grid grid-cols-3 max-md:grid-cols-1 gap-4">

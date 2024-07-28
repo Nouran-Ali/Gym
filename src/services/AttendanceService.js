@@ -37,10 +37,16 @@ class AttendanceService {
     return response.data;
   }
 
+  async getById(traineeId) {
+    const response = await PrivateAxios.get(`/api/v1/attendance/${traineeId}`);
+    return response.data;
+  }
+
   async create(parcode) {
     const response = await PrivateAxios.post(`/api/v1/attendance/${parcode}`);
     return response.data;
   }
+
 
   static async delete(id) {
     const response = await fetch(`/api/v1/attendance/${id}`, {
