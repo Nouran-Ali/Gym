@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Collapse } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Input, Modal } from 'antd';
+import { Input, Modal } from 'antd';
 import '../../styles/Measurements.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInbodies } from '../../store/inbodySlice';

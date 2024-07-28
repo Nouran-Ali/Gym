@@ -7,7 +7,11 @@ class TraineeService {
   }
 
   async create(data) {
+    console.log('🚀 ~ TraineeService ~ create ~ data:', data);
     const formData = new FormData();
+
+    const d = new Date();
+    console.log('🚀 ~ TraineeService ~ create ~ d:', d);
 
     // Append each key-value pair to FormData
     Object.keys(data).forEach((key) => {

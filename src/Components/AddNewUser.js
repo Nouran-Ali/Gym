@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Input,
   Radio,
@@ -30,13 +30,18 @@ const AddNewUser = () => {
   const { error, inputErrors, loading } = useSelector((state) => state.trainee);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [selectedValues, setSelectedValues] = useState([]);
 
   const {
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
+    defaultValues: {
+      medicalProblem: '',
+    },
     resolver: yupResolver(CreateTraineeSchema),
   });
 
@@ -54,6 +59,14 @@ const AddNewUser = () => {
   useEffect(() => {
     console.log(errors);
   }, [errors]);
+
+  const handleCheckboxChange = (checkedValues) => {
+    setSelectedValues(checkedValues);
+
+    // Convert array to string joined with "و"
+    const selectedString = checkedValues.join(' و ');
+    setValue('medicalProblem', selectedString);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -802,29 +815,29 @@ const AddNewUser = () => {
                 control={control}
                 render={({ field }) => (
                   <Checkbox.Group
-                    {...field}
-                    onChange={field.onChange}
+                    value={selectedValues}
+                    onChange={handleCheckboxChange}
                     style={{ width: '100%' }}
                   >
                     <Row>
-                      <Col span={2}>
+                      {/* <Col span={2}>
                         <Checkbox value="A">لا يوجد</Checkbox>
+                      </Col> */}
+                      <Col span={2}>
+                        <Checkbox value="سكر">سكر</Checkbox>
                       </Col>
                       <Col span={2}>
-                        <Checkbox value="B">سكر</Checkbox>
+                        <Checkbox value="ضغط">ضغط</Checkbox>
                       </Col>
                       <Col span={2}>
-                        <Checkbox value="C">ضغط</Checkbox>
-                      </Col>
-                      <Col span={2}>
-                        <Checkbox value="D">فيروس</Checkbox>
+                        <Checkbox value="فيروس">فيروس</Checkbox>
                       </Col>
                       <Col span={3}>
-                        <Checkbox value="E">خشونه مفاصل</Checkbox>
+                        <Checkbox value="خشونه مفاصل">خشونه مفاصل</Checkbox>
                       </Col>
-                      <Col span={2}>
+                      {/* <Col span={2}>
                         <Checkbox value="k">اخري</Checkbox>
-                      </Col>
+                      </Col> */}
                     </Row>
                   </Checkbox.Group>
                 )}
