@@ -8,9 +8,9 @@ const DashboardLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   if (!isAuthenticated) {
-      return <Navigate to="/" />;
-    }
-    
+    return <Navigate to="/" />;
+  }
+
   return (
     <Layout>
       <Outlet /> {/* Render child routes */}

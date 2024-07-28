@@ -7,6 +7,21 @@ import { useParams } from 'react-router-dom';
 import { fetchTrainees } from '../../store/traineeSlice';
 import { getFormattedDate } from '../../utils/date';
 
+const calculateAge = (dob) => {
+  const birthDate = new Date(dob);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+  return age;
+};
+
 const ShowInfo = () => {
   const { trainees } = useSelector((state) => state.trainee);
   const dispatch = useDispatch();
@@ -29,7 +44,7 @@ const ShowInfo = () => {
     { name: 'رقم ID', value: traine.id },
     { name: 'اسم المشترك', value: traine.fullName },
     { name: 'رقم الواتس', value: traine.phoneNumber },
-    { name: 'العمر', value: traine.age },
+    { name: 'العمر', value: calculateAge(traine.dob) },
     { name: 'النوع', value: traine.gender == 'FEMALE' ? 'أنثي' : 'ذكر' },
     { name: 'تاريخ الميلاد', value: getFormattedDate(new Date(traine.dob)) },
   ];

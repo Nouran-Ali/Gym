@@ -23,7 +23,7 @@ function App() {
           <Route path="members/:id" element={<ShowUser />} />
 
           <Route path="addNewUser" element={<AddNewUser />} />
-          
+
           <Route path="audience" element={<Audience />} />
         </Route>
       </Routes>
