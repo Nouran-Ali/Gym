@@ -23,6 +23,11 @@ class TraineeService {
     const response = await PrivateAxios.post('/api/v1/trainees', formData);
     return response.data;
   }
+
+  async delete(id) {
+    const response = await PrivateAxios.delete(`/api/v1/trainees/${id}`);
+    return response.data;
+  }
 }
 
 const traineeService = new TraineeService();

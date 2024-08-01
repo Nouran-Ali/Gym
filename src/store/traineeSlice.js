@@ -32,11 +32,22 @@ export const createNewTrainee = createAsyncThunk(
   }
 );
 
+export const deleteTrainee = createAsyncThunk(
+  'trainees/deleteTrainee',
+  async (id, thunkAPI) => {
+    try {
+      await TraineeService.delete(id);
+      return id;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const traineeSlice = createSlice({
   name: 'trainees',
   initialState,
   reducers: {
-    // Define any additional reducers here if needed
   },
   extraReducers: (builder) => {
     builder
@@ -67,6 +78,17 @@ const traineeSlice = createSlice({
         state.loading = false;
         state.error = action.payload.message;
         state.inputErrors = action.payload.errors || {};
+      })
+      .addCase(deleteTrainee.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteTrainee.fulfilled, (state, action) => {
+        state.loading = false;
+        state.trainees = state.trainees.filter((trainee) => trainee.id !== action.payload);
+      })
+      .addCase(deleteTrainee.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
       });
   },
 });

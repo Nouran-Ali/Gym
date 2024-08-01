@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space, Table, Tag, Select, Input } from 'antd';
+import { Space, Table, Tag, Select, Input, Modal } from 'antd';
 import {
   PlusOutlined,
   SearchOutlined,
@@ -10,7 +10,7 @@ import {
 import '../styles/members.css';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTrainees } from '../store/traineeSlice';
+import { deleteTrainee, fetchTrainees } from '../store/traineeSlice';
 import { SubscriptionStatusMap, SubscriptionTypeMap } from '../types';
 
 const { Search } = Input;
@@ -23,82 +23,91 @@ const formatDate = (dateString) => {
   return `${day}/${month}/${year}`;
 };
 
-const columns = [
-  {
-    title: 'رقم ID',
-    dataIndex: 'parcode',
-    key: 'parcode',
-  },
-  {
-    title: 'نوع الاشتراك',
-    dataIndex: 'subscriptionType',
-    key: 'subscriptionType',
-    render: (item) => SubscriptionTypeMap[item],
-  },
-  {
-    title: 'اسم المشترك',
-    dataIndex: 'fullName',
-    key: 'fullName',
-  },
-  {
-    title: 'رقم الواتس',
-    dataIndex: 'phoneNumber',
-    key: 'phoneNumber',
-  },
-  {
-    title: 'اسم الاشتراك',
-    dataIndex: 'trainingName',
-    key: 'trainingName',
-  },
-  {
-    title: 'تاريخ الانتهاء',
-    dataIndex: 'subscriptionEndDate',
-    key: 'subscriptionEndDate',
-    render: (date) => formatDate(date),
-  },
-  {
-    title: 'المدفوع',
-    dataIndex: 'paid',
-    key: 'paid',
-  },
-  {
-    title: 'حالة المشترك',
-    key: 'subscriptionStatus',
-    dataIndex: 'subscriptionStatus',
-    render: (item) => (
-      <span className={item === 'ACTIVE' ? 'text-[#58D241]' : 'text-[#E47E7B]'}>
-        {SubscriptionStatusMap[item]}
-      </span>
-    ),
-  },
-  {
-    title: 'اجراءات',
-    key: 'action',
-    dataIndex: 'action',
-    render: (_, item) => (
-      <div className="flex items-center">
-        <Link
-          to={`/dashboard/members/${item.id}`}
-          className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
-        >
-          <EyeFilled />
-        </Link>
-        <div to={`/dashboard/addNewUser/${item.id}`} className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
-          <EditFilled />
-        </div>
-        <div className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full">
-          <DeleteFilled />
-        </div>
-      </div>
-    ),
-  },
-];
-
 const Members = () => {
   
   const { trainees } = useSelector((state) => state.trainee);
   const dispatch = useDispatch();
   console.log(trainees);
+
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: 'هل انت متأكد من حذف هذا المشترك؟',
+      onOk: () => {
+        dispatch(deleteTrainee(id));
+      },
+    });
+  };
+
+  const columns = [
+    {
+      title: 'رقم ID',
+      dataIndex: 'parcode',
+      key: 'parcode',
+    },
+    {
+      title: 'نوع الاشتراك',
+      dataIndex: 'subscriptionType',
+      key: 'subscriptionType',
+      render: (item) => SubscriptionTypeMap[item],
+    },
+    {
+      title: 'اسم المشترك',
+      dataIndex: 'fullName',
+      key: 'fullName',
+    },
+    {
+      title: 'رقم الواتس',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
+    },
+    {
+      title: 'اسم الاشتراك',
+      dataIndex: 'trainingName',
+      key: 'trainingName',
+    },
+    {
+      title: 'تاريخ الانتهاء',
+      dataIndex: 'subscriptionEndDate',
+      key: 'subscriptionEndDate',
+      render: (date) => formatDate(date),
+    },
+    {
+      title: 'المدفوع',
+      dataIndex: 'paid',
+      key: 'paid',
+    },
+    {
+      title: 'حالة المشترك',
+      key: 'subscriptionStatus',
+      dataIndex: 'subscriptionStatus',
+      render: (item) => (
+        <span className={item === 'ACTIVE' ? 'text-[#58D241]' : 'text-[#E47E7B]'}>
+          {SubscriptionStatusMap[item]}
+        </span>
+      ),
+    },
+    {
+      title: 'اجراءات',
+      key: 'action',
+      dataIndex: 'action',
+      render: (_, item) => (
+        <div className="flex items-center">
+          <Link
+            to={`/dashboard/members/${item.id}`}
+            className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
+          >
+            <EyeFilled />
+          </Link>
+          <div to={`/dashboard/addNewUser/${item.id}`} className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
+            <EditFilled />
+          </div>
+          <button className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full" onClick={() => handleDelete(item.id)}>
+            <DeleteFilled />
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   const [selectedGender, setSelectedGender] = useState('الكل');
   const [selectedStatus, setSelectedStatus] = useState('الكل');
