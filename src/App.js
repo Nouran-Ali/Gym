@@ -9,6 +9,7 @@ import AddNewUser from './Components/AddNewUser';
 import ShowUser from './pages/ShowUser';
 import Audience from './pages/Audience';
 import DashboardLayout from './Components/DashboardLayout';
+import UpdateTrainee from './Components/UpdateTrainee';
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           <Route path="members/:id" element={<ShowUser />} />
 
           <Route path="addNewUser" element={<AddNewUser />} />
+
+          <Route path="UpdateTrainee/:id" element={<UpdateTrainee />} />
 
           <Route path="audience" element={<Audience />} />
         </Route>

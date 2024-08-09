@@ -32,6 +32,18 @@ export const createNewTrainee = createAsyncThunk(
   }
 );
 
+export const updateTrainee = createAsyncThunk(
+  'trainees/updateTrainee',
+  async (userData, thunkAPI) => {
+    try {
+      const response = await TraineeService.updateTrainee(userData);
+      return response.data.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const deleteTrainee = createAsyncThunk(
   'trainees/deleteTrainee',
   async (id, thunkAPI) => {
@@ -47,8 +59,7 @@ export const deleteTrainee = createAsyncThunk(
 const traineeSlice = createSlice({
   name: 'trainees',
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchTrainees.pending, (state) => {
@@ -70,14 +81,27 @@ const traineeSlice = createSlice({
       })
       .addCase(createNewTrainee.fulfilled, (state, action) => {
         state.loading = false;
-        console.log('🚀 ~ .addCase ~ action.payload:', action.payload);
-        state.trainees.push(action.payload); // Add the new trainee to the list
+        state.trainees.push(action.payload);
         state.inputErrors = {};
       })
       .addCase(createNewTrainee.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.message;
         state.inputErrors = action.payload.errors || {};
+      })
+      .addCase(updateTrainee.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateTrainee.fulfilled, (state, action) => {
+        state.loading = false;
+        const index = state.trainees.findIndex(trainee => trainee.id === action.payload.id);
+        if (index !== -1) {
+          state.trainees[index] = action.payload;
+        }
+      })
+      .addCase(updateTrainee.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
       })
       .addCase(deleteTrainee.pending, (state) => {
         state.loading = true;

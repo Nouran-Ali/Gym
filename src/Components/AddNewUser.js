@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AddNewUser = () => {
   const { error, inputErrors, loading } = useSelector((state) => state.trainee);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedValues, setSelectedValues] = useState([]);

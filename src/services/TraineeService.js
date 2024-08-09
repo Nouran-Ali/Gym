@@ -7,13 +7,7 @@ class TraineeService {
   }
 
   async create(data) {
-    console.log('🚀 ~ TraineeService ~ create ~ data:', data);
     const formData = new FormData();
-
-    const d = new Date();
-    console.log('🚀 ~ TraineeService ~ create ~ d:', d);
-
-    // Append each key-value pair to FormData
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
@@ -21,6 +15,18 @@ class TraineeService {
     formData.append('idBack', data['idBack'].file);
 
     const response = await PrivateAxios.post('/api/v1/trainees', formData);
+    return response.data;
+  }
+
+  async updateTrainee(id, data) {
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+    if (data.idFace) formData.append('idFace', data['idFace'].file);
+    if (data.idBack) formData.append('idBack', data['idBack'].file);
+
+    const response = await PrivateAxios.put(`/api/v1/trainees/${id}`, formData);
     return response.data;
   }
 
