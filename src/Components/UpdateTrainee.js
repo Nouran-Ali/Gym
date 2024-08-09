@@ -11,98 +11,76 @@ import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const AddNewUser = () => {
-    const { error, inputErrors, loading } = useSelector((state) => state.trainee);
-    const { trainees } = useSelector((state) => state.trainee);
-
-    const { id } = useParams();
-    const trainee = trainees.find(p => p.id === parseInt(id));
-    console.log(trainee)
-
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [selectedValues, setSelectedValues] = useState([]);
-
-    const { control, handleSubmit, watch, setValue, formState: { errors }, } = useForm({
-        defaultValues: { medicalProblem: '', }, resolver: yupResolver(CreateTraineeSchema),
+    const { control, handleSubmit, setValue, formState: { errors } } = useForm({
+        resolver: yupResolver(CreateTraineeSchema),
     });
 
-    const onSubmit = async (data) => {
-        try {
-            await dispatch(createNewTrainee(data)).unwrap(); // Use unwrap to handle the promise
-            navigate('/dashboard/members');
-        } catch (error) {
-            console.error('Failed to save trainee:', error);
-        }
-    };
-
-    const { idFace, idBack } = watch();
-
-    useEffect(() => {
-        console.log(errors);
-    }, [errors]);
+    const { trainees } = useSelector((state) => state.trainee);
+    const dispatch = useDispatch();
+    const { id } = useParams();
 
     useEffect(() => {
         dispatch(fetchTrainees());
-      }, [dispatch]);
+    }, [dispatch]);
 
-    const handleCheckboxChange = (checkedValues) => {
-        setSelectedValues(checkedValues);
-        const selectedString = checkedValues.join(' و ');
-        setValue('medicalProblem', selectedString);
+    const trainee = trainees.find(p => p.id === parseInt(id));
+
+    useEffect(() => {
+        if (trainee) {
+            // Set form field values
+            setValue('parcode', trainee.parcode);
+            setValue('fullName', trainee.fullName);
+            setValue('phoneNumber', trainee.phoneNumber);
+            setValue('gender', trainee.gender);
+            // setValue('dob', trainee.dob);
+            setValue('subscriptionType', trainee.subscriptionType);
+            setValue('idFace', trainee.idFace);
+            setValue('idBack', trainee.idBack);
+            // Set other fields as needed...
+        }
+    }, [trainee, setValue]);
+
+    const onSubmit = (data) => {
+        console.log('Form Data:', data);
+        // Handle form submission logic here
     };
 
+    if (!trainee) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="text-lg AddNewUser">
+                {/* {trainee.subscriptionType} */}
+
                 <div className="bg-[#F9F9F9] rounded-lg py-4">
                     <h3 className="text-xl border-b border-b-[#e1e1e1] pb-3">
                         <span className="pr-8">نوع الاشتراك </span>
                     </h3>
                     <div className="pr-8 pt-4">
                         <Form.Item
-                            validateStatus={
-                                errors.subscriptionType ||
-                                    (inputErrors.subscriptionType &&
-                                        inputErrors.subscriptionType.length > 0)
-                                    ? 'error'
-                                    : ''
-                            }
-                            help={
-                                // Combine errors if both exist
-                                (errors.subscriptionType || inputErrors.subscriptionType) && (
-                                    <div>
-                                        {errors.subscriptionType?.message && (
-                                            <div>{errors.subscriptionType.message}</div>
-                                        )}
-                                        {inputErrors.subscriptionType && (
-                                            <div>
-                                                {inputErrors.subscriptionType.map((error, index) => (
-                                                    <div key={index}>{error}</div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                )
-                            }
+                            validateStatus={errors.subscriptionType ? 'error' : ''}
+                            help={errors.subscriptionType?.message}
                         >
                             <Controller
                                 name="subscriptionType"
                                 control={control}
-                                defaultValue={trainee.subscriptionType}
                                 render={({ field }) => (
                                     <Radio.Group {...field} onChange={field.onChange}>
                                         <Radio value={SubscriptionType.NOT_PRIVATE}>
                                             اشتراك عادي
                                         </Radio>
-                                        <Radio value={SubscriptionType.PRIVATE}>اشتراك خاص</Radio>
+                                        <Radio value={SubscriptionType.PRIVATE}>
+                                            اشتراك خاص
+                                        </Radio>
                                     </Radio.Group>
                                 )}
                             />
                         </Form.Item>
                     </div>
                 </div>
-
+{/* 
                 <div className="bg-[#F9F9F9] rounded-lg py-4 mt-6">
                     <h3 className="text-xl border-b border-b-[#e1e1e1] pb-3">
                         <span className="pr-8">البيانات الشخصية</span>
@@ -110,173 +88,46 @@ const AddNewUser = () => {
                     <div className="grid grid-cols-3 max-xl:grid-cols-1 gap-6 px-8 pt-4">
                         <div>
                             <label className="text-[#4E4E4E]"> رقم ID</label>
-                            <Form.Item
-                                validateStatus={
-                                    errors.parcode ||
-                                        (inputErrors.parcode && inputErrors.parcode.length > 0)
-                                        ? 'error'
-                                        : ''
-                                }
-                                help={
-                                    // Combine errors if both exist
-                                    (errors.parcode || inputErrors.parcode) && (
-                                        <div>
-                                            {errors.parcode?.message && (
-                                                <div>{errors.parcode.message}</div>
-                                            )}
-                                            {inputErrors.parcode && (
-                                                <div>
-                                                    {inputErrors.parcode.map((error, index) => (
-                                                        <div key={index}>{error}</div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )
-                                }
-                            >
+                            <Form.Item validateStatus={errors.parcode ? 'error' : ''} help={errors.parcode?.message}>
                                 <Controller
                                     name="parcode"
                                     control={control}
-                                    render={({ field }) => <Input {...field} value={trainee.parcode} className="mt-2" />}
+                                    render={({ field }) => <Input {...field} className="mt-2" />}
                                 />
                             </Form.Item>
                         </div>
                         <div>
                             <label className="text-[#4E4E4E]"> اسم المشترك</label>
-                            <Form.Item
-                                validateStatus={
-                                    errors.fullName ||
-                                        (inputErrors.fullName && inputErrors.fullName.length > 0)
-                                        ? 'error'
-                                        : ''
-                                }
-                                help={
-                                    // Combine errors if both exist
-                                    (errors.fullName || inputErrors.fullName) && (
-                                        <div>
-                                            {errors.fullName?.message && (
-                                                <div>{errors.fullName.message}</div>
-                                            )}
-                                            {inputErrors.fullName && (
-                                                <div>
-                                                    {inputErrors.fullName.map((error, index) => (
-                                                        <div key={index}>{error}</div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )
-                                }
-                            >
+                            <Form.Item validateStatus={errors.fullName ? 'error' : ''} help={errors.fullName?.message}>
                                 <Controller
                                     name="fullName"
                                     control={control}
-                                    render={({ field }) => <Input {...field} value={trainee.fullName} className="mt-2" />}
+                                    render={({ field }) => <Input {...field} className="mt-2" />}
                                 />
                             </Form.Item>
                         </div>
                         <div>
                             <label className="text-[#4E4E4E]"> رقم الواتس</label>
-                            <Form.Item
-                                validateStatus={
-                                    errors.phoneNumber ||
-                                        (inputErrors.phoneNumber &&
-                                            inputErrors.phoneNumber.length > 0)
-                                        ? 'error'
-                                        : ''
-                                }
-                                help={
-                                    // Combine errors if both exist
-                                    (errors.phoneNumber || inputErrors.phoneNumber) && (
-                                        <div>
-                                            {errors.phoneNumber?.message && (
-                                                <div>{errors.phoneNumber.message}</div>
-                                            )}
-                                            {inputErrors.phoneNumber && (
-                                                <div>
-                                                    {inputErrors.phoneNumber.map((error, index) => (
-                                                        <div key={index}>{error}</div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )
-                                }
-                            >
+                            <Form.Item validateStatus={errors.phoneNumber ? 'error' : ''} help={errors.phoneNumber?.message}>
                                 <Controller
                                     name="phoneNumber"
                                     control={control}
                                     render={({ field }) => (
-                                        <Input
-                                        {...field}
-                                        value={trainee.phoneNumber}
-                                            className="mt-2"
-                                            suffix={
-                                                <div>
-                                                    <span className="text-[#E4E4E4]"> | </span>
-                                                    <span className="text-[#D9ED4D]">20+</span>
-                                                </div>
-                                            }
-                                        />
+                                        <Input {...field} className="mt-2" suffix={<span className="text-[#D9ED4D]">20+</span>} />
                                     )}
                                 />
                             </Form.Item>
                         </div>
-                        {/* <div>
-              <label className="text-[#4E4E4E]"> العمر </label>
-              <Form.Item
-                validateStatus={errors.dob ? 'error' : ''}
-                help={errors.dob?.message}
-              >
-                <Controller
-                  name="dob"
-                  control={control}
-                  render={({ field }) => <Input {...field} className="mt-2" />}
-                />
-              </Form.Item>
-              {errors.dob && <p>{errors.dob.message}</p>}
-            </div> */}
                         <div>
                             <label className="text-[#4E4E4E]"> النوع</label>
-                            <Form.Item
-                                validateStatus={
-                                    errors.gender ||
-                                        (inputErrors.gender && inputErrors.gender.length > 0)
-                                        ? 'error'
-                                        : ''
-                                }
-                                help={
-                                    // Combine errors if both exist
-                                    (errors.gender || inputErrors.gender) && (
-                                        <div>
-                                            {errors.gender?.message && (
-                                                <div>{errors.gender.message}</div>
-                                            )}
-                                            {inputErrors.gender && (
-                                                <div>
-                                                    {inputErrors.gender.map((error, index) => (
-                                                        <div key={index}>{error}</div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )
-                                }
-                            >
+                            <Form.Item validateStatus={errors.gender ? 'error' : ''} help={errors.gender?.message}>
                                 <Controller
                                     name="gender"
                                     control={control}
                                     render={({ field }) => (
-                                        <Select
-                                            {...field}
-                                            defaultValue={trainee.gender}
-                                            className="mt-2"
-                                            onChange={field.onChange}
-                                            placeholder="ذكر"
-                                        >
+                                        <Select {...field} className="mt-2" placeholder="اختر النوع">
                                             <Select.Option value="MALE">ذكر</Select.Option>
-                                            <Select.Option value="FEMALE">انثي</Select.Option>
+                                            <Select.Option value="FEMALE">انثى</Select.Option>
                                         </Select>
                                     )}
                                 />
@@ -284,77 +135,26 @@ const AddNewUser = () => {
                         </div>
                         <div>
                             <label className="text-[#4E4E4E]">تاريخ الميلاد</label>
-                            <Form.Item
-                                validateStatus={
-                                    errors.dob || (inputErrors.dob && inputErrors.dob.length > 0)
-                                        ? 'error'
-                                        : ''
-                                }
-                                help={
-                                    // Combine errors if both exist
-                                    (errors.dob || inputErrors.dob) && (
-                                        <div>
-                                            {errors.dob?.message && <div>{errors.dob.message}</div>}
-                                            {inputErrors.dob && (
-                                                <div>
-                                                    {inputErrors.dob.map((error, index) => (
-                                                        <div key={index}>{error}</div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )
-                                }
-                            >
+                            <Form.Item validateStatus={errors.dob ? 'error' : ''} help={errors.dob?.message}>
                                 <Controller
                                     name="dob"
                                     control={control}
                                     render={({ field }) => (
-                                        <DatePicker {...field} defaultValue={trainee.dob} className="mt-2" />
+                                        <DatePicker {...field} className="mt-2" />
                                     )}
                                 />
                             </Form.Item>
                         </div>
-                        {/* Add file inputs here */}
                         <div>
                             <label className="text-[#4E4E4E]">وجه البطاقة</label>
-                            <Form.Item
-                                validateStatus={
-                                    errors.idFace ||
-                                        (inputErrors.idFace && inputErrors.idFace.length > 0)
-                                        ? 'error'
-                                        : ''
-                                }
-                                help={
-                                    // Combine errors if both exist
-                                    (errors.idFace || inputErrors.idFace) && (
-                                        <div>
-                                            {errors.idFace?.message && (
-                                                <div>{errors.idFace.message}</div>
-                                            )}
-                                            {inputErrors.idFace && (
-                                                <div>
-                                                    {inputErrors.idFace.map((error, index) => (
-                                                        <div key={index}>{error}</div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )
-                                }
-                            >
+                            <Form.Item validateStatus={errors.idFace ? 'error' : ''} help={errors.idFace?.message}>
                                 <Controller
                                     name="idFace"
                                     control={control}
                                     render={({ field }) => (
-                                        <Upload
-                                            {...field}
-                                            defaultValue={trainee.idFace}
-                                            showUploadList={false}
-                                            beforeUpload={() => false} // Prevent auto upload
-                                        >
+                                        <Upload {...field} showUploadList={false} beforeUpload={() => false}>
                                             <Button icon={<UploadOutlined />} className="mt-2">
-                                                {idFace ? idFace.file.name : 'تحميل'}
+                                                تحميل
                                             </Button>
                                         </Upload>
                                     )}
@@ -363,44 +163,14 @@ const AddNewUser = () => {
                         </div>
                         <div>
                             <label className="text-[#4E4E4E]">ظهر البطاقة</label>
-                            <Form.Item
-                                validateStatus={
-                                    errors.idBack ||
-                                        (inputErrors.idBack && inputErrors.idBack.length > 0)
-                                        ? 'error'
-                                        : ''
-                                }
-                                help={
-                                    // Combine errors if both exist
-                                    (errors.idBack || inputErrors.idBack) && (
-                                        <div>
-                                            {errors.idBack?.message && (
-                                                <div>{errors.idBack.message}</div>
-                                            )}
-                                            {inputErrors.idBack && (
-                                                <div>
-                                                    {inputErrors.idBack.map((error, index) => (
-                                                        <div key={index}>{error}</div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )
-                                }
-                            >
-                                {' '}
+                            <Form.Item validateStatus={errors.idBack ? 'error' : ''} help={errors.idBack?.message}>
                                 <Controller
                                     name="idBack"
                                     control={control}
                                     render={({ field }) => (
-                                        <Upload
-                                            {...field}
-                                            defaultValue={trainee.idBack}
-                                            showUploadList={false}
-                                            beforeUpload={() => false} // Prevent auto upload
-                                        >
+                                        <Upload {...field} showUploadList={false} beforeUpload={() => false}>
                                             <Button icon={<UploadOutlined />} className="mt-2">
-                                                {idBack ? idBack.file.name : 'تحميل'}
+                                                تحميل
                                             </Button>
                                         </Upload>
                                     )}
@@ -408,9 +178,9 @@ const AddNewUser = () => {
                             </Form.Item>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                <div className="bg-[#F9F9F9] rounded-lg py-4 mt-6">
+                {/* <div className="bg-[#F9F9F9] rounded-lg py-4 mt-6">
                     <h3 className="text-xl border-b border-b-[#e1e1e1] pb-3">
                         <span className="pr-8">بيانات الاشتراك</span>
                     </h3>
@@ -777,9 +547,10 @@ const AddNewUser = () => {
                             </Form.Item>
                         </div>
                     </div>
-                </div>
+                </div>       */}
 
-                <div className="bg-[#F9F9F9] rounded-lg py-4 mt-6 mb-6">
+
+                {/* <div className="bg-[#F9F9F9] rounded-lg py-4 mt-6 mb-6">
                     <h3 className="text-xl border-b border-b-[#e1e1e1] pb-3">
                         <span className="pr-8">معلومات اخري</span>
                     </h3>
@@ -808,9 +579,6 @@ const AddNewUser = () => {
                                         style={{ width: '100%' }}
                                     >
                                         <Row>
-                                            {/* <Col span={2}>
-                        <Checkbox value="A">لا يوجد</Checkbox>
-                      </Col> */}
                                             <Col span={2}>
                                                 <Checkbox value="سكر">سكر</Checkbox>
                                             </Col>
@@ -823,9 +591,6 @@ const AddNewUser = () => {
                                             <Col span={3}>
                                                 <Checkbox value="خشونه مفاصل">خشونه مفاصل</Checkbox>
                                             </Col>
-                                            {/* <Col span={2}>
-                        <Checkbox value="k">اخري</Checkbox>
-                      </Col> */}
                                         </Row>
                                     </Checkbox.Group>
                                 )}
@@ -849,8 +614,9 @@ const AddNewUser = () => {
                             />
                         </Form.Item>
                     </div>
-                </div>
-                {error && (
+                </div> */}
+
+                {/* {error && (
                     <p className="text-center text-red-500 text-sm mb-3">{error}</p>
                 )}
                 <button
@@ -858,7 +624,9 @@ const AddNewUser = () => {
                     className="mx-auto text-lg flex justify-center bg-[#d9ed4d] text-center rounded-lg w-1/4 py-2 mb-4"
                 >
                     {loading ? 'جاري التحميل...' : 'حفظ'}
-                </button>
+                </button> */}
+
+                <Button type="primary" htmlType="submit">Submit</Button>
             </div>
         </form>
     );
