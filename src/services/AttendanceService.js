@@ -42,16 +42,15 @@ class AttendanceService {
     return response.data;
   }
 
-  static async delete(id) {
-    const response = await fetch(`/api/v1/attendance/${id}`, {
-      method: 'DELETE',
-    });
-    if (!response.ok) {
-      throw new Error('Failed to delete attendance');
-    }
-    return response.json();
-  }
+  async delete(id) {
+    const response = await PrivateAxios.delete(`/api/v1/attendance/${id}`);
 
+    // if (!response.ok) {
+    //   throw new Error('Failed to delete attendance');
+    // }
+
+    return response.data;
+  }
 }
 
 const attendanceService = new AttendanceService();
