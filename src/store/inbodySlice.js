@@ -5,7 +5,6 @@ const initialState = {
   inbodies: [],
   loading: false,
   error: null,
-  inputErrors: {},
 };
 
 export const fetchInbodies = createAsyncThunk(

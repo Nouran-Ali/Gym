@@ -5,7 +5,7 @@ import { getFormattedDate } from '../utils/date';
 const initialState = {
   todayAttendance: [],
   attendance: {},
-  filteredAttendance: { male: [], female: [] }, // Added to store filtered data
+  filteredAttendance: { male: [], female: [] },
   loading: false,
   error: null,
   inputErrors: {},
@@ -16,6 +16,18 @@ export const fetchAttendances = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await AttendanceService.getAll();
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const fetchAttendancesById = createAsyncThunk(
+  'attendance/fetchAttendancesById',
+  async (id, thunkAPI) => {
+    try {
+      const response = await AttendanceService.getById(id);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -84,11 +96,27 @@ const attendanceSlice = createSlice({
         state.loading = false;
         state.error = action.payload.message;
       })
+
+      .addCase(fetchAttendancesById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAttendancesById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.attendance = action.payload;
+      })
+      .addCase(fetchAttendancesById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      })
+
+      
       .addCase(createAttendance.pending, (state) => {
         state.loading = true;
         state.error = null;
         state.inputErrors = {};
       })
+
       .addCase(createAttendance.fulfilled, (state, action) => {
         state.loading = false;
         state.todayAttendance = [action.payload, ...state.todayAttendance];

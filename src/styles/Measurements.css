@@ -1,4 +1,9 @@
-.Measurements :where(.css-dev-only-do-not-override-m4timi).ant-collapse{
+.Measurements .ant-collapse{
     border: 0px;
     background-color: white;
+}
+
+.Measurements .ant-collapse>.ant-collapse-item >.ant-collapse-header .ant-collapse-header-text {
+    font-size: 20px;
+    font-weight: 500;
 }

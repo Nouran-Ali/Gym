@@ -12,42 +12,33 @@ import { SubscriptionStatusMap } from '../types';
 
 const Overview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [parcode, setParcode] = useState('');
+
+  const dispatch = useDispatch();
+  const { todayAttendance, error } = useSelector((state) => state.attendance);
+  const { trainees } = useSelector((state) => state.trainee);
+
+  useEffect(() => {
+    dispatch(fetchTrainees());
+    dispatch(fetchAttendances());
+  }, [dispatch]);
+
+  const handleCreateAttendance = async (e) => {
+    e.preventDefault();
+    dispatch(createAttendance(parcode));
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
   };
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  const { todayAttendance } = useSelector((state) => state.attendance);
-  const dispatch = useDispatch();
-
-  const { trainees } = useSelector((state) => state.trainee);
-
-  const [parcode, setParcode] = useState('');
-
-  const handleCreateAttendance = async (e) => {
-    e.preventDefault();
-    // try {
-    //     await dispatch(createAttendance(parcode)).unwrap();
-    //     message.success('Attendance created successfully');
-    // } catch (error) {
-    //     message.error('Failed to create attendance');
-    // }
-    dispatch(createAttendance(parcode));
-  };
-
-  useEffect(() => {
-    dispatch(fetchTrainees());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchAttendances());
-  }, [dispatch]);
 
   return (
     <div className="Overview">
