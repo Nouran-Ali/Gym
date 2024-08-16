@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createAttendance, fetchAttendances } from '../store/attendanceSlice';
 import { fetchTrainees } from '../store/traineeSlice';
+import { SubscriptionStatusMap } from '../types';
 
 const Overview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -156,7 +157,7 @@ const Overview = () => {
                     key={index}
                     name={atend?.trainee?.fullName}
                     status={
-                      atend?.trainee?.subscriptionStatus ? 'نشط' : 'غير نشط'
+                      SubscriptionStatusMap[atend?.trainee?.subscriptionStatus]
                     }
                     color={
                       atend?.trainee?.subscriptionStatus === 'ACTIVE'
@@ -164,7 +165,7 @@ const Overview = () => {
                         : false
                     }
                     time_attend={formattedTime}
-                    days={days}
+                    days={atend?.trainee?.remainingClasses}
                   />
                 );
               });

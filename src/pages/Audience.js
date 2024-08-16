@@ -25,13 +25,14 @@ const Audience = () => {
     );
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await dispatch(deleteAttendance(id)).unwrap();
-      message.success('Attendance deleted successfully');
-    } catch (error) {
-      message.error('Failed to delete attendance');
-    }
+  const handleDelete = (id) => {
+      console.log("🚀 ~ handleDelete ~ id:", id)
+      dispatch(deleteAttendance(id))
+    // try {
+    //   message.success('Attendance deleted successfully');
+    // } catch (error) {
+    //   message.error('Failed to delete attendance');
+    // }
   };
   const handleChange = (value) => {
     setSelectedGender(value);
@@ -92,7 +93,7 @@ const Audience = () => {
           </Link>
           <div
             className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full cursor-pointer"
-            onClick={() => handleDelete(item.traineeId)}
+            onClick={() => handleDelete(item.id)}
           >
             <DeleteFilled />
           </div>

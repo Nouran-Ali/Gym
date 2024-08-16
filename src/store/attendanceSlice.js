@@ -139,7 +139,7 @@ const attendanceSlice = createSlice({
       })
       .addCase(deleteAttendance.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload.message;
+        state.error = action.payload?.message;
       });
   },
 });
