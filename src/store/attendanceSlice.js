@@ -73,27 +73,36 @@ const attendanceSlice = createSlice({
       })
       .addCase(fetchAttendances.fulfilled, (state, action) => {
         state.loading = false;
-        state.attendance = action.payload;
 
+        // Reverse the order of dates (most recent date first)
+        const sortedAttendance = Object.keys(action.payload)
+          .sort((a, b) => new Date(b) - new Date(a))
+          .reduce((acc, date) => {
+            acc[date] = action.payload[date];
+            return acc;
+          }, {});
+
+        state.attendance = sortedAttendance;
+        
+        console.log("Full Attendance Data:", sortedAttendance);
         // Filter and group by date
         const today = getFormattedDate();
-        state.todayAttendance = action.payload[today] || [];
+        state.todayAttendance = sortedAttendance[today] || [];
 
         // Filter attendance by gender
         const filteredAttendance = { male: [], female: [] };
-        Object.values(action.payload)
+        Object.values(sortedAttendance)
           .flat()
           .forEach((attendance) => {
-            if (attendance.trainee.gender === 'MALE') {
+            if (attendance.trainee.gender == 'MALE') {
               filteredAttendance.male.push(attendance);
-            } else if (attendance.trainee.gender === 'FEMALE') {
+            } else if (attendance.trainee.gender == 'FEMALE') {
               filteredAttendance.female.push(attendance);
             }
           });
-          state.filteredAttendance = filteredAttendance;
-          console.log(state.filteredAttendance)
-        // state.filteredAttendance.male = filteredAttendance.male.reverse();
-        // state.filteredAttendance.female = filteredAttendance.female.reverse();
+
+        state.filteredAttendance = filteredAttendance;
+        console.log(state.filteredAttendance);
       })
       .addCase(fetchAttendances.rejected, (state, action) => {
         state.loading = false;
@@ -113,7 +122,7 @@ const attendanceSlice = createSlice({
         state.error = action.payload.message;
       })
 
-      
+
       .addCase(createAttendance.pending, (state) => {
         state.loading = true;
         state.error = null;
