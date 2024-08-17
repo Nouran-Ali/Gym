@@ -101,9 +101,6 @@ const Members = () => {
           <Link to={`/dashboard/UpdateTrainee/${item.id}`} className="bg-[#58d24136] text-[#58D241] p-1 px-2 rounded-full ml-2">
             <EditFilled />
           </Link>
-          <button className="bg-[#e47e7b42] text-[#E47E7B] p-1 px-2 rounded-full" onClick={() => handleDelete(item.id)}>
-            <DeleteFilled />
-          </button>
         </div>
       ),
     },
