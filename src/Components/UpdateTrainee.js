@@ -25,6 +25,10 @@ const UpdateTrainee = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+      console.log(errors)
+    }, [errors])
+    
+    useEffect(() => {
         dispatch(fetchTrainees());
     }, [dispatch]);
 
@@ -78,17 +82,15 @@ const UpdateTrainee = () => {
         }
     }, [trainee, setValue]);
 
-    const onSubmit = async (data) => {
-        try {
-            const updatedData = {
-                ...trainee,
-                ...data,
-            };
-            await dispatch(updateTrainee(updatedData)).unwrap();
-            navigate('/dashboard/members');
-        } catch (error) {
-            console.error('Failed to save trainee:', error);
-        }
+    const onSubmit = (data) => {
+        dispatch(updateTrainee({id : trainee.id , data}));
+        // try {
+        //     // console.log(data)
+        //     dispatch(updateTrainee(data));
+        //     // navigate('/dashboard/members');
+        // } catch (error) {
+        //     console.error('Failed to save trainee:', error);
+        // }
     };
 
 

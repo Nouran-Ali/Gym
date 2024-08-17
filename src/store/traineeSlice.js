@@ -36,6 +36,7 @@ export const updateTrainee = createAsyncThunk(
   'trainees/updateTrainee',
   async (userData, thunkAPI) => {
     try {
+      console.log(userData)
       const response = await TraineeService.updateTrainee(userData);
       return response.data.data;
     } catch (error) {
@@ -101,7 +102,7 @@ const traineeSlice = createSlice({
       })
       .addCase(updateTrainee.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload.message;
+        state.error = action.payload?.message;
       })
       .addCase(deleteTrainee.pending, (state) => {
         state.loading = true;

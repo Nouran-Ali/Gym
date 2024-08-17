@@ -43,7 +43,7 @@ export const CreateTraineeSchema = Yup.object().shape({
   trainingName: Yup.string().nullable(),
   offerName: Yup.string().nullable(),
   medicalProblem: Yup.string().nullable(),
-  surgeries: Yup.string().nullable(),
+  surgeries: Yup.boolean().nullable(),
   goal: Yup.string().nullable(),
   sundayNote: Yup.string().nullable(),
   mondayNote: Yup.string().nullable(),
@@ -60,26 +60,17 @@ export const UpdateTraineeSchema = Yup.object().shape({
   phoneNumber: Yup.string().required('Phone number is required'),
   fullName: Yup.string().nullable(),
   gender: Yup.mixed().oneOf(Object.values(Gender)).nullable(),
-  dob: Yup.string()
-    .nullable()
-    .test(
-      'is-date-format',
-      'Invalid date format. Date must be in YYYY-MM-DD format',
-      isDateFormat
-    ),
+  dob: Yup.string().required('Date of birth is required'),
   subscriptionType: Yup.mixed()
     .oneOf(Object.values(SubscriptionType))
     .nullable(),
   subscriptionStatus: Yup.mixed()
     .oneOf(Object.values(SubscriptionStatus))
     .nullable(),
-  subscriptionStartDate: Yup.string()
-    .nullable()
-    .test(
-      'is-date-format',
-      'Invalid date format. Date must be in YYYY-MM-DD format',
-      isDateFormat
-    ),
+    subscriptionStartDate: Yup.string()
+    .required('Subscription start date is required'),
+    subscriptionDate: Yup.string()
+    .required('subscription date is required'),
   subscriptionMonths: Yup.number()
     .integer('Subscription months must be an integer')
     .nullable(),
@@ -94,7 +85,7 @@ export const UpdateTraineeSchema = Yup.object().shape({
   trainingName: Yup.string().nullable(),
   offerName: Yup.string().nullable(),
   medicalProblem: Yup.string().nullable(),
-  surgeries: Yup.string().nullable(),
+  surgeries: Yup.boolean().nullable(),
   goal: Yup.string().nullable(),
   sundayNote: Yup.string().nullable(),
   mondayNote: Yup.string().nullable(),
