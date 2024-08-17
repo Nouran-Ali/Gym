@@ -61,7 +61,7 @@ const Members = () => {
       key: 'phoneNumber',
     },
     {
-      title: 'اسم الاشتراك',
+      title: 'اسم التدريب',
       dataIndex: 'trainingName',
       key: 'trainingName',
     },

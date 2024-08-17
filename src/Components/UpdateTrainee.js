@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getFormattedDate } from '../utils/date';
+import moment from 'moment';
 
 const UpdateTrainee = () => {
     const { control, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -50,7 +51,9 @@ const UpdateTrainee = () => {
             setValue('fullName', trainee.fullName);
             setValue('phoneNumber', trainee.phoneNumber);
             setValue('gender', trainee.gender);
-            setValue('dob', new Date(trainee.dob));
+            setValue('dob', trainee.dob ? moment(trainee.dob) : null);
+            setValue('subscriptionDate', trainee.subscriptionDate ? moment(trainee.subscriptionDate) : null);
+            setValue('subscriptionStartDate', trainee.subscriptionStartDate ? moment(trainee.subscriptionStartDate) : null);
             setValue('subscriptionType', trainee.subscriptionType);
             setValue('idFace', trainee.idFace);
             setValue('idBack', trainee.idBack);
@@ -65,6 +68,8 @@ const UpdateTrainee = () => {
             setValue('offerName', trainee.offerName);
             setValue('goal', trainee.goal);
             setValue('surgeries', trainee.surgeries);
+
+            console.log(trainee.surgeries)
 
             if (trainee.medicalProblem) {
                 setSelectedValues(trainee.medicalProblem);
@@ -228,20 +233,10 @@ const UpdateTrainee = () => {
                     </h3>
                     <div className="grid grid-cols-3 max-xl:grid-cols-1 gap-6 px-8 pt-4">
                         <div>
-                            {/* <label className="text-[#4E4E4E]"> تاريخ الاشتراك </label>
+                            <label className="text-[#4E4E4E]"> تاريخ الاشتراك </label>
                             <Form.Item
                                 validateStatus={
                                     errors.subscriptionDate ? 'error' : ''
-                                }
-                                help={
-                                    // Combine errors if both exist
-                                    (errors.subscriptionDate) && (
-                                        <div>
-                                            {errors.subscriptionDate?.message && (
-                                                <div>{errors.subscriptionDate.message}</div>
-                                            )}
-                                        </div>
-                                    )
                                 }
                             >
                                 <Controller
@@ -251,7 +246,7 @@ const UpdateTrainee = () => {
                                         <DatePicker {...field} className="mt-2" />
                                     )}
                                 />
-                            </Form.Item> */}
+                            </Form.Item>
                         </div>
                         <div>
                             <label className="text-[#4E4E4E]"> اسم التدريب</label>
@@ -461,23 +456,12 @@ const UpdateTrainee = () => {
                                 </Form.Item>
                             </div>
                             <div>
-                                {/* <label className="text-[#4E4E4E]">تاريخ البدء</label>
+                                <label className="text-[#4E4E4E]">تاريخ البدء</label>
                                 <Form.Item
                                     validateStatus={
                                         errors.subscriptionStartDate
                                             ? 'error'
                                             : ''
-                                    }
-                                    help={
-                                        // Combine errors if both exist
-                                        (errors.subscriptionStartDate) && (
-                                            <div>
-                                                {errors.subscriptionStartDate?.message && (
-                                                    <div>{errors.subscriptionStartDate.message}</div>
-                                                )}
-
-                                            </div>
-                                        )
                                     }
                                 >
                                     <Controller
@@ -487,7 +471,7 @@ const UpdateTrainee = () => {
                                             <DatePicker {...field} className="mt-2" />
                                         )}
                                     />
-                                </Form.Item> */}
+                                </Form.Item>
                             </div>
                         </div>
                         <div>
