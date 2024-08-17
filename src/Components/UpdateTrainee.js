@@ -9,6 +9,7 @@ import { updateTrainee, fetchTrainees } from '../store/traineeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getFormattedDate } from '../utils/date';
 
 const UpdateTrainee = () => {
     const { control, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -49,6 +50,7 @@ const UpdateTrainee = () => {
             setValue('fullName', trainee.fullName);
             setValue('phoneNumber', trainee.phoneNumber);
             setValue('gender', trainee.gender);
+            setValue('dob', new Date(trainee.dob));
             setValue('subscriptionType', trainee.subscriptionType);
             setValue('idFace', trainee.idFace);
             setValue('idBack', trainee.idBack);
@@ -75,7 +77,7 @@ const UpdateTrainee = () => {
         try {
             const updatedData = {
                 ...trainee,
-                ...data,  // Spread the updated form data
+                ...data,
             };
             await dispatch(updateTrainee(updatedData)).unwrap();
             navigate('/dashboard/members');
@@ -174,7 +176,7 @@ const UpdateTrainee = () => {
                             </Form.Item>
                         </div>
                         <div>
-                            {/* <label className="text-[#4E4E4E]">تاريخ الميلاد</label>
+                            <label className="text-[#4E4E4E]">تاريخ الميلاد</label>
                             <Form.Item validateStatus={errors.dob ? 'error' : ''} help={errors.dob?.message}>
                                 <Controller
                                     name="dob"
@@ -183,7 +185,7 @@ const UpdateTrainee = () => {
                                         <DatePicker {...field} className="mt-2" />
                                     )}
                                 />
-                            </Form.Item> */}
+                            </Form.Item>
                         </div>
                         <div>
                             <label className="text-[#4E4E4E]">وجه البطاقة</label>

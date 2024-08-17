@@ -53,6 +53,7 @@ export const deleteAttendance = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       await AttendanceService.delete(id);
+      thunkAPI.dispatch(fetchAttendances());
       return id;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -89,8 +90,10 @@ const attendanceSlice = createSlice({
               filteredAttendance.female.push(attendance);
             }
           });
-
-        state.filteredAttendance = filteredAttendance;
+          state.filteredAttendance = filteredAttendance;
+          console.log(state.filteredAttendance)
+        // state.filteredAttendance.male = filteredAttendance.male.reverse();
+        // state.filteredAttendance.female = filteredAttendance.female.reverse();
       })
       .addCase(fetchAttendances.rejected, (state, action) => {
         state.loading = false;

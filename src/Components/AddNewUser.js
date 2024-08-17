@@ -30,8 +30,10 @@ const AddNewUser = () => {
     }
   };
 
-  const { idFace, idBack } = watch();
+  const { idFace, idBack , dob } = watch();
 
+  console.log(dob)
+  
   useEffect(() => {
     console.log(errors);
   }, [errors]);
