@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Radio, Select, Checkbox, Col, Row, Form, InputNumber, DatePicker, Upload, Button, } from 'antd';
+import {
+  Input,
+  Radio,
+  Select,
+  Checkbox,
+  Col,
+  Row,
+  Form,
+  InputNumber,
+  DatePicker,
+  Upload,
+  Button,
+} from 'antd';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import '../styles/AddNewUser.css';
-import { SubscriptionStatus, SubscriptionStatusMap, SubscriptionType, } from '../types';
+import {
+  SubscriptionStatus,
+  SubscriptionStatusMap,
+  SubscriptionType,
+} from '../types';
 import { CreateTraineeSchema } from '../validations/traineeSchema';
 import { createNewTrainee } from '../store/traineeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { formatToString, parseToDayjs } from '../utils/date';
 
 const AddNewUser = () => {
   const { error, inputErrors, loading } = useSelector((state) => state.trainee);
@@ -17,8 +34,15 @@ const AddNewUser = () => {
   const navigate = useNavigate();
   const [selectedValues, setSelectedValues] = useState([]);
 
-  const { control, handleSubmit, watch, setValue, formState: { errors }, } = useForm({
-    defaultValues: { medicalProblem: '', }, resolver: yupResolver(CreateTraineeSchema),
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: { medicalProblem: '' },
+    resolver: yupResolver(CreateTraineeSchema),
   });
 
   const onSubmit = async (data) => {
@@ -30,13 +54,7 @@ const AddNewUser = () => {
     }
   };
 
-  const { idFace, idBack , dob } = watch();
-
-  console.log(dob)
-  
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
+  const { idFace, idBack } = watch();
 
   const handleCheckboxChange = (checkedValues) => {
     setSelectedValues(checkedValues);
@@ -55,8 +73,8 @@ const AddNewUser = () => {
             <Form.Item
               validateStatus={
                 errors.subscriptionType ||
-                  (inputErrors.subscriptionType &&
-                    inputErrors.subscriptionType.length > 0)
+                (inputErrors.subscriptionType &&
+                  inputErrors.subscriptionType.length > 0)
                   ? 'error'
                   : ''
               }
@@ -105,7 +123,7 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.parcode ||
-                    (inputErrors.parcode && inputErrors.parcode.length > 0)
+                  (inputErrors.parcode && inputErrors.parcode.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -139,7 +157,7 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.fullName ||
-                    (inputErrors.fullName && inputErrors.fullName.length > 0)
+                  (inputErrors.fullName && inputErrors.fullName.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -173,8 +191,8 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.phoneNumber ||
-                    (inputErrors.phoneNumber &&
-                      inputErrors.phoneNumber.length > 0)
+                  (inputErrors.phoneNumber &&
+                    inputErrors.phoneNumber.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -233,7 +251,7 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.gender ||
-                    (inputErrors.gender && inputErrors.gender.length > 0)
+                  (inputErrors.gender && inputErrors.gender.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -300,7 +318,13 @@ const AddNewUser = () => {
                   name="dob"
                   control={control}
                   render={({ field }) => (
-                    <DatePicker {...field} className="mt-2" />
+                    <DatePicker
+                      {...field}
+                      className="mt-2"
+                      format="YYYY-MM-DD"
+                      value={parseToDayjs(field.value)}
+                      onChange={(date) => field.onChange(formatToString(date))}
+                    />
                   )}
                 />
               </Form.Item>
@@ -311,7 +335,7 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.idFace ||
-                    (inputErrors.idFace && inputErrors.idFace.length > 0)
+                  (inputErrors.idFace && inputErrors.idFace.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -355,7 +379,7 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.idBack ||
-                    (inputErrors.idBack && inputErrors.idBack.length > 0)
+                  (inputErrors.idBack && inputErrors.idBack.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -408,8 +432,8 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.subscriptionDate ||
-                    (inputErrors.subscriptionDate &&
-                      inputErrors.subscriptionDate.length > 0)
+                  (inputErrors.subscriptionDate &&
+                    inputErrors.subscriptionDate.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -435,7 +459,13 @@ const AddNewUser = () => {
                   name="subscriptionDate"
                   control={control}
                   render={({ field }) => (
-                    <DatePicker {...field} className="mt-2" />
+                    <DatePicker
+                      {...field}
+                      className="mt-2"
+                      format="YYYY-MM-DD"
+                      value={parseToDayjs(field.value)}
+                      onChange={(date) => field.onChange(formatToString(date))}
+                    />
                   )}
                 />
               </Form.Item>
@@ -445,8 +475,8 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.trainingName ||
-                    (inputErrors.trainingName &&
-                      inputErrors.trainingName.length > 0)
+                  (inputErrors.trainingName &&
+                    inputErrors.trainingName.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -491,7 +521,7 @@ const AddNewUser = () => {
                 <Form.Item
                   validateStatus={
                     errors.paid ||
-                      (inputErrors.paid && inputErrors.paid.length > 0)
+                    (inputErrors.paid && inputErrors.paid.length > 0)
                       ? 'error'
                       : ''
                   }
@@ -527,7 +557,7 @@ const AddNewUser = () => {
                 <Form.Item
                   validateStatus={
                     errors.reminder ||
-                      (inputErrors.reminder && inputErrors.reminder.length > 0)
+                    (inputErrors.reminder && inputErrors.reminder.length > 0)
                       ? 'error'
                       : ''
                   }
@@ -564,8 +594,8 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.subscriptionStatus ||
-                    (inputErrors.subscriptionStatus &&
-                      inputErrors.subscriptionStatus.length > 0)
+                  (inputErrors.subscriptionStatus &&
+                    inputErrors.subscriptionStatus.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -619,8 +649,8 @@ const AddNewUser = () => {
               <Form.Item
                 validateStatus={
                   errors.subscriptionMonths ||
-                    (inputErrors.subscriptionMonths &&
-                      inputErrors.subscriptionMonths.length > 0)
+                  (inputErrors.subscriptionMonths &&
+                    inputErrors.subscriptionMonths.length > 0)
                     ? 'error'
                     : ''
                 }
@@ -668,8 +698,8 @@ const AddNewUser = () => {
                 <Form.Item
                   validateStatus={
                     errors.subscriptionClasses ||
-                      (inputErrors.subscriptionClasses &&
-                        inputErrors.subscriptionClasses.length > 0)
+                    (inputErrors.subscriptionClasses &&
+                      inputErrors.subscriptionClasses.length > 0)
                       ? 'error'
                       : ''
                   }
@@ -708,8 +738,8 @@ const AddNewUser = () => {
                 <Form.Item
                   validateStatus={
                     errors.subscriptionStartDate ||
-                      (inputErrors.subscriptionStartDate &&
-                        inputErrors.subscriptionStartDate.length > 0)
+                    (inputErrors.subscriptionStartDate &&
+                      inputErrors.subscriptionStartDate.length > 0)
                       ? 'error'
                       : ''
                   }
@@ -738,7 +768,15 @@ const AddNewUser = () => {
                     name="subscriptionStartDate"
                     control={control}
                     render={({ field }) => (
-                      <DatePicker {...field} className="mt-2" />
+                      <DatePicker
+                        {...field}
+                        className="mt-2"
+                        format="YYYY-MM-DD"
+                        value={parseToDayjs(field.value)}
+                        onChange={(date) =>
+                          field.onChange(formatToString(date))
+                        }
+                      />
                     )}
                   />
                 </Form.Item>

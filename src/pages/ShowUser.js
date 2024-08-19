@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tabs } from 'antd';
 import ShowInfo from '../Components/showUser/ShowInfo';
 import Measurements from '../Components/showUser/Measurements';
 import Attendance from '../Components/showUser/Attendance';
 import Notes from '../Components/showUser/Notes';
+import { useDispatch } from 'react-redux';
+import { fetchTraineeById } from '../store/traineeSlice';
+import { useParams } from 'react-router-dom';
 
 const onChange = (key) => {
   console.log(key);
@@ -21,7 +24,7 @@ const items = [
   },
   {
     key: '3',
-    label: "الحضور",
+    label: 'الحضور',
     children: <Attendance />,
   },
   {
@@ -32,6 +35,13 @@ const items = [
 ];
 
 const ShowUser = () => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(fetchTraineeById(id));
+  }, [id, dispatch]);
+
   return (
     <Tabs
       className="user-details overflow-scroll relative h-95"

@@ -3,6 +3,7 @@ import TraineeService from '../services/TraineeService';
 
 const initialState = {
   trainees: [],
+  trainee: null,
   loading: false,
   error: null,
   inputErrors: {},
@@ -13,6 +14,18 @@ export const fetchTrainees = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await TraineeService.getAll();
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const fetchTraineeById = createAsyncThunk(
+  'trainees/fetchTraineeById',
+  async (id, thunkAPI) => {
+    try {
+      const response = await TraineeService.getById(id);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -36,10 +49,11 @@ export const updateTrainee = createAsyncThunk(
   'trainees/updateTrainee',
   async (userData, thunkAPI) => {
     try {
-      console.log(userData)
       const response = await TraineeService.updateTrainee(userData);
-      return response.data.data;
+      thunkAPI.dispatch(fetchTrainees());
+      return response.data;
     } catch (error) {
+      // console.log(error)
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -75,6 +89,21 @@ const traineeSlice = createSlice({
         state.loading = false;
         state.error = action.payload.message;
       })
+
+      .addCase(fetchTraineeById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTraineeById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.trainee = action.payload;
+        console.log("🚀 ~ .addCase ~ action.payload:", action.payload)
+      })
+      .addCase(fetchTraineeById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      })
+
       .addCase(createNewTrainee.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -95,10 +124,6 @@ const traineeSlice = createSlice({
       })
       .addCase(updateTrainee.fulfilled, (state, action) => {
         state.loading = false;
-        const index = state.trainees.findIndex(trainee => trainee.id === action.payload.id);
-        if (index !== -1) {
-          state.trainees[index] = action.payload;
-        }
       })
       .addCase(updateTrainee.rejected, (state, action) => {
         state.loading = false;
@@ -109,7 +134,9 @@ const traineeSlice = createSlice({
       })
       .addCase(deleteTrainee.fulfilled, (state, action) => {
         state.loading = false;
-        state.trainees = state.trainees.filter((trainee) => trainee.id !== action.payload);
+        state.trainees = state.trainees.filter(
+          (trainee) => trainee.id !== action.payload
+        );
       })
       .addCase(deleteTrainee.rejected, (state, action) => {
         state.loading = false;

@@ -23,78 +23,67 @@ const calculateAge = (dob) => {
 };
 
 const ShowInfo = () => {
-  const { trainees } = useSelector((state) => state.trainee);
-  const dispatch = useDispatch();
-  const { id } = useParams();
+  const { trainee } = useSelector((state) => state.trainee);
 
-  useEffect(() => {
-    dispatch(fetchTrainees());
-  }, [dispatch]);
-
-  const traine = useMemo(
-    () => trainees.find((p) => p.id === parseInt(id)),
-    [trainees, id]
-  );
-
-  if (!traine) {
+  if (!trainee) {
     return <p>Loading...</p>;
   }
 
   const personalInfo = [
-    { name: 'رقم ID', value: traine.id },
-    { name: 'اسم المشترك', value: traine.fullName },
-    { name: 'رقم الواتس', value: traine.phoneNumber },
+    { name: 'رقم ID', value: trainee.id },
+    { name: 'اسم المشترك', value: trainee.fullName },
+    { name: 'رقم الواتس', value: trainee.phoneNumber },
 // <<<<<<< HEAD
-//     { name: 'العمر', value: calculateAge(traine.dob) },
-//     { name: 'النوع', value: traine.gender == 'FEMALE' ? 'أنثي' : 'ذكر' },
+//     { name: 'العمر', value: calculateAge(trainee.dob) },
+//     { name: 'النوع', value: trainee.gender == 'FEMALE' ? 'أنثي' : 'ذكر' },
 // =======
-    { name: 'العمر', value: calcAgeFromDate(traine.dob) },
-    { name: 'النوع', value: traine.gender === 'FEMALE' ? 'أنثي' : 'ذكر' },
-    { name: 'تاريخ الميلاد', value: getFormattedDate(new Date(traine.dob)) },
+    { name: 'العمر', value: calcAgeFromDate(trainee.dob) },
+    { name: 'النوع', value: trainee.gender === 'FEMALE' ? 'أنثي' : 'ذكر' },
+    { name: 'تاريخ الميلاد', value: getFormattedDate(new Date(trainee.dob)) },
   ];
 
   const subscriptionInfo = [
     {
       name: 'نوع الاشتراك',
-      value: traine.subscriptionType === 'NOT_PRIVATE' ? 'عام' : 'خاص',
+      value: trainee.subscriptionType === 'NOT_PRIVATE' ? 'عام' : 'خاص',
     },
     {
       name: 'تاريخ الاشتراك',
-      value: getFormattedDate(new Date(traine.subscriptionDate)),
+      value: getFormattedDate(new Date(trainee.subscriptionDate)),
     },
-    { name: 'اسم التدريب', value: traine.trainingName },
-    { name: 'مدة الاشتراك', value: `${traine.subscriptionMonths} شهر` },
+    { name: 'اسم التدريب', value: trainee.trainingName },
+    { name: 'مدة الاشتراك', value: `${trainee.subscriptionMonths} شهر` },
     {
       name: 'تاريخ البدء',
-      value: getFormattedDate(new Date(traine.subscriptionStartDate)),
+      value: getFormattedDate(new Date(trainee.subscriptionStartDate)),
     },
     {
       name: 'تاريخ الانتهاء',
-      value: getFormattedDate(new Date(traine.subscriptionEndDate)),
+      value: getFormattedDate(new Date(trainee.subscriptionEndDate)),
       valueClass: 'text-red-300',
       name2: <SubscriptionRenewal />,
     },
     {
       name: 'حالة المشترك',
-      value: traine.subscriptionStatus === 'ACTIVE' ? 'نشط' : 'غير نشط',
+      value: trainee.subscriptionStatus === 'ACTIVE' ? 'نشط' : 'غير نشط',
       valueClass:
-        traine.subscriptionStatus === 'ACTIVE'
+        trainee.subscriptionStatus === 'ACTIVE'
           ? 'text-green-400'
           : 'text-red-400',
     },
-    { name: 'المدفوع', value: traine.paid },
-    { name: 'المتبقي', value: traine.reminder },
-    { name: 'اسم العرض', value: traine.offerName || 'لا يوجد عرض' },
+    { name: 'المدفوع', value: trainee.paid },
+    { name: 'المتبقي', value: trainee.reminder },
+    { name: 'اسم العرض', value: trainee.offerName || 'لا يوجد عرض' },
   ];
 
   const otherInfo = [
-    { name: 'الهدف من التدريب', value: traine.goal },
+    { name: 'الهدف من التدريب', value: trainee.goal },
     {
       name: 'هل اجريت عمليات جراحية خلال سنة',
-      value: traine.surgeries === 'false' ? 'لا' : 'نعم',
+      value: trainee.surgeries === 'false' ? 'لا' : 'نعم',
     },
-    { name: 'هل يوجد مشاكل صحية', value: traine.medicalProblem || 'لا يوجد' },
-    { name: 'النظام الغذائي', value: <ShowFile src={traine.dietPlan} /> },
+    { name: 'هل يوجد مشاكل صحية', value: trainee.medicalProblem || 'لا يوجد' },
+    { name: 'النظام الغذائي', value: <ShowFile src={trainee.dietPlan} /> },
   ];
 
   return (

@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export function getFormattedDate(date = new Date()) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
@@ -23,3 +25,13 @@ export function calcAgeFromDate(birthDate) {
 
   return age;
 }
+
+
+export const parseToDayjs = (dateString) => {
+  return dateString ? dayjs(dateString, 'YYYY-MM-DD') : null;
+};
+
+// Utility function to convert dayjs object to string
+export const formatToString = (date) => {
+  return date ? date.format('YYYY-MM-DD') : '';
+};

@@ -64,29 +64,29 @@ export const UpdateTraineeSchema = Yup.object().shape({
   subscriptionType: Yup.mixed()
     .oneOf(Object.values(SubscriptionType))
     .nullable(),
-  subscriptionStatus: Yup.mixed()
-    .oneOf(Object.values(SubscriptionStatus))
-    .nullable(),
-    subscriptionStartDate: Yup.string()
-    .required('Subscription start date is required'),
-    subscriptionDate: Yup.string()
-    .required('subscription date is required'),
-  subscriptionMonths: Yup.number()
-    .integer('Subscription months must be an integer')
-    .nullable(),
-  subscriptionClasses: Yup.number()
-    .integer('Subscription classes must be an integer')
-    .nullable(),
-  remainingClasses: Yup.number()
-    .integer('Remaining classes must be an integer')
-    .nullable(),
-  paid: Yup.number().integer('Paid must be an integer').nullable(),
-  reminder: Yup.number().integer('Reminder must be an integer').nullable(),
-  trainingName: Yup.string().nullable(),
-  offerName: Yup.string().nullable(),
+  // subscriptionStatus: Yup.mixed()
+  //   .oneOf(Object.values(SubscriptionStatus))
+  //   .nullable(),
+  //   subscriptionStartDate: Yup.string()
+  //   .required('Subscription start date is required'),
+  //   subscriptionDate: Yup.string()
+  //   .required('subscription date is required'),
+  // subscriptionMonths: Yup.number()
+  //   .integer('Subscription months must be an integer')
+  //   .nullable(),
+  // subscriptionClasses: Yup.number()
+  //   .integer('Subscription classes must be an integer')
+  //   .nullable(),
+  // remainingClasses: Yup.number()
+  //   .integer('Remaining classes must be an integer')
+  //   .nullable(),
+  // paid: Yup.number().integer('Paid must be an integer').nullable(),
+  // reminder: Yup.number().integer('Reminder must be an integer').nullable(),
+  // trainingName: Yup.string().nullable(),
+  // offerName: Yup.string().nullable(),
+  goal: Yup.string().nullable(),
   medicalProblem: Yup.string().nullable(),
   surgeries: Yup.boolean().nullable(),
-  goal: Yup.string().nullable(),
   sundayNote: Yup.string().nullable(),
   mondayNote: Yup.string().nullable(),
   tuesdayNote: Yup.string().nullable(),
@@ -95,6 +95,4 @@ export const UpdateTraineeSchema = Yup.object().shape({
   fridayNote: Yup.string().nullable(),
   saturdayNote: Yup.string().nullable(),
   generalNote: Yup.string().nullable(),
-  idFace: Yup.mixed().nullable(),
-  idBack: Yup.mixed().nullable(),
 });
