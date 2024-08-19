@@ -5,7 +5,9 @@ import { transformAttendances } from '../../utils/transformations';
 
 const Attendance = () => {
   const { trainee } = useSelector((state) => state.trainee);
+  console.log("🚀 ~ Attendance ~ trainee.attendances:", trainee.attendances)
   const TransformAttendances = transformAttendances(trainee.attendances);
+  console.log("🚀 ~ Attendance ~ TransformAttendances:", TransformAttendances)
 
   return (
     <>

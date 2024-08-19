@@ -37,21 +37,13 @@ export const transformMeasurementsToCollapseItems = (measurements) => {
   return items;
 };
 
-
 export function transformAttendances(attendances) {
-  // Sort attendances by date
-  const sortedAttendances = attendances.sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
-  );
-
-  // Create formatted attendances
-  return sortedAttendances.map((attendance, index) => {
-    // Convert ISO date to "MM/DD/YYYY" format
-    const formattedDate = dayjs(attendance.date).format('MM/DD/YYYY');
-
-    // Create the name as "اليوم X"
-    const name = `اليوم ${index + 1}`;
-
-    return { name, value: formattedDate };
+  const result = attendances.map((attendance, index) => {
+    return {
+      name: `اليوم ${index + 1}`,
+      value: attendance.date.split('T')[0],
+    };
   });
+
+  return result;
 }

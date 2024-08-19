@@ -59,6 +59,20 @@ export const updateTrainee = createAsyncThunk(
   }
 );
 
+export const updateTraineeNotes = createAsyncThunk(
+  'trainees/updateTraineeNotes',
+  async (userData, thunkAPI) => {
+    try {
+      const response = await TraineeService.updateTraineeNotes(userData);
+      thunkAPI.dispatch(fetchTraineeById(userData.id));
+      return response.data;
+    } catch (error) {
+      // console.log(error)
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const deleteTrainee = createAsyncThunk(
   'trainees/deleteTrainee',
   async (id, thunkAPI) => {

@@ -96,3 +96,19 @@ export const UpdateTraineeSchema = Yup.object().shape({
   saturdayNote: Yup.string().nullable(),
   generalNote: Yup.string().nullable(),
 });
+
+
+
+export const UpdateTraineeNotesSchema = Yup.object().shape({
+  goal: Yup.string().nullable(),
+  medicalProblem: Yup.string().nullable(),
+  surgeries: Yup.boolean().nullable(),
+  sundayNote: Yup.string().nullable(),
+  mondayNote: Yup.string().nullable(),
+  tuesdayNote: Yup.string().nullable(),
+  wednesdayNote: Yup.string().nullable(),
+  thursdayNote: Yup.string().nullable(),
+  fridayNote: Yup.string().nullable(),
+  saturdayNote: Yup.string().nullable(),
+  generalNote: Yup.string().nullable(),
+});

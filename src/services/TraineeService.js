@@ -26,7 +26,11 @@ class TraineeService {
 
   async updateTrainee({ id, data }) {
     const response = await PrivateAxios.put(`/api/v1/trainees/${id}`, data);
-    console.log(response);
+    return response.data;
+  }
+
+  async updateTraineeNotes({ id, data }) {
+    const response = await PrivateAxios.put(`/api/v1/trainees/notes/${id}`, data);
     return response.data;
   }
 
