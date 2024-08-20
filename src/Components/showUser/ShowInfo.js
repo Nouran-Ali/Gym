@@ -30,7 +30,7 @@ const ShowInfo = () => {
   }
 
   const personalInfo = [
-    { name: 'رقم ID', value: trainee.id },
+    { name: 'رقم ID', value: trainee.parcode },
     { name: 'اسم المشترك', value: trainee.fullName },
     { name: 'رقم الواتس', value: trainee.phoneNumber },
 // <<<<<<< HEAD

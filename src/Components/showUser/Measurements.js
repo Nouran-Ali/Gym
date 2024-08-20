@@ -15,12 +15,13 @@ const Measurements = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
+  
   useEffect(() => {
     dispatch(fetchInbodies());
   }, [dispatch]);
 
   const inbody = useMemo(
-    () => inbodies.find((p) => p.id === parseInt(id)),
+    () => inbodies.find((p) => p.traineeId === parseInt(id)),
     [inbodies, id]
   );
 
@@ -40,6 +41,8 @@ const Measurements = () => {
   if (!inbody) {
     return <p>Loading...</p>;
   }
+
+  console.log(inbody);
 
   const latestMeasurement = sortedMeasurements[0];
 

@@ -7,6 +7,18 @@ const initialState = {
   error: null,
 };
 
+export const createinbodies = createAsyncThunk(
+  'inbodies/createinbodies',
+  async (inbodies, thunkAPI) => {
+    try {
+      const response = await inbodiesService.create(inbodies);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const fetchInbodies = createAsyncThunk(
   'inbodies/fetchInbodies',
   async (_, thunkAPI) => {
