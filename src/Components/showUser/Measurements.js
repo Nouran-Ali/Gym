@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Collapse } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { Input, Modal } from 'antd';
-import '../../styles/Measurements.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchInbodies } from '../../store/inbodySlice';
-import { getFormattedDate } from '../../utils/date';
-import Measurement from './Measurement';
+import React, { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Collapse, Empty } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { Input, Modal } from "antd";
+import "../../styles/Measurements.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchInbodies } from "../../store/inbodySlice";
+import { getFormattedDate } from "../../utils/date";
+import Measurement from "./Measurement";
 
 const Measurements = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,7 +15,6 @@ const Measurements = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  
   useEffect(() => {
     dispatch(fetchInbodies());
   }, [dispatch]);
@@ -39,7 +38,11 @@ const Measurements = () => {
   }, [traineeMeasurements]);
 
   if (!inbody) {
-    return <p>Loading...</p>;
+    return (
+      <div className="mt-44">
+        <Empty />
+      </div>
+    );
   }
 
   console.log(inbody);
@@ -71,8 +74,7 @@ const Measurements = () => {
             className="bg-[#D9ED4D1C] rounded-lg text-[#D9ED4D] border border-[#D9ED4D] px-3 py-1 ml-3"
             onClick={showModal}
           >
-            {' '}
-            <PlusOutlined />{' '}
+            <PlusOutlined />
           </button>
 
           <Modal
@@ -156,7 +158,7 @@ const Measurements = () => {
       </div>
 
       {sortedMeasurements.length > 1 && (
-        <Collapse defaultActiveKey={['0']} onChange={onChange}>
+        <Collapse defaultActiveKey={["0"]} onChange={onChange}>
           {sortedMeasurements.slice(1).map((measurement, index) => (
             <Collapse.Panel
               header={getFormattedDate(new Date(measurement.date))}
