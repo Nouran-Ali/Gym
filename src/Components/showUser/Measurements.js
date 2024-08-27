@@ -261,14 +261,8 @@ const Measurements = () => {
                     className="bg-[#F9F9F9] border border-[#E4E4E4] mt-3"
                   />
                 </div>
-                <div className="mb-4">
-                  <label className="text-[#4E4E4E]">ملف النظام الغذائي</label>
-                  <Upload>
-                    <Button icon={<UploadOutlined />}>Upload</Button>
-                  </Upload>
-                </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">BMI</label>
                   <Input
@@ -340,6 +334,12 @@ const Measurements = () => {
                   />
                 </div>
               </div>
+              <div className="mb-4">
+                <label className="text-[#4E4E4E]">ملف النظام الغذائي</label>
+                <Upload>
+                  <Button icon={<UploadOutlined />}>Upload</Button>
+                </Upload>
+              </div>
               <div className="flex justify-center">
                 <button
                   type="button"
@@ -370,6 +370,30 @@ const Measurements = () => {
             <Measurement title="الارداف" desc={latestMeasurement.buttocks} />
             <Measurement title="الفخذ" desc={latestMeasurement.thigh} />
             <Measurement title="الذراع" desc={latestMeasurement.arm} />
+
+            <Measurement title="مؤشر كتلة الجسم" desc={latestMeasurement.BMI} />
+            <Measurement
+              title="الوضع الحالي"
+              desc={latestMeasurement.currentSituation}
+            />
+            <Measurement
+              title="احتياج الماء اليومي"
+              desc={latestMeasurement.dailyWaterNeed}
+            />
+            <Measurement
+              title="السعرات الحرارية"
+              desc={latestMeasurement.caloriesRequired}
+            />
+            <Measurement
+              title="وزن العضلات"
+              desc={latestMeasurement.muscleWeight}
+            />
+            <Measurement title="كتلة الدهون" desc={latestMeasurement.fatMass} />
+            <Measurement
+              title="كثافة العظام"
+              desc={latestMeasurement.boneDensity}
+            />
+            <Measurement title="دهون البطن" desc={latestMeasurement.bellyFat} />
           </div>
         ) : (
           <div className="mt-44">
@@ -398,6 +422,30 @@ const Measurements = () => {
                   <Measurement title="الارداف" desc={measurement.buttocks} />
                   <Measurement title="الفخذ" desc={measurement.thigh} />
                   <Measurement title="الذراع" desc={measurement.arm} />
+
+                  <Measurement title="مؤشر كتلة الجسم" desc={measurement.BMI} />
+                  <Measurement
+                    title="الوضع الحالي"
+                    desc={measurement.currentSituation}
+                  />
+                  <Measurement
+                    title="احتياج الماء اليومي"
+                    desc={measurement.dailyWaterNeed}
+                  />
+                  <Measurement
+                    title="السعرات الحرارية"
+                    desc={measurement.caloriesRequired}
+                  />
+                  <Measurement
+                    title="وزن العضلات"
+                    desc={measurement.muscleWeight}
+                  />
+                  <Measurement title="كتلة الدهون" desc={measurement.fatMass} />
+                  <Measurement
+                    title="كثافة العظام"
+                    desc={measurement.boneDensity}
+                  />
+                  <Measurement title="دهون البطن" desc={measurement.bellyFat} />
                 </div>
               </Collapse.Panel>
             ))}

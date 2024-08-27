@@ -8,36 +8,45 @@ import { fetchTrainees } from "../../store/traineeSlice";
 import { calcAgeFromDate, getFormattedDate } from "../../utils/date";
 import { Image } from "antd";
 import { PrivateAxios } from "../../api";
-
-const calculateAge = (dob) => {
-  const birthDate = new Date(dob);
-  const today = new Date();
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDifference = today.getMonth() - birthDate.getMonth();
-
-  if (
-    monthDifference < 0 ||
-    (monthDifference === 0 && today.getDate() < birthDate.getDate())
-  ) {
-    age--;
-  }
-  return age;
-};
+import { fetchInbodies } from "../../store/inbodySlice";
 
 const ShowInfo = () => {
   const { trainee } = useSelector((state) => state.trainee);
+  const { inbodies } = useSelector((state) => state.inbodies);
+  // const { id } = useParams();
+
   const [imageSrc, setImageSrc] = useState(null);
   const [imageSrcBack, setImageSrcBack] = useState(null);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchInbodies());
+  }, [dispatch]);
+
+
+// const inbody = useMemo(
+//   () => inbodies.find((p) => p.traineeId === parseInt(id)),
+//   [inbodies, id]
+// );
+
+  // console.log(inbody);
+
+  // const traineeInbodies = useMemo(
+  //   () => inbodies.filter((inbody) => inbody.traineeId === trainee.id),
+  //   [inbodies, trainee.id]
+  // );
+
+  // console.log(traineeInbodies);
+
   useEffect(() => {
     if (trainee?.idFace) {
-      // Fetch image with authorization
       PrivateAxios.get(`uploads/${trainee.idFace}`, {
-        responseType: "blob", // Ensure the response is in blob format
+        responseType: "blob",
       })
         .then((response) => {
           const url = URL.createObjectURL(response.data);
-          setImageSrc(url); // Set the blob URL as the image source
+          setImageSrc(url);
         })
         .catch((error) => {
           console.error("Error fetching image:", error);
@@ -47,13 +56,12 @@ const ShowInfo = () => {
 
   useEffect(() => {
     if (trainee?.idBack) {
-      // Fetch image with authorization
       PrivateAxios.get(`uploads/${trainee.idBack}`, {
-        responseType: "blob", // Ensure the response is in blob format
+        responseType: "blob",
       })
         .then((response) => {
           const url = URL.createObjectURL(response.data);
-          setImageSrcBack(url); // Set the blob URL as the image source
+          setImageSrcBack(url);
         })
         .catch((error) => {
           console.error("Error fetching image:", error);
@@ -69,10 +77,6 @@ const ShowInfo = () => {
     { name: "رقم ID", value: trainee.parcode },
     { name: "اسم المشترك", value: trainee.fullName },
     { name: "رقم الواتس", value: trainee.phoneNumber },
-    // <<<<<<< HEAD
-    //     { name: 'العمر', value: calculateAge(trainee.dob) },
-    //     { name: 'النوع', value: trainee.gender == 'FEMALE' ? 'أنثي' : 'ذكر' },
-    // =======
     { name: "العمر", value: calcAgeFromDate(trainee.dob) },
     { name: "النوع", value: trainee.gender === "FEMALE" ? "أنثي" : "ذكر" },
     { name: "تاريخ الميلاد", value: getFormattedDate(new Date(trainee.dob)) },
@@ -80,11 +84,7 @@ const ShowInfo = () => {
       name: "وجه البطاقه",
       value: (
         <div>
-          {imageSrc ? (
-            <Image height={180} src={imageSrc} />
-          ) : (
-            <p>لا يوجد</p>
-          )}
+          {imageSrc ? <Image height={180} src={imageSrc} /> : <p>لا يوجد</p>}
         </div>
       ),
     },
@@ -151,6 +151,24 @@ const ShowInfo = () => {
       <ShowTitleWithData title="البيانات الشخصية" data={personalInfo} />
       <ShowTitleWithData title="بيانات الإشتراك" data={subscriptionInfo} />
       <ShowTitleWithData title="معلومات اخرى" data={otherInfo} />
+      {/* <ShowTitleWithData
+        title="معلومات Inbody"
+        data={traineeInbodies ? [{
+          name: `Inbody ${traineeInbodies.id}`,
+          value: (
+            <div>
+              <p>تاريخ: {getFormattedDate(new Date(traineeInbodies.date))}</p>
+              <p>
+                {traineeInbodies.dietFile ? (
+                  <ShowFile src={traineeInbodies.dietFile} />
+                ) : (
+                  "لا يوجد ملف غذائي"
+                )}
+              </p>
+            </div>
+          ),
+        }] : []}
+      /> */}
     </>
   );
 };
