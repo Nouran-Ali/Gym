@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Input,
   Radio,
@@ -11,27 +11,28 @@ import {
   DatePicker,
   Upload,
   Button,
-} from 'antd';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import '../styles/AddNewUser.css';
+} from "antd";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import "../styles/AddNewUser.css";
 import {
   SubscriptionStatus,
   SubscriptionStatusMap,
   SubscriptionType,
-} from '../types';
-import { UpdateTraineeSchema } from '../validations/traineeSchema';
+} from "../types";
+import { UpdateTraineeSchema } from "../validations/traineeSchema";
 import {
   updateTrainee,
   fetchTrainees,
   fetchTraineeById,
-} from '../store/traineeSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { UploadOutlined } from '@ant-design/icons';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getFormattedDate } from '../utils/date';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+} from "../store/traineeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { UploadOutlined } from "@ant-design/icons";
+import { useNavigate, useParams } from "react-router-dom";
+import { getFormattedDate } from "../utils/date";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import moment from "moment/moment";
 dayjs.extend(utc);
 
 const UpdateTrainee = () => {
@@ -44,7 +45,7 @@ const UpdateTrainee = () => {
     resolver: yupResolver(UpdateTraineeSchema),
   });
 
-  const dateFormat = 'YYYY-MM-DD';
+  const dateFormat = "YYYY-MM-DD";
 
   const { trainee } = useSelector((state) => state.trainee);
   const { error, inputErrors, loading } = useSelector((state) => state.trainee);
@@ -65,50 +66,77 @@ const UpdateTrainee = () => {
     },
   });
 
-  const [selectedValues, setSelectedValues] = useState(watch('medicalProblem'));
+  const [selectedValues, setSelectedValues] = useState(watch("medicalProblem"));
 
   const handleDateChange = (date, dateString) => {
-    const formattedDate = date ? date.format('YYYY-MM-DD') : '';
-    setValue('dob', formattedDate);
+    const formattedDate = date ? date.format("YYYY-MM-DD") : "";
+    setValue("dob", formattedDate);
   };
 
   const handleCheckboxChange = (checkedValues) => {
     setSelectedValues(checkedValues);
-    const selectedString = checkedValues.join(' و ');
-    setValue('medicalProblem', selectedString);
+    const selectedString = checkedValues.join(" و ");
+    setValue("medicalProblem", selectedString);
   };
 
   useEffect(() => {
     if (trainee) {
       console.log(trainee);
-      setValue('parcode', trainee.parcode);
-      setValue('fullName', trainee.fullName);
-      setValue('phoneNumber', trainee.phoneNumber);
-      setValue('gender', trainee.gender);
+      setValue("parcode", trainee.parcode);
+      setValue("fullName", trainee.fullName);
+      setValue("phoneNumber", trainee.phoneNumber);
+      setValue("gender", trainee.gender);
+      setValue("subscriptionStatus", trainee.subscriptionStatus);
 
-      setValue('dob', dayjs(trainee.dob, dateFormat));
-      setValue('subscriptionType', trainee.subscriptionType);
-      setValue('goal', trainee.goal);
-      setValue('surgeries', trainee.surgeries);
+      // setValue('dob', dayjs(trainee.dob, dateFormat));
+      setValue("dob", trainee.dob ? dayjs(trainee.dob, dateFormat) : null);
+      setValue("subscriptionType", trainee.subscriptionType);
+      setValue("goal", trainee.goal);
+      setValue("surgeries", trainee.surgeries);
 
       if (trainee.medicalProblem) {
         setSelectedValues(trainee.medicalProblem);
-        setValue('medicalProblem', trainee.medicalProblem);
+        setValue("medicalProblem", trainee.medicalProblem);
       }
-      //   const dob = moment(trainee.dob)._d
+      // const dob = moment(trainee.dob)._d
       //   console.log("🚀 ~ useEffect ~ dob:", dob._d)
     }
   }, [trainee, setValue]);
 
+  // const onSubmit = async (data) => {
+  //   try {
+  //     const result = await dispatch(
+  //       updateTrainee({ id: trainee.id, data })
+  //     ).unwrap();
+  //     console.log('Update result:', result);
+  //     navigate('/dashboard/members');
+  //   } catch (error) {
+  //     console.error('Failed to save trainee:', error);
+  //   }
+  // };
+
+  const { idFace, idBack } = watch();
+
   const onSubmit = async (data) => {
     try {
+      const formattedData = {
+        ...data,
+        dob: data.dob ? dayjs(data.dob).format("YYYY-MM-DD") : "",
+        idFace: data.idFace?.file?.name
+          ? `trainees/${data.idFace.file.name}`
+          : "",
+        idBack: data.idBack?.file?.name
+          ? `trainees/${data.idBack.file.name}`
+          : "",
+      };
+
       const result = await dispatch(
-        updateTrainee({ id: trainee.id, data })
+        updateTrainee({ id: trainee.id, data: formattedData })
       ).unwrap();
-      console.log('Update result:', result);
-      navigate('/dashboard/members');
+      console.log("Update result:", result);
+      navigate("/dashboard/members");
     } catch (error) {
-      console.error('Failed to save trainee:', error);
+      console.error("Failed to save trainee:", error);
     }
   };
 
@@ -127,7 +155,7 @@ const UpdateTrainee = () => {
           </h3>
           <div className="pr-8 pt-4">
             <Form.Item
-              validateStatus={errors.subscriptionType ? 'error' : ''}
+              validateStatus={errors.subscriptionType ? "error" : ""}
               help={errors.subscriptionType?.message}
             >
               <Controller
@@ -154,7 +182,7 @@ const UpdateTrainee = () => {
             <div>
               <label className="text-[#4E4E4E]"> رقم ID</label>
               <Form.Item
-                validateStatus={errors.parcode ? 'error' : ''}
+                validateStatus={errors.parcode ? "error" : ""}
                 help={errors.parcode?.message}
               >
                 <Controller
@@ -167,7 +195,7 @@ const UpdateTrainee = () => {
             <div>
               <label className="text-[#4E4E4E]"> اسم المشترك</label>
               <Form.Item
-                validateStatus={errors.fullName ? 'error' : ''}
+                validateStatus={errors.fullName ? "error" : ""}
                 help={errors.fullName?.message}
               >
                 <Controller
@@ -180,7 +208,7 @@ const UpdateTrainee = () => {
             <div>
               <label className="text-[#4E4E4E]"> رقم الواتس</label>
               <Form.Item
-                validateStatus={errors.phoneNumber ? 'error' : ''}
+                validateStatus={errors.phoneNumber ? "error" : ""}
                 help={errors.phoneNumber?.message}
               >
                 <Controller
@@ -199,7 +227,7 @@ const UpdateTrainee = () => {
             <div>
               <label className="text-[#4E4E4E]"> النوع</label>
               <Form.Item
-                validateStatus={errors.gender ? 'error' : ''}
+                validateStatus={errors.gender ? "error" : ""}
                 help={errors.gender?.message}
               >
                 <Controller
@@ -221,7 +249,7 @@ const UpdateTrainee = () => {
             <div>
               <label className="text-[#4E4E4E]">تاريخ الميلاد</label>
               <Form.Item
-                validateStatus={errors.dob ? 'error' : ''}
+                validateStatus={errors.dob ? "error" : ""}
                 help={errors.dob?.message}
               >
                 <Controller
@@ -236,9 +264,158 @@ const UpdateTrainee = () => {
                         handleDateChange(date, dateString)
                       }
                       value={
-                        field.value ? dayjs(field.value, 'YYYY-MM-DD') : null
+                        field.value ? dayjs(field.value, "YYYY-MM-DD") : null
                       }
                     />
+                  )}
+                />
+              </Form.Item>
+            </div>
+
+            <div>
+              <label className="text-[#4E4E4E]">وجه البطاقة</label>
+              <Form.Item
+                validateStatus={
+                  errors.idFace ||
+                  (inputErrors.idFace && inputErrors.idFace.length > 0)
+                    ? "error"
+                    : ""
+                }
+                help={
+                  // Combine errors if both exist
+                  (errors.idFace || inputErrors.idFace) && (
+                    <div>
+                      {errors.idFace?.message && (
+                        <div>{errors.idFace.message}</div>
+                      )}
+                      {inputErrors.idFace && (
+                        <div>
+                          {inputErrors.idFace.map((error, index) => (
+                            <div key={index}>{error}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
+              >
+                <Controller
+                  name="idFace"
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Upload
+                      showUploadList={false}
+                      beforeUpload={(file) => {
+                        onChange({ file });
+                        return false; // Prevent automatic upload
+                      }}
+                    >
+                      <Button icon={<UploadOutlined />} className="mt-2">
+                        {idFace?.file?.name || "تحميل"}
+                      </Button>
+                    </Upload>
+                  )}
+                />
+              </Form.Item>
+            </div>
+            <div>
+              <label className="text-[#4E4E4E]">ظهر البطاقة</label>
+              <Form.Item
+                validateStatus={
+                  errors.idBack ||
+                  (inputErrors.idBack && inputErrors.idBack.length > 0)
+                    ? "error"
+                    : ""
+                }
+                help={
+                  (errors.idBack || inputErrors.idBack) && (
+                    <div>
+                      {errors.idBack?.message && (
+                        <div>{errors.idBack.message}</div>
+                      )}
+                      {inputErrors.idBack && (
+                        <div>
+                          {inputErrors.idBack.map((error, index) => (
+                            <div key={index}>{error}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
+              >
+                {" "}
+                <Controller
+                  name="idBack"
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Upload
+                      showUploadList={false}
+                      beforeUpload={(file) => {
+                        onChange({ file });
+                        return false; // Prevent automatic upload
+                      }}
+                    >
+                      <Button icon={<UploadOutlined />} className="mt-2">
+                        {idBack?.file?.name || "تحميل"}
+                      </Button>
+                    </Upload>
+                  )}
+                />
+              </Form.Item>
+            </div>
+
+            <div>
+              <label className="text-[#4E4E4E]">حاله المشترك</label>
+              <Form.Item
+                validateStatus={
+                  errors.subscriptionStatus ||
+                  (inputErrors.subscriptionStatus &&
+                    inputErrors.subscriptionStatus.length > 0)
+                    ? "error"
+                    : ""
+                }
+                help={
+                  // Combine errors if both exist
+                  (errors.subscriptionStatus ||
+                    inputErrors.subscriptionStatus) && (
+                    <div>
+                      {errors.subscriptionStatus?.message && (
+                        <div>{errors.subscriptionStatus.message}</div>
+                      )}
+                      {inputErrors.subscriptionStatus && (
+                        <div>
+                          {inputErrors.subscriptionStatus.map(
+                            (error, index) => (
+                              <div key={index}>{error}</div>
+                            )
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
+              >
+                <Controller
+                  name="subscriptionStatus"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      className="mt-2"
+                      onChange={field.onChange}
+                      placeholder="نشط"
+                    >
+                      <Select.Option value={SubscriptionStatus.ACTIVE}>
+                        {SubscriptionStatusMap.ACTIVE}
+                      </Select.Option>
+                      <Select.Option value={SubscriptionStatus.INACTIVE}>
+                        {SubscriptionStatusMap.INACTIVE}
+                      </Select.Option>
+                      <Select.Option value={SubscriptionStatus.PENDING}>
+                        {SubscriptionStatusMap.PENDING}
+                      </Select.Option>
+                    </Select>
                   )}
                 />
               </Form.Item>
@@ -560,7 +737,7 @@ const UpdateTrainee = () => {
                     {...field}
                     value={selectedValues}
                     onChange={handleCheckboxChange}
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                   >
                     <Row>
                       <Col span={2}>

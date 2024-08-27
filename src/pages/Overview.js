@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import '../styles/Overview.css';
-import { PlusOutlined } from '@ant-design/icons';
-import LineChart from '../Components/LineChart';
-import Attende from '../Components/Attende';
-import { Input, Modal } from 'antd';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { createAttendance, fetchAttendances } from '../store/attendanceSlice';
-import { fetchTrainees } from '../store/traineeSlice';
-import { SubscriptionStatusMap } from '../types';
+import React, { useEffect, useState } from "react";
+import "../styles/Overview.css";
+import { PlusOutlined } from "@ant-design/icons";
+import LineChart from "../Components/LineChart";
+import Attende from "../Components/Attende";
+import { Input, Modal } from "antd";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { createAttendance, fetchAttendances } from "../store/attendanceSlice";
+import { fetchTrainees } from "../store/traineeSlice";
+import { SubscriptionStatusMap } from "../types";
 
 const Overview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [parcode, setParcode] = useState('');
+  const [parcode, setParcode] = useState("");
 
   const dispatch = useDispatch();
   const { todayAttendance, error } = useSelector((state) => state.attendance);
@@ -68,7 +68,7 @@ const Overview = () => {
               <p className="mt-4 font-semibold">{trainees.length}</p>
             </div>
           </div>
-          <div className="my-5" style={{ minHeight: '70vh', width: '100%' }}>
+          <div className="my-5" style={{ minHeight: "70vh", width: "100%" }}>
             <LineChart />
           </div>
         </div>
@@ -133,12 +133,14 @@ const Overview = () => {
                   atend?.trainee?.subscriptionDate
                 );
 
-                const formattedTime = subscriptionDate.toLocaleString('en-US', {
-                  hour: 'numeric',
-                  minute: 'numeric',
-                  second: 'numeric',
+                console.log(atend.date);
+
+                const formattedTime = new Date(atend.date).toLocaleString("en-US", {
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
                   hour12: true,
-                  timeZone: 'Africa/Cairo',
+                  timeZone: "Africa/Cairo",
                 });
 
                 const subscriptionEndDate = new Date(
@@ -153,6 +155,21 @@ const Overview = () => {
                 );
 
                 return (
+                  // <Attende
+                  //   key={index}
+                  //   name={atend?.trainee?.fullName}
+                  //   status={
+                  //     SubscriptionStatusMap[atend?.trainee?.subscriptionStatus]
+                  //   }
+                  //   color={
+                  //     atend?.trainee?.subscriptionStatus === 'ACTIVE'
+                  //       ? true
+                  //       : false
+                  //   }
+                  //   time_attend={formattedTime}
+                  //   days={atend?.trainee?.remainingClasses}
+                  // />
+
                   <Attende
                     key={index}
                     name={atend?.trainee?.fullName}
@@ -160,7 +177,7 @@ const Overview = () => {
                       SubscriptionStatusMap[atend?.trainee?.subscriptionStatus]
                     }
                     color={
-                      atend?.trainee?.subscriptionStatus === 'ACTIVE'
+                      atend?.trainee?.subscriptionStatus === "ACTIVE"
                         ? true
                         : false
                     }

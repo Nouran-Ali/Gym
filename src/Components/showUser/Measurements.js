@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Collapse, Empty } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Collapse, Empty, Upload } from "antd";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import { Input, Modal } from "antd";
 import "../../styles/Measurements.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import Measurement from "./Measurement";
 const Measurements = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newMeasurement, setNewMeasurement] = useState({
-    date: "",
+    // date: "",
     length: "",
     weight: "",
     shoulder: "",
@@ -23,6 +23,15 @@ const Measurements = () => {
     buttocks: "",
     thigh: "",
     arm: "",
+    currentSituation: "",
+    dietFile: "",
+    BMI: "",
+    bellyFat: "",
+    boneDensity: "",
+    caloriesRequired: "",
+    dailyWaterNeed: "",
+    fatMass: "",
+    muscleWeight: "",
   });
 
   const { inbodies } = useSelector((state) => state.inbodies);
@@ -69,10 +78,35 @@ const Measurements = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewMeasurement({ ...newMeasurement, [name]: value });
+
+    const numericFields = [
+      "length",
+      "weight",
+      "shoulder",
+      "chest",
+      "belowChest",
+      "middle",
+      "stomach",
+      "buttocks",
+      "thigh",
+      "arm",
+      "BMI",
+      "bellyFat",
+      "boneDensity",
+      "caloriesRequired",
+      "dailyWaterNeed",
+      "fatMass",
+      "muscleWeight",
+    ];
+
+    setNewMeasurement({
+      ...newMeasurement,
+      [name]: numericFields.includes(name) ? parseFloat(value) : value,
+    });
   };
 
   const handleSave = () => {
+    console.log("New Measurement:", newMeasurement); // Log data to check its structure
     dispatch(createinbodies({ ...newMeasurement, traineeId: parseInt(id) }))
       .then(() => {
         setIsModalOpen(false);
@@ -108,7 +142,7 @@ const Measurements = () => {
             <hr className="bg-black border border-[#f5f5f5] mt-3 mb-5" />
             <form className="w-full mx-auto mb-10">
               <div className="grid grid-cols-3 max-md:grid-cols-1 gap-4">
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label className="text-[#4E4E4E]">تاريخ اخذ المقاسات</label>
                   <Input
                     name="date"
@@ -116,10 +150,11 @@ const Measurements = () => {
                     onChange={handleInputChange}
                     className="bg-[#F9F9F9] border border-[#E4E4E4] mt-3"
                   />
-                </div>
+                </div> */}
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">الطول</label>
                   <Input
+                    type="number"
                     name="length"
                     value={newMeasurement.length}
                     onChange={handleInputChange}
@@ -129,6 +164,7 @@ const Measurements = () => {
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">الوزن</label>
                   <Input
+                    type="number"
                     name="weight"
                     value={newMeasurement.weight}
                     onChange={handleInputChange}
@@ -138,6 +174,7 @@ const Measurements = () => {
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">الكتف</label>
                   <Input
+                    type="number"
                     name="shoulder"
                     value={newMeasurement.shoulder}
                     onChange={handleInputChange}
@@ -147,6 +184,7 @@ const Measurements = () => {
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">الصدر</label>
                   <Input
+                    type="number"
                     name="chest"
                     value={newMeasurement.chest}
                     onChange={handleInputChange}
@@ -156,6 +194,7 @@ const Measurements = () => {
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">اسفل الصدر</label>
                   <Input
+                    type="number"
                     name="belowChest"
                     value={newMeasurement.belowChest}
                     onChange={handleInputChange}
@@ -165,6 +204,7 @@ const Measurements = () => {
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">الوسط</label>
                   <Input
+                    type="number"
                     name="middle"
                     value={newMeasurement.middle}
                     onChange={handleInputChange}
@@ -174,6 +214,7 @@ const Measurements = () => {
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">البطن</label>
                   <Input
+                    type="number"
                     name="stomach"
                     value={newMeasurement.stomach}
                     onChange={handleInputChange}
@@ -183,6 +224,7 @@ const Measurements = () => {
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">الارداف</label>
                   <Input
+                    type="number"
                     name="buttocks"
                     value={newMeasurement.buttocks}
                     onChange={handleInputChange}
@@ -192,6 +234,7 @@ const Measurements = () => {
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">الفخذ</label>
                   <Input
+                    type="number"
                     name="thigh"
                     value={newMeasurement.thigh}
                     onChange={handleInputChange}
@@ -201,6 +244,7 @@ const Measurements = () => {
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">الذراع</label>
                   <Input
+                    type="number"
                     name="arm"
                     value={newMeasurement.arm}
                     onChange={handleInputChange}
@@ -208,6 +252,23 @@ const Measurements = () => {
                   />
                 </div>
 
+                <div className="mb-4">
+                  <label className="text-[#4E4E4E]">الوضع الحالي</label>
+                  <Input
+                    name="currentSituation"
+                    value={newMeasurement.currentSituation}
+                    onChange={handleInputChange}
+                    className="bg-[#F9F9F9] border border-[#E4E4E4] mt-3"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="text-[#4E4E4E]">ملف النظام الغذائي</label>
+                  <Upload>
+                    <Button icon={<UploadOutlined />}>Upload</Button>
+                  </Upload>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
                 <div className="mb-4">
                   <label className="text-[#4E4E4E]">BMI</label>
                   <Input
@@ -219,7 +280,7 @@ const Measurements = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="text-[#4E4E4E]">Belly Fat</label>
+                  <label className="text-[#4E4E4E]">دهون البطن</label>
                   <Input
                     type="number"
                     name="bellyFat"
@@ -229,7 +290,7 @@ const Measurements = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="text-[#4E4E4E]">Bone Density</label>
+                  <label className="text-[#4E4E4E]">كثافة العظام</label>
                   <Input
                     type="number"
                     name="boneDensity"
@@ -239,7 +300,7 @@ const Measurements = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="text-[#4E4E4E]">Calories Required</label>
+                  <label className="text-[#4E4E4E]">السعرات الحرارية</label>
                   <Input
                     type="number"
                     name="caloriesRequired"
@@ -249,7 +310,7 @@ const Measurements = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="text-[#4E4E4E]">Daily Water Need</label>
+                  <label className="text-[#4E4E4E]">احتياج الماء اليومي</label>
                   <Input
                     type="number"
                     name="dailyWaterNeed"
@@ -259,7 +320,7 @@ const Measurements = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="text-[#4E4E4E]">Fat Mass</label>
+                  <label className="text-[#4E4E4E]">كتلة الدهون</label>
                   <Input
                     type="number"
                     name="fatMass"
@@ -269,7 +330,7 @@ const Measurements = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="text-[#4E4E4E]">Muscle Weight</label>
+                  <label className="text-[#4E4E4E]">وزن العضلات</label>
                   <Input
                     type="number"
                     name="muscleWeight"
@@ -278,21 +339,11 @@ const Measurements = () => {
                     className="bg-[#F9F9F9] border border-[#E4E4E4] mt-3"
                   />
                 </div>
-                <div className="mb-4">
-                  <label className="text-[#4E4E4E]">Current Situation</label>
-                  <Input
-                    type="text"
-                    name="currentSituation"
-                    value={newMeasurement.currentSituation}
-                    onChange={handleInputChange}
-                    className="bg-[#F9F9F9] border border-[#E4E4E4] mt-3"
-                  />
-                </div>
               </div>
-              <div className="mt-8 text-center">
+              <div className="flex justify-center">
                 <button
                   type="button"
-                  className="bg-[#D9ED4D] rounded-lg py-2 w-1/3 font-semibold"
+                  className="bg-[#7D7AFF] text-white rounded-md px-4 py-2"
                   onClick={handleSave}
                 >
                   حفظ
