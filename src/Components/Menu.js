@@ -13,7 +13,7 @@ const Menu = () => {
   const dispatch = useDispatch();
   return (
     <>
-      <div className="bg-[#343434] text-[#A8A8A8]  mb-7 text-lg p-7 rounded-xl  animation_right">
+      <div className="bg-[#343434] h-[620px] text-[#A8A8A8]  mb-7 text-lg p-7 rounded-xl  animation_right">
         <img
           src="../login/White Logo.png"
           width={250}

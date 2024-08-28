@@ -86,7 +86,7 @@ const Audience = () => {
         <div className="flex items-center">
           <Link
             to={`/dashboard/members/${item.traineeId}`}
-            className="bg-[#d9ed4d4a] text-[#D9ED4D] p-1 px-2 rounded-full ml-2"
+            className="bg-[#d9ed4d4a] text-[#cee149] p-1 px-2 rounded-full ml-2"
           >
             <EyeFilled />
           </Link>

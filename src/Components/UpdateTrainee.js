@@ -33,6 +33,7 @@ import { getFormattedDate } from "../utils/date";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import moment from "moment/moment";
+import { PrivateAxios } from "../api";
 dayjs.extend(utc);
 
 const UpdateTrainee = () => {
@@ -133,7 +134,7 @@ const UpdateTrainee = () => {
     }
   }, [trainee, setValue]);
 
-  const { idFace, idBack } = watch();
+  // const { idFace, idBack } = watch();
 
   const onSubmit = async (data) => {
     try {
@@ -142,12 +143,12 @@ const UpdateTrainee = () => {
         dob: data.dob ? dayjs(data.dob).format("YYYY-MM-DD") : "",
          subscriptionDate: data.subscriptionDate ? dayjs(data.subscriptionDate).format("YYYY-MM-DD") : "",
          subscriptionStartDate: data.subscriptionStartDate ? dayjs(data.subscriptionStartDate).format("YYYY-MM-DD") : "",
-        idFace: data.idFace?.file?.name
-          ? `trainees/${data.idFace.file.name}`
-          : "",
-        idBack: data.idBack?.file?.name
-          ? `trainees/${data.idBack.file.name}`
-          : "",
+        // idFace: data.idFace?.file?.name
+        //   ? `trainees/${data.idFace.file.name}`
+        //   : "",
+        // idBack: data.idBack?.file?.name
+        //   ? `trainees/${data.idBack.file.name}`
+        //   : "",
       };
 
       const result = await dispatch(
@@ -292,7 +293,7 @@ const UpdateTrainee = () => {
               </Form.Item>
             </div>
 
-            <div>
+            {/* <div>
               <label className="text-[#4E4E4E]">وجه البطاقة</label>
               <Form.Item
                 validateStatus={
@@ -329,6 +330,8 @@ const UpdateTrainee = () => {
                         onChange({ file });
                         return false; // Prevent automatic upload
                       }}
+                      // showUploadList={false}
+                      // beforeUpload={() => false}
                     >
                       <Button icon={<UploadOutlined />} className="mt-2">
                         {idFace?.file?.name || "تحميل"}
@@ -383,7 +386,7 @@ const UpdateTrainee = () => {
                   )}
                 />
               </Form.Item>
-            </div>
+            </div> */}
 
             {/* <div>
               <label className="text-[#4E4E4E]">وجه البطاقة</label>

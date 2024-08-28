@@ -16,18 +16,18 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route  path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Overview />} />
 
-          <Route path="members" element={<Members />} />
+          <Route index path="members" element={<Members />} />
 
-          <Route path="members/:id" element={<ShowUser />} />
+          <Route index path="members/:id" element={<ShowUser />} />
 
-          <Route path="addNewUser" element={<AddNewUser />} />
+          <Route index path="addNewUser" element={<AddNewUser />} />
 
-          <Route path="UpdateTrainee/:id" element={<UpdateTrainee />} />
+          <Route index path="UpdateTrainee/:id" element={<UpdateTrainee />} />
 
-          <Route path="audience" element={<Audience />} />
+          <Route index path="audience" element={<Audience />} />
         </Route>
       </Routes>
     </Router>

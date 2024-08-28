@@ -131,7 +131,7 @@ const ShowInfo = () => {
     },
     {
       name: "حالة المشترك",
-      value: trainee.subscriptionStatus === "ACTIVE" ? "نشط" : "غير نشط",
+      value: trainee.subscriptionStatus === "ACTIVE" ? "نشط" : trainee.subscriptionStatus === "PENDING" ? "قيد الانتظار" : "غير نشط",
       valueClass:
         trainee.subscriptionStatus === "ACTIVE"
           ? "text-green-400"
@@ -143,7 +143,7 @@ const ShowInfo = () => {
   ];
 
   const otherInfo = [
-    { name: "الهدف من التدريب", value: trainee.goal },
+    { name: "الهدف من التدريب", value: trainee.goal || "لا يوجد" },
     {
       name: "هل اجريت عمليات جراحية خلال سنة",
       value: trainee.surgeries === false ? "لا" : "نعم",

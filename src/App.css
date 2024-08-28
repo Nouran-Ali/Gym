@@ -259,3 +259,20 @@ body {
   margin-top: 70px;
   padding: 0px 5px;
 }
+
+.ant-collapse-header {
+  display: flex;
+  align-items: center !important;
+}
+
+.ant-picker-outlined {
+  width: 100% !important;
+}
+
+.ant-upload .ant-upload .ant-btn{
+  width: 100% !important;
+}
+
+.ant-upload-wrapper .ant-upload-select {
+  width: 100% !important;
+}

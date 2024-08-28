@@ -181,7 +181,7 @@ const Notes = () => {
         type="primary"
         htmlType="submit"
         loading={loading}
-        className="mx-auto text-lg flex justify-center bg-[#d9ed4d] text-center rounded-lg w-1/4 py-2 mb-4"
+        className="mx-auto text-lg flex justify-center bg-[#d9ed4d] text-center rounded-lg w-1/4 py-2 mb-9"
       >
         حفظ
       </Button>

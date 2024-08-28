@@ -135,13 +135,16 @@ const Overview = () => {
 
                 console.log(atend.date);
 
-                const formattedTime = new Date(atend.date).toLocaleString("en-US", {
-                  hour: "numeric",
-                  minute: "numeric",
-                  second: "numeric",
-                  hour12: true,
-                  timeZone: "Africa/Cairo",
-                });
+                const formattedTime = new Date(atend.date).toLocaleString(
+                  "en-US",
+                  {
+                    hour: "numeric",
+                    minute: "numeric",
+                    second: "numeric",
+                    hour12: true,
+                    timeZone: "Africa/Cairo",
+                  }
+                );
 
                 const subscriptionEndDate = new Date(
                   atend?.trainee?.subscriptionEndDate
@@ -172,6 +175,7 @@ const Overview = () => {
 
                   <Attende
                     key={index}
+                    id={atend?.trainee?.parcode}
                     name={atend?.trainee?.fullName}
                     status={
                       SubscriptionStatusMap[atend?.trainee?.subscriptionStatus]
