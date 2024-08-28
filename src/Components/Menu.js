@@ -13,9 +13,9 @@ const Menu = () => {
   const dispatch = useDispatch();
   return (
     <>
-      <div className="bg-[#343434] text-[#A8A8A8] h-lvh mb-7 text-lg p-7 rounded-xl  animation_right">
+      <div className="bg-[#343434] text-[#A8A8A8]  mb-7 text-lg p-7 rounded-xl  animation_right">
         <img
-          src="../overview/White Logo.png"
+          src="../login/White Logo.png"
           width={250}
           height={120}
           className="mx-auto mb-5"

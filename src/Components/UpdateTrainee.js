@@ -73,6 +73,16 @@ const UpdateTrainee = () => {
     setValue("dob", formattedDate);
   };
 
+  const handleSubDateChange = (date, dateString) => {
+    const formattedDate = date ? date.format("YYYY-MM-DD") : "";
+    setValue("subscriptionDate", formattedDate);
+  };
+
+  const handleStartDateChange = (date, dateString) => {
+    const formattedDate = date ? date.format("YYYY-MM-DD") : "";
+    setValue("subscriptionStartDate", formattedDate);
+  };
+  
   const handleCheckboxChange = (checkedValues) => {
     setSelectedValues(checkedValues);
     const selectedString = checkedValues.join(" و ");
@@ -98,22 +108,30 @@ const UpdateTrainee = () => {
         setSelectedValues(trainee.medicalProblem);
         setValue("medicalProblem", trainee.medicalProblem);
       }
+      setValue("paid", trainee.paid);
+      setValue("reminder", trainee.reminder);
+      setValue("trainingName", trainee.trainingName);
+      setValue("subscriptionMonths", trainee.subscriptionMonths);
+      setValue("subscriptionClasses", trainee.subscriptionClasses);
+
+      setValue(
+        "subscriptionDate",
+        trainee.subscriptionDate
+          ? dayjs(trainee.subscriptionDate, dateFormat)
+          : null
+      );
+
+      setValue(
+        "subscriptionStartDate",
+        trainee.subscriptionStartDate
+          ? dayjs(trainee.subscriptionStartDate, dateFormat)
+          : null
+      );
+
       // const dob = moment(trainee.dob)._d
       //   console.log("🚀 ~ useEffect ~ dob:", dob._d)
     }
   }, [trainee, setValue]);
-
-  // const onSubmit = async (data) => {
-  //   try {
-  //     const result = await dispatch(
-  //       updateTrainee({ id: trainee.id, data })
-  //     ).unwrap();
-  //     console.log('Update result:', result);
-  //     navigate('/dashboard/members');
-  //   } catch (error) {
-  //     console.error('Failed to save trainee:', error);
-  //   }
-  // };
 
   const { idFace, idBack } = watch();
 
@@ -122,6 +140,8 @@ const UpdateTrainee = () => {
       const formattedData = {
         ...data,
         dob: data.dob ? dayjs(data.dob).format("YYYY-MM-DD") : "",
+         subscriptionDate: data.subscriptionDate ? dayjs(data.subscriptionDate).format("YYYY-MM-DD") : "",
+         subscriptionStartDate: data.subscriptionStartDate ? dayjs(data.subscriptionStartDate).format("YYYY-MM-DD") : "",
         idFace: data.idFace?.file?.name
           ? `trainees/${data.idFace.file.name}`
           : "",
@@ -365,6 +385,207 @@ const UpdateTrainee = () => {
               </Form.Item>
             </div>
 
+            {/* <div>
+              <label className="text-[#4E4E4E]">وجه البطاقة</label>
+              <Form.Item
+                validateStatus={errors.idFace ? 'error' : ''}
+                help={errors.idFace?.message}
+              >
+                <Controller
+                  name="idFace"
+                  control={control}
+                  render={({ field }) => (
+                    <Upload
+                      {...field}
+                      showUploadList={false}
+                      beforeUpload={() => false}
+                    >
+                      <Button icon={<UploadOutlined />} className="mt-2">
+                        تحميل
+                      </Button>
+                    </Upload>
+                  )}
+                />
+              </Form.Item>
+            </div>
+            <div>
+              <label className="text-[#4E4E4E]">ظهر البطاقة</label>
+              <Form.Item
+                validateStatus={errors.idBack ? 'error' : ''}
+                help={errors.idBack?.message}
+              >
+                <Controller
+                  name="idBack"
+                  control={control}
+                  render={({ field }) => (
+                    <Upload
+                      {...field}
+                      showUploadList={false}
+                      beforeUpload={() => false}
+                    >
+                      <Button icon={<UploadOutlined />} className="mt-2">
+                        تحميل
+                      </Button>
+                    </Upload>
+                  )}
+                />
+              </Form.Item>
+            </div> */}
+          </div>
+        </div>
+
+        <div className="bg-[#F9F9F9] rounded-lg py-4 mt-6">
+          <h3 className="text-xl border-b border-b-[#e1e1e1] pb-3">
+            <span className="pr-8">بيانات الاشتراك</span>
+          </h3>
+          <div className="grid grid-cols-3 max-xl:grid-cols-1 gap-6 px-8 pt-4">
+            <div>
+              <label className="text-[#4E4E4E]"> تاريخ الاشتراك </label>
+              <Form.Item
+                validateStatus={errors.subscriptionDate ? "error" : ""}
+                help={errors.subscriptionDate?.message}
+              >
+                <Controller
+                  name="subscriptionDate"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      className="mt-2"
+                      format="YYYY-MM-DD"
+                      onChange={(date, dateString) =>
+                        handleSubDateChange(date, dateString)
+                      }
+                      value={
+                        field.value ? dayjs(field.value, "YYYY-MM-DD") : null
+                      }
+                    />
+                  )}
+                />
+              </Form.Item>
+            </div>
+
+            <div>
+              <label className="text-[#4E4E4E]"> اسم التدريب</label>
+              <Form.Item
+                validateStatus={
+                  errors.trainingName ||
+                  (inputErrors.trainingName &&
+                    inputErrors.trainingName.length > 0)
+                    ? "error"
+                    : ""
+                }
+                help={
+                  // Combine errors if both exist
+                  (errors.trainingName || inputErrors.trainingName) && (
+                    <div>
+                      {errors.trainingName?.message && (
+                        <div>{errors.trainingName.message}</div>
+                      )}
+                      {inputErrors.trainingName && (
+                        <div>
+                          {inputErrors.trainingName.map((error, index) => (
+                            <div key={index}>{error}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
+              >
+                <Controller
+                  name="trainingName"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      className="mt-2"
+                      onChange={field.onChange}
+                      placeholder="اختر"
+                    >
+                      <Select.Option value="تدريب 1">تدريب 1</Select.Option>
+                      <Select.Option value="تدريب 2">تدريب 2</Select.Option>
+                    </Select>
+                  )}
+                />
+              </Form.Item>
+            </div>
+
+            <div className="grid grid-cols-2 max-xl:grid-cols-1 gap-4">
+              <div>
+                <label className="text-[#4E4E4E]">المدفوع</label>
+                <Form.Item
+                  validateStatus={
+                    errors.paid ||
+                    (inputErrors.paid && inputErrors.paid.length > 0)
+                      ? "error"
+                      : ""
+                  }
+                  help={
+                    // Combine errors if both exist
+                    (errors.paid || inputErrors.paid) && (
+                      <div>
+                        {errors.paid?.message && (
+                          <div>{errors.paid.message}</div>
+                        )}
+                        {inputErrors.paid && (
+                          <div>
+                            {inputErrors.paid.map((error, index) => (
+                              <div key={index}>{error}</div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  }
+                >
+                  <Controller
+                    name="paid"
+                    control={control}
+                    render={({ field }) => (
+                      <InputNumber {...field} className="mt-2" />
+                    )}
+                  />
+                </Form.Item>
+              </div>
+              <div>
+                <label className="text-[#4E4E4E]">المتبقي</label>
+                <Form.Item
+                  validateStatus={
+                    errors.reminder ||
+                    (inputErrors.reminder && inputErrors.reminder.length > 0)
+                      ? "error"
+                      : ""
+                  }
+                  help={
+                    // Combine errors if both exist
+                    (errors.reminder || inputErrors.reminder) && (
+                      <div>
+                        {errors.reminder?.message && (
+                          <div>{errors.reminder.message}</div>
+                        )}
+                        {inputErrors.reminder && (
+                          <div>
+                            {inputErrors.reminder.map((error, index) => (
+                              <div key={index}>{error}</div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  }
+                >
+                  <Controller
+                    name="reminder"
+                    control={control}
+                    render={({ field }) => (
+                      <InputNumber {...field} className="mt-2" />
+                    )}
+                  />
+                </Form.Item>
+              </div>
+            </div>
+
             <div>
               <label className="text-[#4E4E4E]">حاله المشترك</label>
               <Form.Item
@@ -420,54 +641,149 @@ const UpdateTrainee = () => {
                 />
               </Form.Item>
             </div>
-            {/* <div>
-              <label className="text-[#4E4E4E]">وجه البطاقة</label>
+
+            <div>
+              <label className="text-[#4E4E4E]"> مده الاشتراك</label>
               <Form.Item
-                validateStatus={errors.idFace ? 'error' : ''}
-                help={errors.idFace?.message}
+                validateStatus={
+                  errors.subscriptionMonths ||
+                  (inputErrors.subscriptionMonths &&
+                    inputErrors.subscriptionMonths.length > 0)
+                    ? "error"
+                    : ""
+                }
+                help={
+                  // Combine errors if both exist
+                  (errors.subscriptionMonths ||
+                    inputErrors.subscriptionMonths) && (
+                    <div>
+                      {errors.subscriptionMonths?.message && (
+                        <div>{errors.subscriptionMonths.message}</div>
+                      )}
+                      {inputErrors.subscriptionMonths && (
+                        <div>
+                          {inputErrors.subscriptionMonths.map(
+                            (error, index) => (
+                              <div key={index}>{error}</div>
+                            )
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
               >
                 <Controller
-                  name="idFace"
+                  name="subscriptionMonths"
                   control={control}
                   render={({ field }) => (
-                    <Upload
+                    <Select
                       {...field}
-                      showUploadList={false}
-                      beforeUpload={() => false}
+                      className="mt-2"
+                      onChange={field.onChange}
+                      placeholder="1 شهر"
                     >
-                      <Button icon={<UploadOutlined />} className="mt-2">
-                        تحميل
-                      </Button>
-                    </Upload>
+                      <Select.Option value={1}>1 شهر</Select.Option>
+                      <Select.Option value={2}>2 شهر</Select.Option>
+                    </Select>
                   )}
                 />
               </Form.Item>
             </div>
-            <div>
-              <label className="text-[#4E4E4E]">ظهر البطاقة</label>
-              <Form.Item
-                validateStatus={errors.idBack ? 'error' : ''}
-                help={errors.idBack?.message}
-              >
+
+            <div className="grid grid-cols-2 max-xl:grid-cols-1 gap-4">
+              <div>
+                <label className="text-[#4E4E4E]">عدد الحصص / شهر</label>
+                <Form.Item
+                  validateStatus={
+                    errors.subscriptionClasses ||
+                    (inputErrors.subscriptionClasses &&
+                      inputErrors.subscriptionClasses.length > 0)
+                      ? "error"
+                      : ""
+                  }
+                  help={
+                    // Combine errors if both exist
+                    (errors.subscriptionClasses ||
+                      inputErrors.subscriptionClasses) && (
+                      <div>
+                        {errors.subscriptionClasses?.message && (
+                          <div>{errors.subscriptionClasses.message}</div>
+                        )}
+                        {inputErrors.subscriptionClasses && (
+                          <div>
+                            {inputErrors.subscriptionClasses.map(
+                              (error, index) => (
+                                <div key={index}>{error}</div>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  }
+                >
+                  <Controller
+                    name="subscriptionClasses"
+                    control={control}
+                    render={({ field }) => (
+                      <InputNumber {...field} className="mt-2" />
+                    )}
+                  />
+                </Form.Item>
+              </div>
+              <div>
+                <label className="text-[#4E4E4E]">تاريخ البدء</label>
+                <Form.Item
+                  validateStatus={errors.subscriptionStartDate ? "error" : ""}
+                  help={errors.subscriptionStartDate?.message}
+                >
+                  <Controller
+                    name="subscriptionStartDate"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        className="mt-2"
+                        format="YYYY-MM-DD"
+                        onChange={(date, dateString) =>
+                          handleStartDateChange(date, dateString)
+                        }
+                        value={
+                          field.value ? dayjs(field.value, "YYYY-MM-DD") : null
+                        }
+                      />
+                    )}
+                  />
+                </Form.Item>
+              </div>
+            </div>
+
+            {/* <div>
+              <label className="text-[#4E4E4E]">اسم العرض</label>
+              <Form.Item>
                 <Controller
-                  name="idBack"
+                  name="offerName"
                   control={control}
                   render={({ field }) => (
-                    <Upload
+                    <Select
                       {...field}
-                      showUploadList={false}
-                      beforeUpload={() => false}
+                      className="mt-2"
+                      onChange={field.onChange}
+                      placeholder="لا يوجد عرض"
                     >
-                      <Button icon={<UploadOutlined />} className="mt-2">
-                        تحميل
-                      </Button>
-                    </Upload>
+                      <Select.Option value="noOffer">لا يوجد عرض</Select.Option>
+                      <Select.Option value="offer1">عرض 1</Select.Option>
+                    </Select>
                   )}
                 />
               </Form.Item>
             </div> */}
           </div>
         </div>
+
+
+
 
         {/* <div className="bg-[#F9F9F9] rounded-lg py-4 mt-6">
           <h3 className="text-xl border-b border-b-[#e1e1e1] pb-3">

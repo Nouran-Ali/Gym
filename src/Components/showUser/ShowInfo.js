@@ -3,7 +3,7 @@ import ShowTitleWithData from "../shared/ShowTitleWithData";
 import SubscriptionRenewal from "../SubscriptionRenewal";
 import ShowFile from "../shared/ShowFile";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchTrainees } from "../../store/traineeSlice";
 import { calcAgeFromDate, getFormattedDate } from "../../utils/date";
 import { Image } from "antd";
@@ -24,11 +24,10 @@ const ShowInfo = () => {
     dispatch(fetchInbodies());
   }, [dispatch]);
 
-
-// const inbody = useMemo(
-//   () => inbodies.find((p) => p.traineeId === parseInt(id)),
-//   [inbodies, id]
-// );
+  // const inbody = useMemo(
+  //   () => inbodies.find((p) => p.traineeId === parseInt(id)),
+  //   [inbodies, id]
+  // );
 
   // console.log(inbody);
 
@@ -120,8 +119,15 @@ const ShowInfo = () => {
     {
       name: "تاريخ الانتهاء",
       value: getFormattedDate(new Date(trainee.subscriptionEndDate)),
-      valueClass: "text-red-300",
-      name2: <SubscriptionRenewal />,
+      // valueClass: "text-red-300",
+      name2: (
+        <Link
+          to={`/dashboard/UpdateTrainee/${trainee.id}`}
+          className="subscription-renewal-btn rounded"
+        >
+          تجديد الاشتراك
+        </Link>
+      ),
     },
     {
       name: "حالة المشترك",
@@ -140,10 +146,9 @@ const ShowInfo = () => {
     { name: "الهدف من التدريب", value: trainee.goal },
     {
       name: "هل اجريت عمليات جراحية خلال سنة",
-      value: trainee.surgeries === "false" ? "لا" : "نعم",
+      value: trainee.surgeries === false ? "لا" : "نعم",
     },
     { name: "هل يوجد مشاكل صحية", value: trainee.medicalProblem || "لا يوجد" },
-    { name: "النظام الغذائي", value: <ShowFile src={trainee.dietPlan} /> },
   ];
 
   return (

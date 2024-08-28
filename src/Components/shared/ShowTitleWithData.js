@@ -6,7 +6,7 @@ const ShowTitleWithData = ({ title, data }) => {
       <h3 className="text-xl font-semibold">{title}</h3>
       <hr className="bg-black border border-[#f5f5f5] mt-3 mb-5" />
 
-      <div className="grid grid-cols-3 max-md:grid-cols-1 gap-4">
+      <div className="grid grid-cols-3 max-md:grid-cols-1 gap-4 mb-4">
         {data.map((item) => (
           <div key={item.name}>
             <div className="flex align-center">

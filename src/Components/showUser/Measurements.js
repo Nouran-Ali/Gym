@@ -334,12 +334,12 @@ const Measurements = () => {
                   />
                 </div>
               </div>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label className="text-[#4E4E4E]">ملف النظام الغذائي</label>
                 <Upload>
                   <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
-              </div>
+              </div> */}
               <div className="flex justify-center">
                 <button
                   type="button"

@@ -8,9 +8,7 @@ import { fetchAttendances, deleteAttendance } from '../store/attendanceSlice';
 
 const Audience = () => {
   const [selectedGender, setSelectedGender] = useState('FEMALE');
-  const { attendance } = useSelector(
-    (state) => state.attendance
-  );
+  const { attendance } = useSelector((state) => state.attendance);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,15 +23,16 @@ const Audience = () => {
     );
   };
 
-  const handleDelete = (id) => {
-      console.log("🚀 ~ handleDelete ~ id:", id)
-      dispatch(deleteAttendance(id))
-    // try {
-    //   message.success('Attendance deleted successfully');
-    // } catch (error) {
-    //   message.error('Failed to delete attendance');
-    // }
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteAttendance(id)).unwrap();
+      dispatch(fetchAttendances());
+      message.success('Attendance deleted successfully');
+    } catch (error) {
+      dispatch(fetchAttendances());
+    }
   };
+
   const handleChange = (value) => {
     setSelectedGender(value);
   };
@@ -102,9 +101,20 @@ const Audience = () => {
     },
   ];
 
+  // Filter attendance by selected gender
+  const filteredAttendance = Object.keys(attendance).reduce((result, date) => {
+    const filteredData = attendance[date].filter(
+      (item) => item.trainee.gender === selectedGender
+    );
+    if (filteredData.length > 0) {
+      result[date] = filteredData;
+    }
+    return result;
+  }, {});
+
   return (
     <div className="Audience">
-      {Object.keys(attendance).length > 0 ? (
+      {Object.keys(filteredAttendance).length > 0 ? (
         <>
           <div className="text-left">
             <Select
@@ -119,14 +129,13 @@ const Audience = () => {
               ]}
             />
           </div>
-          {Object.keys(attendance).map((key) => {
+          {Object.keys(filteredAttendance).map((key) => {
             return (
-              <div>
+              <div key={key}>
                 <h3 className="text-2xl mt-5">{key}</h3>
-
                 <Table
                   columns={columns}
-                  dataSource={attendance[key]}
+                  dataSource={filteredAttendance[key]}
                   pagination={false}
                   className="mt-6 text-center table_members"
                 />
@@ -135,7 +144,7 @@ const Audience = () => {
           })}
         </>
       ) : (
-        <Empty className='mt-12' />
+        <Empty className="mt-12" />
       )}
     </div>
   );

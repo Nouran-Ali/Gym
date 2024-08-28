@@ -17,12 +17,12 @@ const Login = () => {
         <div dir="rtl" className="flex justify-center mt-44 relative">
           <LoginForm />
         </div>
-        <div className="p-5 pr-0 relative">
-          <img
+        <div className="bg_login rounded-3xl p-5 pr-0 relative">
+          {/* <img
             src="login/left_section2.png"
             className="login_image rounded-3xl"
             alt="login"
-          />
+          /> */}
           <img
             src="login/White Logo.png"
             width={400}

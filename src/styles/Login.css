@@ -1,3 +1,10 @@
+.bg_login{
+    background-image: url("../../public/login/left_section2.png");
+    background-size: cover;
+    height: 93vh;
+    margin: 20px;
+    margin-right: 30px;
+}
 .form_login .ant-input-affix-wrapper {
     background-color: #F3F3F3 !important;
 }
