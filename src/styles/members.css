@@ -4,9 +4,9 @@
     background-color: #F9F9F9;
 }
 
-.ant-table-cell{
+/* .ant-table-cell{
     text-align: center;
-}
+} */
 
 :where(.css-dev-only-do-not-override-17sses9).ant-pagination .ant-pagination-item-active{
     border: 0px !important;

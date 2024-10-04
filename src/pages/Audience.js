@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Empty, Select, Table, message } from 'antd';
-import { Link } from 'react-router-dom';
-import { EyeFilled, DeleteFilled } from '@ant-design/icons';
-import '../styles/Audience.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAttendances, deleteAttendance } from '../store/attendanceSlice';
+import React, { useEffect, useState } from "react";
+import { Empty, Select, Table, message } from "antd";
+import { Link } from "react-router-dom";
+import { EyeFilled, DeleteFilled } from "@ant-design/icons";
+import "../styles/Audience.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAttendances, deleteAttendance } from "../store/attendanceSlice";
 
 const Audience = () => {
-  const [selectedGender, setSelectedGender] = useState('FEMALE');
+  const [selectedGender, setSelectedGender] = useState("FEMALE");
   const { attendance } = useSelector((state) => state.attendance);
   const dispatch = useDispatch();
 
@@ -16,10 +16,12 @@ const Audience = () => {
   }, [dispatch]);
 
   const renderStatus = (subscriptionStatus) => {
-    return subscriptionStatus === 'ACTIVE' ? (
+    return subscriptionStatus === "ACTIVE" ? (
       <span className="text-[#58D241]">نشط</span>
-    ) : (
+    ) : subscriptionStatus === "INACTIVE" ? (
       <span className="text-[#E47E7B]">غير نشط</span>
+    ) : (
+      <span className="text-[#007eff]">قيد الانتظار</span>
     );
   };
 
@@ -27,7 +29,7 @@ const Audience = () => {
     try {
       await dispatch(deleteAttendance(id)).unwrap();
       dispatch(fetchAttendances());
-      message.success('Attendance deleted successfully');
+      message.success("Attendance deleted successfully");
     } catch (error) {
       dispatch(fetchAttendances());
     }
@@ -39,49 +41,49 @@ const Audience = () => {
 
   const columns = [
     {
-      title: 'رقم ID',
-      dataIndex: 'parcode',
-      key: 'parcode',
+      title: "رقم ID",
+      dataIndex: "parcode",
+      key: "parcode",
       render: (_, item) => item.trainee.parcode,
     },
     {
-      title: 'اسم المشترك',
-      dataIndex: 'name',
-      key: 'name',
+      title: "اسم المشترك",
+      dataIndex: "name",
+      key: "name",
       render: (_, item) => item.trainee.fullName,
     },
     {
-      title: 'وقت الدخول',
-      dataIndex: 'time',
-      key: 'time',
+      title: "وقت الدخول",
+      dataIndex: "time",
+      key: "time",
       render: (_, item) =>
-        new Date(item.date).toLocaleTimeString('en-US', {
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric',
+        new Date(item.date).toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
           hour12: true,
-          timeZone: 'Africa/Cairo',
+          timeZone: "Africa/Cairo",
         }),
     },
     {
-      title: 'تاريخ الانتهاء',
-      dataIndex: 'date',
-      key: 'date',
+      title: "تاريخ الانتهاء",
+      dataIndex: "date",
+      key: "date",
       render: (_, item) =>
-        new Date(item.trainee.subscriptionEndDate).toLocaleDateString('en-GB', {
-          timeZone: 'Africa/Cairo',
+        new Date(item.trainee.subscriptionEndDate).toLocaleDateString("en-GB", {
+          timeZone: "Africa/Cairo",
         }),
     },
     {
-      title: 'حالة المشترك',
-      key: ['trainee', 'subscriptionStatus'],
-      dataIndex: ['trainee', 'subscriptionStatus'],
+      title: "حالة المشترك",
+      key: ["trainee", "subscriptionStatus"],
+      dataIndex: ["trainee", "subscriptionStatus"],
       render: (item) => renderStatus(item),
     },
     {
-      title: '',
-      key: 'action',
-      dataIndex: 'action',
+      title: "",
+      key: "action",
+      dataIndex: "action",
       render: (_, item) => (
         <div className="flex items-center">
           <Link
@@ -124,8 +126,8 @@ const Audience = () => {
               style={{ width: 120 }}
               onChange={handleChange}
               options={[
-                { value: 'FEMALE', label: 'انثي' },
-                { value: 'MALE', label: 'ذكر' },
+                { value: "FEMALE", label: "انثي" },
+                { value: "MALE", label: "ذكر" },
               ]}
             />
           </div>

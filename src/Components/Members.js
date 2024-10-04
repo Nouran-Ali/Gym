@@ -81,7 +81,7 @@ const Members = () => {
       key: 'subscriptionStatus',
       dataIndex: 'subscriptionStatus',
       render: (item) => (
-        <span className={item === 'ACTIVE' ? 'text-[#58D241]' : 'text-[#E47E7B]'}>
+        <span className={item === 'ACTIVE' ? 'text-[#58D241]' : item === 'INACTIVE' ? 'text-[#E47E7B]' : 'text-[#007eff]'}>
           {SubscriptionStatusMap[item]}
         </span>
       ),
