@@ -68,7 +68,7 @@ const Overview = () => {
               <p className="mt-4 font-semibold">{trainees.length}</p>
             </div>
           </div>
-          <div className="my-5" style={{ minHeight: "70vh", width: "100%" }}>
+          <div className="my-5" style={{ minHeight: "73vh", width: "100%" }}>
             <LineChart />
           </div>
         </div>

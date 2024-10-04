@@ -509,6 +509,7 @@ const AddNewUser = () => {
                       placeholder="اختر"
                     >
                       <Select.Option value="فيتنس">فيتنس</Select.Option>
+                      <Select.Option value="كروس فيت">كروس فيت</Select.Option>
                       <Select.Option value="كلاس">كلاس</Select.Option>
                       <Select.Option value="الكيك بوكسينج">الكيك بوكسينج</Select.Option>
                       <Select.Option value="تأهيل وإصابات">تأهيل وإصابات</Select.Option>
