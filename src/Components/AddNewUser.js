@@ -513,6 +513,8 @@ const AddNewUser = () => {
                       <Select.Option value="كلاس">كلاس</Select.Option>
                       <Select.Option value="الكيك بوكسينج">الكيك بوكسينج</Select.Option>
                       <Select.Option value="تأهيل وإصابات">تأهيل وإصابات</Select.Option>
+                      <Select.Option value="حصة">حصة</Select.Option>
+                      <Select.Option value="دعوة">دعوة</Select.Option>
                       <Select.Option value="الكل">الكل</Select.Option>
                     </Select>
                   )}
