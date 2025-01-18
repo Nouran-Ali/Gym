@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { formatToString, parseToDayjs } from '../utils/date';
+import { createAttendance } from '../store/attendanceSlice';
 
 const AddNewUser = () => {
   const { error, inputErrors, loading } = useSelector((state) => state.trainee);
@@ -47,7 +48,12 @@ const AddNewUser = () => {
 
   const onSubmit = async (data) => {
     try {
-      await dispatch(createNewTrainee(data)).unwrap(); // Use unwrap to handle the promise
+      const submissionData = {
+        ...data,
+        idFace: null,
+        idBack: null,
+      };
+      await dispatch(createNewTrainee(submissionData)).unwrap();
       navigate('/dashboard/members');
     } catch (error) {
       console.error('Failed to save trainee:', error);
@@ -61,6 +67,30 @@ const AddNewUser = () => {
     const selectedString = checkedValues.join(' و ');
     setValue('medicalProblem', selectedString);
   };
+
+  const [parcode, setParcode] = useState("");
+
+  useEffect(() => {
+    const handleRFIDScan = (event) => {
+      const scannedId = event.key;
+      if (scannedId === "Enter") {
+        // Handle the complete scan when the user presses enter
+        dispatch(createAttendance(parcode));
+        setParcode(""); // Reset after handling the scan
+      } else {
+        // Append the scanned character to the parcode as the user scans the card
+        setParcode((prev) => prev + event.key);
+      }
+    };
+
+    // Listen to the keydown event when the component is mounted
+    window.addEventListener("keydown", handleRFIDScan);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("keydown", handleRFIDScan);
+    };
+  }, [dispatch, parcode]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -330,7 +360,7 @@ const AddNewUser = () => {
               </Form.Item>
             </div>
             {/* Add file inputs here */}
-            <div>
+            {/* <div>
               <label className="text-[#4E4E4E]">وجه البطاقة</label>
               <Form.Item
                 validateStatus={
@@ -360,6 +390,7 @@ const AddNewUser = () => {
                 <Controller
                   name="idFace"
                   control={control}
+                  // rules={{ required: false }}
                   render={({ field }) => (
                     <Upload
                       {...field}
@@ -405,6 +436,7 @@ const AddNewUser = () => {
                 <Controller
                   name="idBack"
                   control={control}
+                  // rules={{ required: false }}
                   render={({ field }) => (
                     <Upload
                       {...field}
@@ -418,7 +450,8 @@ const AddNewUser = () => {
                   )}
                 />
               </Form.Item>
-            </div>
+            </div> */}
+
           </div>
         </div>
 

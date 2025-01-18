@@ -54,6 +54,7 @@ const Notes = () => {
 
   const onSubmit = (data) => {
     console.log('🚀 ~ onSubmit ~ data:', data);
+    console.log(inputErrors);
     dispatch(updateTraineeNotes({ id: trainee.id, data }));
   };
 

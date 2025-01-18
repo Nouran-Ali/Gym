@@ -38,8 +38,10 @@ export const CreateTraineeSchema = Yup.object().shape({
   reminder: Yup.number()
     .integer('Reminder must be an integer')
     .required('Reminder is required'),
-  idFace: Yup.mixed().required('ID face is required'),
-  idBack: Yup.mixed().required('ID back is required'),
+  // idFace: Yup.mixed().required('ID face is required'),
+  // idBack: Yup.mixed().required('ID back is required'),
+  idFace: Yup.mixed().nullable(),
+  idBack: Yup.mixed().nullable(),
   trainingName: Yup.string().nullable(),
   offerName: Yup.string().nullable(),
   medicalProblem: Yup.string().nullable(),

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/Overview.css";
 import { PlusOutlined } from "@ant-design/icons";
 import LineChart from "../Components/LineChart";
@@ -13,6 +13,7 @@ import { SubscriptionStatusMap } from "../types";
 const Overview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [parcode, setParcode] = useState("");
+  const [parcodeManual, setParcodeManual] = useState("");
 
   const dispatch = useDispatch();
   const { todayAttendance, error } = useSelector((state) => state.attendance);
@@ -25,8 +26,30 @@ const Overview = () => {
 
   const handleCreateAttendance = async (e) => {
     e.preventDefault();
-    dispatch(createAttendance(parcode));
+    dispatch(createAttendance(parcodeManual));
   };
+
+  useEffect(() => {
+    const handleRFIDScan = (event) => {
+      const scannedId = event.key;
+      if (scannedId === "Enter") {
+        // Handle the complete scan when the user presses enter
+        dispatch(createAttendance(parcode));
+        setParcode(""); // Reset after handling the scan
+      } else {
+        // Append the scanned character to the parcode as the user scans the card
+        setParcode((prev) => prev + event.key);
+      }
+    };
+
+    // Listen to the keydown event when the component is mounted
+    window.addEventListener("keydown", handleRFIDScan);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("keydown", handleRFIDScan);
+    };
+  }, [dispatch, parcode]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -82,6 +105,7 @@ const Overview = () => {
                 الحاضريين في النادي
               </span>
             </div>
+
             <button
               className="text-[#D9ED4A] border border-[#D9ED4A] rounded-xl  p-1 px-3"
               onClick={showModal}
@@ -104,8 +128,8 @@ const Overview = () => {
                   <label className="text-[#4E4E4E]">ID المشترك</label>
                   <Input
                     className="bg-[#F9F9F9] border border-[#E4E4E4] mt-3"
-                    value={parcode}
-                    onChange={(e) => setParcode(e.target.value)}
+                    value={parcodeManual}
+                    onChange={(e) => setParcodeManual(e.target.value)}
                   />
                 </div>
                 <div className="mt-8">
@@ -175,7 +199,7 @@ const Overview = () => {
 
                   <Attende
                     key={index}
-                    id={atend?.trainee?.parcode}
+                    id={atend?.trainee?.id}
                     name={atend?.trainee?.fullName}
                     status={
                       SubscriptionStatusMap[atend?.trainee?.subscriptionStatus]

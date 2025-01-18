@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTrainee, fetchTrainees } from '../store/traineeSlice';
 import { SubscriptionStatusMap, SubscriptionTypeMap } from '../types';
+import { createAttendance } from '../store/attendanceSlice';
 
 const { Search } = Input;
 
@@ -131,6 +132,30 @@ const Members = () => {
   useEffect(() => {
     dispatch(fetchTrainees());
   }, [dispatch]);
+
+  const [parcode, setParcode] = useState("");
+
+  useEffect(() => {
+    const handleRFIDScan = (event) => {
+      const scannedId = event.key;
+      if (scannedId === "Enter") {
+        // Handle the complete scan when the user presses enter
+        dispatch(createAttendance(parcode));
+        setParcode(""); // Reset after handling the scan
+      } else {
+        // Append the scanned character to the parcode as the user scans the card
+        setParcode((prev) => prev + event.key);
+      }
+    };
+
+    // Listen to the keydown event when the component is mounted
+    window.addEventListener("keydown", handleRFIDScan);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("keydown", handleRFIDScan);
+    };
+  }, [dispatch, parcode]);
 
   return (
     <>

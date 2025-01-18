@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { EyeFilled, DeleteFilled } from "@ant-design/icons";
 import "../styles/Audience.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAttendances, deleteAttendance } from "../store/attendanceSlice";
+import { fetchAttendances, deleteAttendance, createAttendance } from "../store/attendanceSlice";
 
 const Audience = () => {
   const [selectedGender, setSelectedGender] = useState("FEMALE");
@@ -113,6 +113,30 @@ const Audience = () => {
     }
     return result;
   }, {});
+
+  const [parcode, setParcode] = useState("");
+
+  useEffect(() => {
+    const handleRFIDScan = (event) => {
+      const scannedId = event.key;
+      if (scannedId === "Enter") {
+        // Handle the complete scan when the user presses enter
+        dispatch(createAttendance(parcode));
+        setParcode(""); // Reset after handling the scan
+      } else {
+        // Append the scanned character to the parcode as the user scans the card
+        setParcode((prev) => prev + event.key);
+      }
+    };
+
+    // Listen to the keydown event when the component is mounted
+    window.addEventListener("keydown", handleRFIDScan);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("keydown", handleRFIDScan);
+    };
+  }, [dispatch, parcode]);
 
   return (
     <div className="Audience">

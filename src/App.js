@@ -12,6 +12,7 @@ import DashboardLayout from './Components/DashboardLayout';
 import UpdateTrainee from './Components/UpdateTrainee';
 
 function App() {
+
   return (
     <Router>
       <Routes>
