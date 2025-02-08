@@ -79,26 +79,26 @@ const ShowInfo = () => {
     { name: "العمر", value: calcAgeFromDate(trainee.dob) },
     { name: "النوع", value: trainee.gender === "FEMALE" ? "أنثي" : "ذكر" },
     { name: "تاريخ الميلاد", value: getFormattedDate(new Date(trainee.dob)) },
-    {
-      name: "وجه البطاقه",
-      value: (
-        <div>
-          {imageSrc ? <Image height={180} src={imageSrc} /> : <p>لا يوجد</p>}
-        </div>
-      ),
-    },
-    {
-      name: "ظهر البطاقه",
-      value: (
-        <div>
-          {imageSrcBack ? (
-            <Image height={180} src={imageSrcBack} />
-          ) : (
-            <p>لا يوجد</p>
-          )}
-        </div>
-      ),
-    },
+    // {
+    //   name: "وجه البطاقه",
+    //   value: (
+    //     <div>
+    //       {imageSrc ? <Image height={180} src={imageSrc} /> : <p>لا يوجد</p>}
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   name: "ظهر البطاقه",
+    //   value: (
+    //     <div>
+    //       {imageSrcBack ? (
+    //         <Image height={180} src={imageSrcBack} />
+    //       ) : (
+    //         <p>لا يوجد</p>
+    //       )}
+    //     </div>
+    //   ),
+    // },
   ];
 
   const subscriptionInfo = [

@@ -8,18 +8,20 @@ import {
 import { NavLink } from 'react-router-dom';
 import { logout } from '../store/authSlice';
 import { useDispatch } from 'react-redux';
+import { Image } from 'antd';
 
 const Menu = () => {
   const dispatch = useDispatch();
   return (
     <>
       <div className="bg-[#343434] h-[620px] text-[#A8A8A8]  mb-7 text-lg p-7 rounded-xl  animation_right">
-        <img
-          src="../login/White Logo.png"
+        <Image
+          src="/White Logo.png"
           width={250}
           height={120}
           className="mx-auto mb-5"
           alt="login"
+          preview={false}
         />
         <NavLink
           end
