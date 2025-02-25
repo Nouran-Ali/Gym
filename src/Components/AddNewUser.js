@@ -27,6 +27,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { formatToString, parseToDayjs } from '../utils/date';
 import { createAttendance } from '../store/attendanceSlice';
+import dayjs from 'dayjs';
 
 const AddNewUser = () => {
   const { error, inputErrors, loading } = useSelector((state) => state.trainee);
@@ -498,6 +499,7 @@ const AddNewUser = () => {
                       format="YYYY-MM-DD"
                       value={parseToDayjs(field.value)}
                       onChange={(date) => field.onChange(formatToString(date))}
+                      disabledDate={(current) => current && current < dayjs().startOf('day')}
                     />
                   )}
                 />
@@ -825,6 +827,7 @@ const AddNewUser = () => {
                         onChange={(date) =>
                           field.onChange(formatToString(date))
                         }
+                        disabledDate={(current) => current && current < dayjs().startOf('day')}
                       />
                     )}
                   />
