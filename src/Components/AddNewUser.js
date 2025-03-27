@@ -848,7 +848,9 @@ const AddNewUser = () => {
                       placeholder="لا يوجد عرض"
                     >
                       <Select.Option value="لا يوجد عرض">لا يوجد عرض</Select.Option>
-                      <Select.Option value="عرض الصحاب">عرض الصحاب</Select.Option>
+                      <Select.Option value="عرض الصحاب">عرض الشهرين</Select.Option>
+                      <Select.Option value="عرض الصحاب">عرض 2 الصحاب</Select.Option>
+                      <Select.Option value="عرض الصحاب">عرض 3 الصحاب</Select.Option>
                     </Select>
                   )}
                 />
