@@ -144,7 +144,7 @@ const Overview = () => {
             </Modal>
           </div>
 
-          <div className="mt-5 min-h-lvh overflow-auto">
+          <div className="mt-5 min-h-lvh overflow-auto relative">
             {(() => {
               const addedTraineeIds = new Set();
               return todayAttendance.map((atend, index) => {

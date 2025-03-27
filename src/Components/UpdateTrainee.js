@@ -83,7 +83,7 @@ const UpdateTrainee = () => {
     const formattedDate = date ? date.format("YYYY-MM-DD") : "";
     setValue("subscriptionStartDate", formattedDate);
   };
-  
+
   const handleCheckboxChange = (checkedValues) => {
     setSelectedValues(checkedValues);
     const selectedString = checkedValues.join(" و ");
@@ -141,8 +141,12 @@ const UpdateTrainee = () => {
       const formattedData = {
         ...data,
         dob: data.dob ? dayjs(data.dob).format("YYYY-MM-DD") : "",
-         subscriptionDate: data.subscriptionDate ? dayjs(data.subscriptionDate).format("YYYY-MM-DD") : "",
-         subscriptionStartDate: data.subscriptionStartDate ? dayjs(data.subscriptionStartDate).format("YYYY-MM-DD") : "",
+        subscriptionDate: data.subscriptionDate
+          ? dayjs(data.subscriptionDate).format("YYYY-MM-DD")
+          : "",
+        subscriptionStartDate: data.subscriptionStartDate
+          ? dayjs(data.subscriptionStartDate).format("YYYY-MM-DD")
+          : "",
         // idFace: data.idFace?.file?.name
         //   ? `trainees/${data.idFace.file.name}`
         //   : "",
@@ -462,6 +466,7 @@ const UpdateTrainee = () => {
                       value={
                         field.value ? dayjs(field.value, "YYYY-MM-DD") : null
                       }
+                      disabledDate={(current) => current && current < dayjs().startOf('day')}
                     />
                   )}
                 />
@@ -506,8 +511,18 @@ const UpdateTrainee = () => {
                       onChange={field.onChange}
                       placeholder="اختر"
                     >
-                      <Select.Option value="تدريب 1">تدريب 1</Select.Option>
-                      <Select.Option value="تدريب 2">تدريب 2</Select.Option>
+                      <Select.Option value="فيتنس">فيتنس</Select.Option>
+                      <Select.Option value="كروس فيت">كروس فيت</Select.Option>
+                      <Select.Option value="كلاس">كلاس</Select.Option>
+                      <Select.Option value="الكيك بوكسينج">
+                        الكيك بوكسينج
+                      </Select.Option>
+                      <Select.Option value="تأهيل وإصابات">
+                        تأهيل وإصابات
+                      </Select.Option>
+                      <Select.Option value="حصة">حصة</Select.Option>
+                      <Select.Option value="دعوة">دعوة</Select.Option>
+                      <Select.Option value="الكل">الكل</Select.Option>
                     </Select>
                   )}
                 />
@@ -688,6 +703,16 @@ const UpdateTrainee = () => {
                     >
                       <Select.Option value={1}>1 شهر</Select.Option>
                       <Select.Option value={2}>2 شهر</Select.Option>
+                      <Select.Option value={3}>3 شهر</Select.Option>
+                      <Select.Option value={4}>4 شهر</Select.Option>
+                      <Select.Option value={5}>5 شهر</Select.Option>
+                      <Select.Option value={6}>6 شهر</Select.Option>
+                      <Select.Option value={7}>7 شهر</Select.Option>
+                      <Select.Option value={8}>8 شهر</Select.Option>
+                      <Select.Option value={9}>9 شهر</Select.Option>
+                      <Select.Option value={10}>10 شهر</Select.Option>
+                      <Select.Option value={11}>11 شهر</Select.Option>
+                      <Select.Option value={12}>12 شهر</Select.Option>
                     </Select>
                   )}
                 />
@@ -755,6 +780,7 @@ const UpdateTrainee = () => {
                         value={
                           field.value ? dayjs(field.value, "YYYY-MM-DD") : null
                         }
+                        disabledDate={(current) => current && current < dayjs().startOf('day')}
                       />
                     )}
                   />
@@ -784,9 +810,6 @@ const UpdateTrainee = () => {
             </div> */}
           </div>
         </div>
-
-
-
 
         {/* <div className="bg-[#F9F9F9] rounded-lg py-4 mt-6">
           <h3 className="text-xl border-b border-b-[#e1e1e1] pb-3">

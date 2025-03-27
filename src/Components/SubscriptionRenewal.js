@@ -92,6 +92,16 @@ const App = () => {
                   options={[
                     { value: '1 شهر', label: '1 شهر' },
                     { value: '2 شهر', label: '2 شهر' },
+                    { value: '3 شهر', label: '3 شهر' },
+                    { value: '4 شهر', label: '4 شهر' },
+                    { value: '5 شهر', label: '5 شهر' },
+                    { value: '6 شهر', label: '6 شهر' },
+                    { value: '7 شهر', label: '7 شهر' },
+                    { value: '8 شهر', label: '8 شهر' },
+                    { value: '9 شهر', label: '9 شهر' },
+                    { value: '10 شهر', label: '10 شهر' },
+                    { value: '11 شهر', label: '11 شهر' },
+                    { value: '12 شهر', label: '12 شهر' },
                   ]}
                 />
               </div>
