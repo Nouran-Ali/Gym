@@ -499,7 +499,7 @@ const AddNewUser = () => {
                       format="YYYY-MM-DD"
                       value={parseToDayjs(field.value)}
                       onChange={(date) => field.onChange(formatToString(date))}
-                      disabledDate={(current) => current && current < dayjs().startOf('day')}
+                      // disabledDate={(current) => current && current < dayjs().startOf('day')}
                     />
                   )}
                 />
@@ -827,7 +827,7 @@ const AddNewUser = () => {
                         onChange={(date) =>
                           field.onChange(formatToString(date))
                         }
-                        disabledDate={(current) => current && current < dayjs().startOf('day')}
+                        // disabledDate={(current) => current && current < dayjs().startOf('day')}
                       />
                     )}
                   />

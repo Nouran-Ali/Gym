@@ -466,7 +466,7 @@ const UpdateTrainee = () => {
                       value={
                         field.value ? dayjs(field.value, "YYYY-MM-DD") : null
                       }
-                      disabledDate={(current) => current && current < dayjs().startOf('day')}
+                      // disabledDate={(current) => current && current < dayjs().startOf('day')}
                     />
                   )}
                 />
@@ -780,7 +780,7 @@ const UpdateTrainee = () => {
                         value={
                           field.value ? dayjs(field.value, "YYYY-MM-DD") : null
                         }
-                        disabledDate={(current) => current && current < dayjs().startOf('day')}
+                        // disabledDate={(current) => current && current < dayjs().startOf('day')}
                       />
                     )}
                   />
